@@ -1,6 +1,6 @@
 @mixin respond-to($media) {
   $size: nth(map-get($breakpoints, $media), 1);
-  @media only screen and (max-width: #{$size}px ) { @content; }
+  @media only screen and (min-width: #{$size}px ) { @content; }
 }
 
 $names: ();

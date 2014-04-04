@@ -29,26 +29,33 @@ html {
 	} 
 }
 
+//gutters
+@each $breakpoint, $size in $breakpoints {
+	@media (min-width: #{nth($size, 1)}px) {
+		@each $size in $gutterSizes {
+			.gutter-#{$size}-#{$breakpoint} { 
+				padding-left: #{$size}px; 
+				padding-right: #{$size}px;
+
+				& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
+			}
+		}
+	}
+}
+
+//columns
+@each $breakpoint, $size in $breakpoints {
+	@media (min-width: #{nth($size, 1)}px) {
+		@each $numCols in $rowCols {
+			@for $index from 1 through $numCols {
+				$percentage: (100%/$numCols)*($index);
+				.cols-#{$numCols}-#{$breakpoint} > .col-#{$index}-#{$breakpoint} { width: #{$percentage}; }
+			}
+		}
+	}
+}
+
 [class^="col-"] {
 	display: block;
 	float: left;
 }
-
-@each $size in $gutterSizes {
-	.gutter-#{$size} { 
-		padding-left: #{$size}px; 
-		padding-right: #{$size}px;
-
-		& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
-	}
-}
-
-@each $numCols in $rowCols {
-	@for $index from 1 through $numCols {
-		$percentage: (100%/$numCols)*($index);
-		$string: '> .col-';
-		@include all-sizes-queue(cols-#{$numCols}#{$string}#{$index}, width, #{$percentage});
-	}
-}
-
-@include generate-all-sizes();
