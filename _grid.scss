@@ -4,36 +4,65 @@
 
 html {
 	@each $breakpoint, $size in $breakpoints {
-		@include respond-to($breakpoint) {
+		@include and-up($breakpoint) {
 			font-family: $breakpoint+':'+(nth($size, 1));
 		}
 	}
 }
 
+body { margin: 0px; }
+
 .container {
 	@each $breakpoint, $size in $breakpoints {
-		@include respond-to($breakpoint) {
+		@include only($breakpoint) {
 			width: nth($size, 2);
 		}
 	}
+
+	padding-left: #{$defaultGutterSize}px; 
+	padding-right: #{$defaultGutterSize}px;
 }
 
 .row {
 	display: block;
-	width: 100%;
+
+	&:before, &:after {
+		content: " ";
+		display: table;
+	}
 
 	&:after {
-		content: "";
-		display: table;
 		clear: both;
-	} 
+	}
+
+	margin-left: -#{$defaultGutterSize}px; margin-right: -#{$defaultGutterSize}px;
+}
+
+[class^="col-"] {
+	display: block;
+	float: left;
+	width: 100%;
+	padding-left: #{$defaultGutterSize}px; 
+	padding-right: #{$defaultGutterSize}px;
+	border: solid 1px #000;
 }
 
 //gutters
 @each $breakpoint, $size in $breakpoints {
-	@media (min-width: #{nth($size, 1)}px) {
+	@include and-up($breakpoint) {
 		@each $size in $gutterSizes {
 			.gutter-#{$size}-#{$breakpoint} { 
+				padding-left: #{$size}px; 
+				padding-right: #{$size}px;
+
+				& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
+			}
+		}
+	}
+
+	@include only($breakpoint) {
+		@each $size in $gutterSizes {
+			.gutter-#{$size}-#{$breakpoint}-only { 
 				padding-left: #{$size}px; 
 				padding-right: #{$size}px;
 
@@ -44,18 +73,13 @@ html {
 }
 
 //columns
-@each $breakpoint, $size in $breakpoints {
-	@media (min-width: #{nth($size, 1)}px) {
-		@each $numCols in $rowCols {
-			@for $index from 1 through $numCols {
-				$percentage: (100%/$numCols)*($index);
-				.cols-#{$numCols}-#{$breakpoint} > .col-#{$index}-#{$breakpoint} { width: #{$percentage}; }
-			}
-		}
+@each $numCols in $rowCols {
+	@for $index from 1 through $numCols {
+		$percentage: (100%/$numCols)*($index);
+		$string: '> .col-';
+		@include all-sizes-queue(cols-#{$numCols}#{$string}#{$index}, (width: #{$percentage}));
 	}
 }
 
-[class^="col-"] {
-	display: block;
-	float: left;
-}
+
+@include generate-all-sizes();

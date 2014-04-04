@@ -1,32 +1,73 @@
-@mixin respond-to($media) {
-  $size: nth(map-get($breakpoints, $media), 1);
-  @media only screen and (min-width: #{$size}px ) { @content; }
+@mixin and-up($media) {
+	$size: nth(map-get($breakpoints, $media), 1);
+	@media only screen and (min-width: #{$size}px) { @content; }
 }
 
-$names: ();
-$rules: ();
-$values: ();
+@mixin only($media) {
+	$size: nth(map-get($breakpoints, $media), 1);
+	$keys: map-keys($breakpoints);
+	$index: index($keys, $media);
 
-@mixin all-sizes-queue($name, $rule, $value) {
-  $names: append($names, $name, comma);
-  $rules: append($rules, $rule, comma);
-  $values: append($values, $value, comma);
+	@if $index < length($breakpoints) {
+		$nextSizeUp: nth(map-get($breakpoints, nth($keys, $index+1)), 1);
+		@media only screen and (min-width: #{$size}px) and (max-width: #{($nextSizeUp)-1}px) { @content; }
+	}@else{
+		@media only screen and (min-width: #{$size}px) { @content; }
+	}
+}
+
+$allSizes: ();
+
+@mixin all-sizes-queue($name, $ruleValueMap) {
+ 	$allSizes: append($allSizes, ($name, $ruleValueMap), comma);
 }
 
 @mixin generate-all-sizes() {
-  @each $breakpoint, $size in $breakpoints {
-    @media (min-width: #{nth($size, 1)}px) {
-      @for $j from 1 through length($names) {
-        .#{nth($names, $j)}-#{$breakpoint} { #{nth($rules, $j)}: nth($values, $j); }
-      }
-    }
-  }
+	@each $breakpoint, $size in $breakpoints {
+		@include and-up($breakpoint) {
+			@for $i from 1 through length($allSizes) {
+				$name: nth(nth($allSizes, $i), 1);
+				$ruleValueMap: nth(nth($allSizes, $i), 2);
+
+				.#{$name}-#{$breakpoint} { 
+
+					@each $rule, $value in $ruleValueMap {
+						#{$rule}: $value; 
+					}
+				}
+			}
+		}
+		@include only($breakpoint) {
+			@for $i from 1 through length($allSizes) {
+				$name: nth(nth($allSizes, $i), 1);
+				$ruleValueMap: nth(nth($allSizes, $i), 2);
+
+				.#{$name}-#{$breakpoint}-only { 
+
+					@each $rule, $value in $ruleValueMap {
+						#{$rule}: $value; 
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin all-sizes($name) {
+	@each $breakpoint, $size in $breakpoints {
+		@include and-up($breakpoint) {
+			.#{$name}-#{$breakpoint} { @content }
+		}
+		@include only($breakpoint) {
+			.#{$name}-#{$breakpoint}-only { @content }
+		}
+	}
 }
 
 @mixin vendor-prefix($name, $argument) {
-  #{$name}: $argument;
-  -webkit-#{$name}: $argument;
-  -ms-#{$name}: $argument;
-  -moz-#{$name}: $argument;
-  -o-#{$name}: $argument;
+	#{$name}: $argument;
+	-webkit-#{$name}: $argument;
+	-ms-#{$name}: $argument;
+	-moz-#{$name}: $argument;
+	-o-#{$name}: $argument;
 }

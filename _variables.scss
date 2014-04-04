@@ -2,9 +2,11 @@ $breakpoints: ('sm': (0, 100%),
 			   'md': (768, 100%), 
 			   'lg': (960, 960px));
 
-$gutterSizes: (0, 5, 10, 15, 20, 25, 30);
+$gutterSizes: (0, 5, 15, 20, 25, 30);
+$defaultGutterSize: 10;
 
-$rowCols: (2, 3, 5, 7, 9, 12, 24);
+$rowCols: (5, 24);
+$defaultRowColNum: 12;
 
 
 
