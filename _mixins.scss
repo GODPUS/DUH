@@ -19,10 +19,10 @@
 $allSizes: ();
 
 @mixin all-sizes-queue($name, $ruleValueMap) {
- 	$allSizes: append($allSizes, ($name, $ruleValueMap), comma);
+ 	$allSizes: append($allSizes, ($name, $ruleValueMap), comma) !global
 }
 
-@mixin generate-all-sizes() {
+@mixin generate-all-sizes-queue() {
 	@each $breakpoint, $size in $breakpoints {
 		@include and-up($breakpoint) {
 			@for $i from 1 through length($allSizes) {

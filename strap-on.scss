@@ -1,3 +1,11 @@
 @import 'variables';
 @import 'mixins';
+
+@import 'vendor/normalize';
+
 @import 'grid';
+@import 'allsizes';
+
+*, *:before, *:after {
+	@include vendor-prefix(box-sizing, border-box)
+}
