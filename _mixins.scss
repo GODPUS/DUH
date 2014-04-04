@@ -1,0 +1,32 @@
+@mixin respond-to($media) {
+  $size: nth(map-get($breakpoints, $media), 1);
+  @media only screen and (max-width: #{$size}px ) { @content; }
+}
+
+$names: ();
+$rules: ();
+$values: ();
+
+@mixin all-sizes-queue($name, $rule, $value) {
+  $names: append($names, $name, comma);
+  $rules: append($rules, $rule, comma);
+  $values: append($values, $value, comma);
+}
+
+@mixin generate-all-sizes() {
+  @each $breakpoint, $size in $breakpoints {
+    @media (min-width: #{nth($size, 1)}px) {
+      @for $j from 1 through length($names) {
+        .#{nth($names, $j)}-#{$breakpoint} { #{nth($rules, $j)}: nth($values, $j); }
+      }
+    }
+  }
+}
+
+@mixin vendor-prefix($name, $argument) {
+  #{$name}: $argument;
+  -webkit-#{$name}: $argument;
+  -ms-#{$name}: $argument;
+  -moz-#{$name}: $argument;
+  -o-#{$name}: $argument;
+}

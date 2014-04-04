@@ -1,0 +1,54 @@
+*, *:before, *:after {
+	@include vendor-prefix(box-sizing, border-box)
+}
+
+html {
+	@each $breakpoint, $size in $breakpoints {
+		@include respond-to($breakpoint) {
+			font-family: $breakpoint+':'+(nth($size, 1));
+		}
+	}
+}
+
+.container {
+	@each $breakpoint, $size in $breakpoints {
+		@include respond-to($breakpoint) {
+			width: nth($size, 2);
+		}
+	}
+}
+
+.row {
+	display: block;
+	width: 100%;
+
+	&:after {
+		content: "";
+		display: table;
+		clear: both;
+	} 
+}
+
+[class^="col-"] {
+	display: block;
+	float: left;
+}
+
+@each $size in $gutterSizes {
+	.gutter-#{$size} { 
+		padding-left: #{$size}px; 
+		padding-right: #{$size}px;
+
+		& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
+	}
+}
+
+@each $numCols in $rowCols {
+	@for $index from 1 through $numCols {
+		$percentage: (100%/$numCols)*($index);
+		$string: '> .col-';
+		@include all-sizes-queue(cols-#{$numCols}#{$string}#{$index}, width, #{$percentage});
+	}
+}
+
+@include generate-all-sizes();
