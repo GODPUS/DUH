@@ -48,27 +48,12 @@ body { margin: 0px; }
 }
 
 //gutters
-@each $breakpoint, $size in $breakpoints {
-	@include and-up($breakpoint) {
-		@each $size in $gutterSizes {
-			.gutter-#{$size}-#{$breakpoint} { 
-				padding-left: #{$size}px; 
-				padding-right: #{$size}px;
+@each $size in $gutterSizes {
+	@include all-sizes(gutter-#{$size}){
+		padding-left: #{$size}px; 
+		padding-right: #{$size}px;
 
-				& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
-			}
-		}
-	}
-
-	@include only($breakpoint) {
-		@each $size in $gutterSizes {
-			.gutter-#{$size}-#{$breakpoint}-only { 
-				padding-left: #{$size}px; 
-				padding-right: #{$size}px;
-
-				& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
-			}
-		}
+		& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
 	}
 }
 
@@ -77,9 +62,6 @@ body { margin: 0px; }
 	@for $index from 1 through $numCols {
 		$percentage: (100%/$numCols)*($index);
 		$string: '> .col-';
-		@include all-sizes-queue(cols-#{$numCols}#{$string}#{$index}, (width: #{$percentage}));
+		@include all-sizes(cols-#{$numCols}#{$string}#{$index}){ width: #{$percentage}; }
 	}
 }
-
-
-@include generate-all-sizes();
