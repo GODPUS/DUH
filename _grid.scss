@@ -55,8 +55,8 @@ html {
 //columns
 @for $index from 1 through $defaultRowColNum {
 	$percentage: (100%/$defaultRowColNum)*($index);
-	$string: '> .col-';
-	@include all-sizes-queue(row#{$string}#{$index}, (width: #{$percentage}));
+	$string: 'row > .col-';
+	@include all-sizes-queue(#{$string}#{$index}, (width: #{$percentage}));
 }
 
 @each $numCols in $rowCols {
