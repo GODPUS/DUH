@@ -2,43 +2,188 @@
 <html>
 	<head>
 		<link rel="stylesheet" type="text/css" href="all.css" />
+		<script src="js/vendor/jquery-1.11.0.min.js"></script>
+		<script src="js/strap-on.js"></script>
 	</head>
 	<body>
 		<div class="container center-horiz-sm">
-			<div class="row marg-b-5 marg-b-25-md marg-b-50-lg">
-				<div class="col-6-sm gutter-30-sm-only">Left 6/12</div>
-				<div class="col-6-sm">Right 6/12</div>
-
-				<div class="col-4-sm">Left 4/12</div>
-				<div class="col-4-sm">Middle 4/12</div>
-				<div class="col-4-sm">Right 4/12</div>
-
-				<div class="col-6-md-only">HEY!</div>
-			</div>
-			<div class="row cols-5 marg-b-40-md-only">
-				<div class="col-2-sm">
-					<div class="row">
-						<div class="col-6-sm gutter-0-sm-only">
-							No gutta small
-							<div class="row">
-								<div class="col-6-sm">default gutta</div>
-								<div class="col-6-sm">default gutta</div>
-							</div>
-						</div>
-						<div class="col-6-sm gutter-0-sm-only">No gutta small</div>
-					</div>
+			<div class="row">
+				<div class="col-6-md center-horiz-sm text-center-sm">
+					<select>
+						<option data-show-href="#tab1" data-group="tab-group-1" selected="true">TAB 1</option>
+						<option data-show-href="#tab2" data-group="tab-group-1">TAB 2</option>
+					</select>
 				</div>
-				<div class="col-1-sm">
-					<div class="pad-15-md-only">
-						MORE PADDING MD!
-					</div>
-				</div>
-				<div class="col-2-sm">Big Right 2/5</div>
 			</div>
 			<div class="row">
-				<div class="col-4-sm text-center-sm-only text-center-lg-only">Left 4/12 sm centered</div>
-				<div class="col-4-sm text-center-md-only">Middle 4/12 md centered</div>
-				<div class="col-4-sm text-center-lg-only">Right 4/12 lg centered</div>
+				<div class="col-12-sm"><h2>TABS</h2></div>
+				<div class="col-6-md">
+					<button class="tab-btn active" data-show-href="#tab1" data-group="tab-group-1">TAB 1</button>
+				</div>
+
+				<div class="col-6-md">
+					<button class="tab-btn" data-show-href="#tab2" data-group="tab-group-1">TAB 2</button>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12-sm">
+					<div id="tab1" class="tab active" data-group="tab-pane-group-1">
+						TAB 1!
+
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+						quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+						consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+						cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+						proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+					</div>
+					<div id="tab2" class="tab" data-group="tab-pane-group-1">
+						TAB 2!
+
+						Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+						tempor incididunt ut labore et
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12-sm"><h2>DROPDOWNS</h2></div>
+				<div class="col-4-md">
+					<button class="dropdown-btn active" data-toggle-href="#dropdown1">DROPDOWN 1</button>
+				</div>
+				<div class="col-4-md">
+					<button class="dropdown-btn" data-toggle-href="#dropdown2">DROPDOWN 2</button>
+				</div>
+				<div class="col-4-md">
+					<button class="dropdown-btn" data-toggle-href="#dropdown3">DROPDOWN 3</button>
+				</div>
+				<div class="col-12-sm">
+					<div id="dropdown1" class="dropdown initial-active">
+						DROPDOWN 1
+
+						WHOOOAAA
+					</div>
+					<div id="dropdown2" class="dropdown">
+						DROPDOWN 2
+
+						OH YEA
+					</div>
+					<div id="dropdown3" class="dropdown">
+						DROPDOWN 3
+
+						?!?!?!!!!!!
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12-sm"><h2>TOGGLE DROPDOWNS</h2></div>
+				<div class="col-12-sm">
+					<button class="dropdown-btn active" data-toggle-href="#dropdown4" data-group="dropdown-btn-group-2">DROPDOWN 4</button>
+					<div id="dropdown4" class="dropdown initial-active" data-group="dropdown-group-2">
+						DROPDOWN 4
+
+						WHOOOAAA
+					</div>
+					<button class="dropdown-btn" data-toggle-href="#dropdown5" data-group="dropdown-btn-group-2">DROPDOWN 5</button>
+					<div id="dropdown5" class="dropdown" data-group="dropdown-group-2">
+						DROPDOWN 5
+
+						OH YEA
+					</div>
+					<button class="dropdown-btn" data-toggle-href="#dropdown6" data-group="dropdown-btn-group-2">DROPDOWN 6</button>
+					<div id="dropdown6" class="dropdown" data-group="dropdown-group-2">
+						DROPDOWN 6
+
+						?!?!?!!!!!!
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12-sm"><h2> MODALS </h2></div>
+				<div class="col-12-sm">
+					<button data-show-href="#modal1">SHOW MODAL 1</button>
+				</div>
+			</div>
+
+
+			<div class="row">
+				<div class="col-12-sm"><h2>SCROLLSPY</h2></div>
+				<div class="col-12-sm">
+					<div class="row">
+						<button class="scroll-btn" data-scroll-href="#headline1">Headline 1</button>
+						<button class="scroll-btn" data-scroll-href="#headline2">Headline 2</button>
+						<button class="scroll-btn" data-scroll-href="#headline3">Headline 3</button>
+						<button class="scroll-btn" data-scroll-href="#headline4">Headline 4</button>
+						<button class="scroll-btn" data-scroll-href="#headline5">Headline 5</button>
+						<button class="scroll-btn" data-scroll-href="#headline6">Headline 6</button>
+					</div>
+				</div>
+				<div class="col-12-sm">
+					<div class="row scrollspy">
+						<div id="headline1" class="col-12-sm">
+							<h4>Headline 1</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+						<div id="headline2" class="col-12-sm">
+							<h4>Headline 2</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+						<div id="headline3" class="col-12-sm">
+							<h4>Headline 3</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+						<div id="headline4" class="col-12-sm">
+							<h4>Headline 4</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+						<div id="headline5" class="col-12-sm">
+							<h4>Headline 5</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+						<div id="headline6" class="col-12-sm">
+							<h4>Headline 6</h4>
+							<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div id="modal1" class="modal" data-hide-href="modal1">
+			<div class="modal-inner">
+				YO WASAP IM MODAL #1
 			</div>
 		</div>
 	</body>
