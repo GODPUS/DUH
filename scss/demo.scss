@@ -8,7 +8,7 @@ body {
 
 button { 
 	@include unstyled; 
-	&.active{ text-decoration: underline; }
+	text-decoration: underline;
 }
 
 .active { font-weight: bold; }
@@ -52,6 +52,6 @@ button {
 }
 
 #scrollable1 {
-	height: 250px;
+	height: 200px;
 	overflow-y: auto;
 }

@@ -73,8 +73,17 @@ $(function(){
 		$('[data-scrollable="#'+$scrollable.attr('id')+'"]').each(function(){
 			var $button = $(this);
 			var $spyable = $($button.data('scroll-href'));
-			var spyabletop = $spyable.offset().top - $scrollable.offset().top + $scrollable.scrollTop();
-			var difference = Math.abs($scrollable.scrollTop() - spyabletop);
+			var difference;
+
+			if($scrollable.data('scrollable') === 'vertical'){
+				var spyabletop = $spyable.offset().top - $scrollable.offset().top + $scrollable.scrollTop();
+				difference = Math.abs($scrollable.scrollTop() - spyabletop);
+			}
+			if($scrollable.data('scrollable') === 'horizontal'){
+				var spyableleft = $spyable.offset().left - $scrollable.offset().left + $scrollable.scrollLeft();
+				difference = Math.abs($scrollable.scrollLeft() - spyableleft);
+			}
+			
 			if(difference < closestNum){
 				closestNum = difference;
 				$closest = $button;

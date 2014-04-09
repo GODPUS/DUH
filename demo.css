@@ -2180,7 +2180,8 @@ th {
 
   .center-horiz-sm {
     margin: 0 auto;
-    float: none; }
+    float: none;
+    clear: both; }
 
   .text-left-sm {
     text-align: left; }
@@ -2667,7 +2668,8 @@ th {
 
   .center-horiz-sm-only {
     margin: 0 auto;
-    float: none; }
+    float: none;
+    clear: both; }
 
   .text-left-sm-only {
     text-align: left; }
@@ -3154,7 +3156,8 @@ th {
 
   .center-horiz-md {
     margin: 0 auto;
-    float: none; }
+    float: none;
+    clear: both; }
 
   .text-left-md {
     text-align: left; }
@@ -3641,7 +3644,8 @@ th {
 
   .center-horiz-md-only {
     margin: 0 auto;
-    float: none; }
+    float: none;
+    clear: both; }
 
   .text-left-md-only {
     text-align: left; }
@@ -4128,7 +4132,8 @@ th {
 
   .center-horiz-lg {
     margin: 0 auto;
-    float: none; }
+    float: none;
+    clear: both; }
 
   .text-left-lg {
     text-align: left; }
@@ -4615,7 +4620,8 @@ th {
 
   .center-horiz-lg-only {
     margin: 0 auto;
-    float: none; }
+    float: none;
+    clear: both; }
 
   .text-left-lg-only {
     text-align: left; }
@@ -4670,9 +4676,8 @@ button {
   padding: 0;
   color: inherit;
   text-decoration: none;
-  background: none; }
-  button.active {
-    text-decoration: underline; }
+  background: none;
+  text-decoration: underline; }
 
 .active {
   font-weight: bold; }
@@ -4713,5 +4718,5 @@ button {
     vertical-align: middle; }
 
 #scrollable1 {
-  height: 250px;
+  height: 200px;
   overflow-y: auto; }
