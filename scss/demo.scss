@@ -1,26 +1,21 @@
-@import 'variables';
-@import 'mixins';
-
 @import 'vendor/normalize';
+@import 'vendor/strap-on/strap-on';
 
-@import 'grid';
-@import 'allsizes';
-
-*, *:before, *:after {
-	@include vendor-prefix(box-sizing, border-box)
+body {
+	font-family: Times New Roman;
+	background-color: ivory;
 }
 
-.tab-btn {
-	&.active { color: red; }
+button { 
+	@include unstyled; 
+	&.active{ text-decoration: underline; }
 }
+
+.active { font-weight: bold; }
 
 .tab {
 	display: none;
 	&.active { display: block; }
-}
-
-.dropdown-btn {
-	&.active { color: red; }
 }
 
 .dropdown {
@@ -54,10 +49,6 @@
 		display: table-cell;
 		vertical-align: middle;
 	}
-}
-
-.scroll-btn {
-	&.active { color: red; }
 }
 
 #scrollable1 {

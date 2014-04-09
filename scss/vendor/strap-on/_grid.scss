@@ -18,17 +18,8 @@ html {
 }
 
 .row {
+	@include clearfix;
 	display: block;
-
-	&:before, &:after {
-		content: " ";
-		display: table;
-	}
-
-	&:after {
-		clear: both;
-	}
-
 	margin-left: -#{$defaultGutterSize}px; 
 	margin-right: -#{$defaultGutterSize}px;
 }
@@ -39,7 +30,6 @@ html {
 	width: 100%;
 	padding-left: #{$defaultGutterSize}px; 
 	padding-right: #{$defaultGutterSize}px;
-	border: solid 1px #000;
 }
 
 //gutters
@@ -67,3 +57,5 @@ html {
 		@include all-sizes-queue(#{$stringBeginning}#{$numCols}#{$stringMiddle}#{$index}, (width: #{$percentage}));
 	}
 }
+
+@include generate-all-sizes-queue();

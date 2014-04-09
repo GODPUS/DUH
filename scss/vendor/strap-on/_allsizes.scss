@@ -1,0 +1,35 @@
+//margin and padding
+$currentSpacing: 0;
+
+@while $currentSpacing < ($spacingMax+1) {
+	@include all-sizes-queue(marg-#{$currentSpacing},   (margin: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-t-#{$currentSpacing}, (margin-top: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-b-#{$currentSpacing}, (margin-bottom: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-l-#{$currentSpacing}, (margin-left: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-r-#{$currentSpacing}, (margin-right: #{$currentSpacing}px));
+
+	@include all-sizes-queue(pad-#{$currentSpacing},   (padding: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-t-#{$currentSpacing}, (padding-top: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-b-#{$currentSpacing}, (padding-bottom: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-l-#{$currentSpacing}, (padding-left: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-r-#{$currentSpacing}, (padding-right: #{$currentSpacing}px));
+
+	$currentSpacing: $currentSpacing + $spacingMultiplier;
+}
+
+
+@include all-sizes-queue(float-left, (float: left));
+@include all-sizes-queue(float-right, (float: right));
+@include all-sizes-queue(display-none, (display: none));
+@include all-sizes-queue(center-horiz, (margin: 0 auto, float: none, clear: both));
+@include all-sizes-queue(text-left, (text-align: left));
+@include all-sizes-queue(text-right, (text-align: right));
+@include all-sizes-queue(text-center, (text-align: center));
+@include all-sizes-queue(full-width, (width: 100%));
+@include all-sizes-queue(full-height, (height: 100%));
+@include all-sizes-queue(display-table, (display: table));
+@include all-sizes-queue(display-table-cell, (display: table-cell));
+
+/* add custom classes here */
+
+@include generate-all-sizes-queue();
