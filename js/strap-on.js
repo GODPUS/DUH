@@ -32,15 +32,10 @@ $(function(){
 		}
 	}
 
+	//show, hide, toggle
 	$('body').on('click', '[data-show-href]', function(){ strapOn.show($(this), 'show'); });
 	$('body').on('click', '[data-hide-href]', function(){ strapOn.hide($(this), 'hide'); });
 	$('body').on('click', '[data-toggle-href]', function(){ strapOn.toggle($(this)); });
-	$('body').on('click', '[data-scroll-href]', function(){
-		var href = $(this).data('scroll-href');
-		var $parent = $(href).parents('.scrollspy');
-		$parent.animate({ scrollTop: $(href).offset().top - $parent.offset().top + $parent.scrollTop() }, 200);
-	});
-
 	$('body').on('change', 'select', function(){
 		var $selectedOption = $(this).find('option:selected');
 		if($selectedOption.attr('data-show-href')){ strapOn.show($selectedOption, 'show'); }
@@ -48,17 +43,39 @@ $(function(){
 		if($selectedOption.attr('data-toggle-href')){ strapOn.toggle($selectedOption); }
 	});
 
-	$('.dropdown').on('show', function(){
-		var $this = $(this);
-		var curHeight = $this.height();
-		$this.css('height', 'auto');
-		var autoHeight = $this.height();
-		$this.height(curHeight).animate({ height: autoHeight }, 150);
-	}).on('hide', function(){
-		$(this).animate({ height: 0 }, 150);
+	//scroll
+	$('body').on('click', '[data-scroll-href]', function(){
+		var $this= $(this);
+		var href = $this.data('scroll-href');
+		var scrollable = $this.data('scrollable');
+		var $scrollTo = $(href);
+		var $scrollable = $(scrollable);
+		$scrollable.stop().animate({ scrollTop: $scrollTo.offset().top - $scrollable.offset().top + $scrollable.scrollTop() }, 200);
+		$('[data-scrollable="'+scrollable+'"]').removeClass('active').trigger('hide');
+		$('[data-scroll-href="'+href+'"]').addClass('active').trigger('show');
 	});
 
+	$('.scrollspy').on('scroll', function(){
+		var $scrollable = $(this);
+		var closestNum = 100000000000000000000;
+		var $closest = null;
 
+		$('[data-scrollable="#'+$scrollable.attr('id')+'"]').each(function(){
+			var $button = $(this);
+			$button.removeClass('active');
+			var $spyable = $($button.data('scroll-href'));
+			var spyabletop = $spyable.offset().top - $scrollable.offset().top + $scrollable.scrollTop();
+			var difference = Math.abs($scrollable.scrollTop() - spyabletop);
+			if(difference < closestNum){
+				closestNum = difference;
+				$closest = $button;
+			}
+		});
+
+		$closest.addClass('active');
+	});
+
+	//breakpoints
 	$(window).on('load resize', function(){
 		var checkBreakpoint = getCurrentBreakpoint();
 		if(strapOn.breakpoint.name != checkBreakpoint.name){
@@ -80,4 +97,16 @@ $(function(){
 		};
 		return breakpointObj;
 	}
+
+	//--------------------ADD TO CUSTOM JS FILE----------------
+
+	$('.dropdown').on('show', function(){
+		var $this = $(this);
+		var curHeight = $this.height();
+		$this.css('height', 'auto');
+		var autoHeight = $this.height();
+		$this.height(curHeight).stop().animate({ height: autoHeight }, 150);
+	}).on('hide', function(){
+		$(this).stop().animate({ height: 0 }, 150);
+	});
 });

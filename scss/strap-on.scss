@@ -11,7 +11,7 @@
 }
 
 .tab-btn {
-	&.active { font-weight: bold; }
+	&.active { color: red; }
 }
 
 .tab {
@@ -20,7 +20,7 @@
 }
 
 .dropdown-btn {
-	&.active { font-weight: bold; }
+	&.active { color: red; }
 }
 
 .dropdown {
@@ -56,7 +56,11 @@
 	}
 }
 
-.scrollspy {
-	height: 300px;
+.scroll-btn {
+	&.active { color: red; }
+}
+
+#scrollable1 {
+	height: 250px;
 	overflow-y: auto;
 }

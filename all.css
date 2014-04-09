@@ -3564,7 +3564,7 @@ th {
   -o-box-sizing: border-box; }
 
 .tab-btn.active {
-  font-weight: bold; }
+  color: red; }
 
 .tab {
   display: none; }
@@ -3572,7 +3572,7 @@ th {
     display: block; }
 
 .dropdown-btn.active {
-  font-weight: bold; }
+  color: red; }
 
 .dropdown {
   height: 0px;
@@ -3604,6 +3604,9 @@ th {
     display: table-cell;
     vertical-align: middle; }
 
-.scrollspy {
-  height: 300px;
+.scroll-btn.active {
+  color: red; }
+
+#scrollable1 {
+  height: 250px;
   overflow-y: auto; }
