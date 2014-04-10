@@ -21,7 +21,7 @@ $currentSpacing: 0;
 @include all-sizes-queue(float-left, (float: left));
 @include all-sizes-queue(float-right, (float: right));
 @include all-sizes-queue(display-none, (display: none));
-@include all-sizes-queue(center-horiz, (margin: 0 auto, float: none, clear: both));
+@include all-sizes-queue(center-horiz, (margin: 0 auto, float: none));
 @include all-sizes-queue(text-left, (text-align: left));
 @include all-sizes-queue(text-right, (text-align: right));
 @include all-sizes-queue(text-center, (text-align: center));

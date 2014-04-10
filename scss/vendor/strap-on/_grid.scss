@@ -8,7 +8,7 @@ html {
 
 .container {
 	@each $breakpoint, $size in $breakpoints {
-		@include only($breakpoint) {
+		@include and-up($breakpoint) {
 			width: nth($size, 2);
 		}
 	}
