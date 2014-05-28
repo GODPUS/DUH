@@ -25,6 +25,7 @@ $(function(){
 			var href = $el.data(type+'-href');
 			$el.removeClass('active').trigger('hide');
 			$(href).removeClass('active').trigger('hide');
+			if(type === 'hide'){ $('[data-show-href="'+href+'"]').removeClass('active').trigger('hide'); }
 		},
 
 		toggle: function($el, type){
@@ -65,7 +66,7 @@ $(function(){
 	});
 
 	//scrollspy
-	$('[data-scrollspy="true"]').on('scroll', function(){
+	$('[data-scrollspy="true"]').on('mousewheel', function(){
 		var $scrollable = $(this);
 		var closestNum = 100000000000000000000;
 		var $closest = null;

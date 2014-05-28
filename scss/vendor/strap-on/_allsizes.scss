@@ -1,4 +1,7 @@
 //margin and padding
+$spacingMax: 50;
+$spacingMultiplier: 5;
+
 $currentSpacing: 0;
 
 @while $currentSpacing < ($spacingMax+1) {
@@ -14,7 +17,7 @@ $currentSpacing: 0;
 	@include all-sizes-queue(pad-l-#{$currentSpacing}, (padding-left: #{$currentSpacing}px));
 	@include all-sizes-queue(pad-r-#{$currentSpacing}, (padding-right: #{$currentSpacing}px));
 
-	$currentSpacing: $currentSpacing + $spacingMultiplier;
+	$currentSpacing: $currentSpacing + $spacingMultiplier !global;
 }
 
 

@@ -1,12 +1,12 @@
-@mixin and-up($media) {
-	$size: nth(map-get($breakpoints, $media), 1);
+@mixin and-up($breakpoint) {
+	$size: nth(map-get($breakpoints, $breakpoint), 1);
 	@media only screen and (min-width: #{$size}px) { @content; }
 }
 
-@mixin only($media) {
-	$size: nth(map-get($breakpoints, $media), 1);
+@mixin only($breakpoint) {
+	$size: nth(map-get($breakpoints, $breakpoint), 1);
 	$keys: map-keys($breakpoints);
-	$index: index($keys, $media);
+	$index: index($keys, $breakpoint);
 
 	@if $index < length($breakpoints) {
 		$nextSizeUp: nth(map-get($breakpoints, nth($keys, $index+1)), 1);
@@ -49,6 +49,7 @@ $allSizes: ();
 			}
 		}
 	}
+	$allSizes: ();
 }
 
 @mixin all-sizes($name) {
@@ -63,6 +64,8 @@ $allSizes: ();
 }
 
 @mixin clearfix {
+	clear: both;
+
 	&:before, &:after {
 		content: " ";
 		display: table;

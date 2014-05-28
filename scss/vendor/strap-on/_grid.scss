@@ -1,3 +1,5 @@
+
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HTML !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 html {
 	@each $breakpoint, $size in $breakpoints {
 		@include and-up($breakpoint) {
@@ -6,6 +8,7 @@ html {
 	}
 }
 
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CONTAINER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 .container {
 	@each $breakpoint, $size in $breakpoints {
 		@include and-up($breakpoint) {
@@ -32,7 +35,53 @@ html {
 	padding-right: #{$defaultGutterSize}px;
 }
 
-//gutters
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DEFAULT ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+@for $index from 1 through $defaultRowColNum {
+
+	$percentage: (100%/$defaultRowColNum)*($index);
+	$string: '.row > .col-';
+
+	@each $breakpoint, $size in $breakpoints {
+		@include and-up($breakpoint) {
+			#{$string}#{$index} {
+				width: #{$percentage};
+			}
+		}
+	}
+}
+
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+@each $breakpoint1, $size1 in $breakpoints {
+	$stringBeginning: '.row.cols-';
+	$stringMiddle: '& > .col-';
+	$stringBreakpoint1: '-'+$breakpoint1;
+
+	@each $numCols in $rowCols {
+
+		#{$stringBeginning}#{$numCols}#{$stringBreakpoint1} {
+
+			@include and-up($breakpoint1) {
+
+				@each $breakpoint2, $size2 in $breakpoints {
+					$stringBreakpoint2: '-'+$breakpoint2;
+	
+					@for $index from 1 through $numCols {
+						$percentage: (100%/$numCols)*($index);
+				
+						#{$stringMiddle}#{$index}#{$stringBreakpoint2} {
+							width: #{$percentage};
+						}
+					}
+				}
+			}
+		}
+	}
+}
+
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! GUTTERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 @each $size in $gutterSizes {
 	@include all-sizes(gutter-#{$size}){
 		padding-left: #{$size}px; 
@@ -41,21 +90,3 @@ html {
 		& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
 	}
 }
-
-//columns
-@for $index from 1 through $defaultRowColNum {
-	$percentage: (100%/$defaultRowColNum)*($index);
-	$string: 'row > .col-';
-	@include all-sizes-queue(#{$string}#{$index}, (width: #{$percentage}));
-}
-
-@each $numCols in $rowCols {
-	@for $index from 1 through $numCols {
-		$percentage: (100%/$numCols)*($index);
-		$stringBeginning: 'row.cols-';
-		$stringMiddle: '> .col-';
-		@include all-sizes-queue(#{$stringBeginning}#{$numCols}#{$stringMiddle}#{$index}, (width: #{$percentage}));
-	}
-}
-
-@include generate-all-sizes-queue();
