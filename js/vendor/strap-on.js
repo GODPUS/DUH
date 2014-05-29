@@ -70,17 +70,18 @@ $(function(){
 		var $scrollable = $(this);
 		var closestNum = 100000000000000000000;
 		var $closest = null;
+		var direction = $scrollable.data('scrollspy');
 
 		$('[data-scrollable="#'+$scrollable.attr('id')+'"]').each(function(){
 			var $button = $(this);
 			var $spyable = $($button.data('scroll-href'));
 			var difference;
 
-			if($scrollable.data('scrollspy') === 'vertical'){
+			if(direction === 'vertical'){
 				var spyabletop = $spyable.offset().top - $scrollable.offset().top + $scrollable.scrollTop();
 				difference = Math.abs($scrollable.scrollTop() - spyabletop);
 			}
-			if($scrollable.data('scrollspy') === 'horizontal'){
+			if(direction === 'horizontal'){
 				var spyableleft = $spyable.offset().left - $scrollable.offset().left + $scrollable.scrollLeft();
 				difference = Math.abs($scrollable.scrollLeft() - spyableleft);
 			}
