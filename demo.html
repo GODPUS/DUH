@@ -73,13 +73,127 @@
 					<h2>Grid</h2>
 					<h5>According to the settings above:</h5>
 
-					<div class="row cols-5-sm cols-24-lg">
-						<div class="col-1-sm col-3-md center-horiz-md-only col-18-lg">
-							<div class="demo-block">col-2-md</div>
+					<div class="row cols-5-md cols-24-lg">
+						<div class="col-6-sm gutter-0-sm-only col-3-md center-horiz-md-only col-18-lg">
+							<div class="demo-block">
+								<span class="visible-sm-only">col-6-sm (of the default 12) with no gutter</span>
+								<span class="visible-md-only">col-3-md center-horiz-md-only (of the specified 5)</span>
+								<span class="visible-lg-only">col-18-lg (of the specified 24)</span>
+							</div>
+						</div>
+						<div class="col-6-sm gutter-0-sm-only col-3-md center-horiz-md-only col-4-lg">
+							<div class="demo-block">
+								<span class="visible-sm-only">col-6-sm (of the default 12) with no gutter</span>
+								<span class="visible-md-only">col-3-md center-horiz-md-only (of the specified 5)</span>
+								<span class="visible-lg-only">col-4-lg (of the specified 24)</span>
+							</div>
 						</div>
 					</div>
 
 				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12-sm">
+					<h2>Javascript via data attributes</h2>
+					<h5>a combination of data-show-href, data-hide-href, data-toggle-href, data-scroll-href, data-tab-group are used to make dropdowns, tabs, modals, and scroll-to's</h5>
+
+					<section class="row">
+						<div class="col-3-md">Dropdowns</div>
+						<div class="col-9-md">
+
+							<ul>
+								<li>if two elements have the same href they will update the other when one changes like with this select group and button group</li>
+								<li>a 'show' and a 'hide' event are triggered for both the button and the href, which you can listen and respond to via js like in demo.js</li>
+								<li>an .active class is also added to both the button and the href which you can use via css for styling and cssanimations</li>
+							</ul>
+
+							<select class="marg-b-20-sm">
+								<option data-toggle-href="#tab-pane-1" data-tab-group="tab-select-group-1" class="active">Tab 1 Button</option>
+								<option data-toggle-href="#tab-pane-2" data-tab-group="tab-select-group-1">Tab 2 Button</option>
+								<option data-toggle-href="#tab-pane-3" data-tab-group="tab-select-group-1">Tab 3 Button</option>
+							</select>
+
+							<div>
+								<button data-toggle-href="#tab-pane-1" data-tab-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
+								<button data-toggle-href="#tab-pane-2" data-tab-group="tab-buttons-group-1">Tab 2 Button</button>
+								<button data-toggle-href="#tab-pane-3" data-tab-group="tab-buttons-group-1">Tab 3 Button</button>
+							</div>
+
+							<div>
+								<div id="tab-pane-1" data-tab-group="tab-panes-group-1" class="demo-tab-pane initial-active">TAB PANE 1 !</div>
+								<div id="tab-pane-2" data-tab-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
+								<div id="tab-pane-3" data-tab-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !</div>
+							</div>
+						</div>
+					</section>
+
+					<section class="row">
+						<div class="col-3-md">Modals</div>
+						<div class="col-9-md">
+							<button data-show-href="#modal1">Modal 1 Show Button</button>
+						</div>
+					</section>
+
+					<section class="row">
+						<div class="col-3-md">Scroll to and scroll spy</div>
+						<div class="col-9-md">
+							<select class="marg-b-20-sm">
+								<option data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
+								<option data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1">Scroll 2 Button</option>
+								<option data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1">Scroll 3 Button</option>
+							</select>
+
+							<div>
+								<button data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-tab-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
+								<button data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-tab-group="scroll-buttons-group-1">Scroll 2 Button</button>
+								<button data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-tab-group="scroll-buttons-group-1">Scroll 3 Button</button>
+							</div>
+
+							<div id="scrollable-1" data-scrollspy="vertical" class="demo-scroll-container">
+								<div id="scroll-area-1" class="demo-scroll-area">
+									SCROLL AREA 1
+
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</div>
+								<div id="scroll-area-2" class="demo-scroll-area">
+									SCROLL AREA 2
+
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</div>
+								<div id="scroll-area-3" class="demo-scroll-area">
+									SCROLL AREA 3
+
+									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+								</div>
+							</div>
+
+						</div>
+					</section>
+				</div>
+			</div>
+
+		</div>
+
+		<div id="modal1" class="demo-modal" data-hide-href="#modal1">
+			<div class="demo-modal-inner">
+				<button data-hide-href="#modal1">Modal 1 Hide Button</button>
+				<h2>MODAL 1</h2>
 			</div>
 		</div>
 	</body>

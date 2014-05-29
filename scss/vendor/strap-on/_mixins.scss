@@ -11,6 +11,8 @@
 	@if $index < length($breakpoints) {
 		$nextSizeUp: nth(map-get($breakpoints, nth($keys, $index+1)), 1);
 		@media only screen and (min-width: #{$size}px) and (max-width: #{($nextSizeUp)-1}px) { @content; }
+	} @else {
+		@media only screen and (min-width: #{$size}px) { @content; }
 	}
 }
 

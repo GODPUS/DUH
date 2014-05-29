@@ -1,5 +1,5 @@
 $(function(){
-	$('.dropdown').on('show', function(){
+	$('.demo-tab-pane').on('show', function(){
 		var $this = $(this);
 		var curHeight = $this.height();
 		$this.css('height', 'auto');

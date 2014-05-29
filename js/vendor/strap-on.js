@@ -9,14 +9,14 @@ $(function(){
 
 			$sameHrefTabs.each(function(){
 				var $tab = $(this);
-				var $tabGroup = $('[data-group="'+$tab.data('group')+'"]');
+				var $tabGroup = $('[data-tab-group="'+$tab.data('tab-group')+'"]').not($tab);
 				$tabGroup.removeClass('active').trigger('hide');
 				$tab.addClass('active').trigger('show');
 				if($tab.is('option')){ $tab.attr('selected', 'selected'); }
 			});
 
 			var $tabPane = $(href);
-			var $tabPaneGroup = $('[data-group="'+$tabPane.data('group')+'"]');
+			var $tabPaneGroup = $('[data-tab-group="'+$tabPane.data('tab-group')+'"]').not($tabPane);
 			$tabPaneGroup.removeClass('active').trigger('hide');
 			$tabPane.addClass('active').trigger('show');
 		},
@@ -35,10 +35,10 @@ $(function(){
 		scrollTo: function($el){
 			var $scrollTo = $($el.data('scroll-href'));
 			var $scrollable = $($el.data('scrollable'));
-			if($scrollable.data('scrollable') === 'vertical'){
+			if($scrollable.data('scrollspy') === 'vertical'){
 				$scrollable.stop().animate({ scrollTop: $scrollTo.offset().top - $scrollable.offset().top + $scrollable.scrollTop() }, 200);
 			}
-			if($scrollable.data('scrollable') === 'horizontal'){
+			if($scrollable.data('scrollspy') === 'horizontal'){
 				$scrollable.stop().animate({ scrollLeft: $scrollTo.offset().left - $scrollable.offset().left + $scrollable.scrollLeft() }, 200);
 			}
 		}
@@ -66,7 +66,7 @@ $(function(){
 	});
 
 	//scrollspy
-	$('[data-scrollspy="true"]').on('mousewheel', function(){
+	$('[data-scrollspy]').on('mousewheel', function(){
 		var $scrollable = $(this);
 		var closestNum = 100000000000000000000;
 		var $closest = null;
@@ -76,11 +76,11 @@ $(function(){
 			var $spyable = $($button.data('scroll-href'));
 			var difference;
 
-			if($scrollable.data('scrollable') === 'vertical'){
+			if($scrollable.data('scrollspy') === 'vertical'){
 				var spyabletop = $spyable.offset().top - $scrollable.offset().top + $scrollable.scrollTop();
 				difference = Math.abs($scrollable.scrollTop() - spyabletop);
 			}
-			if($scrollable.data('scrollable') === 'horizontal'){
+			if($scrollable.data('scrollspy') === 'horizontal'){
 				var spyableleft = $spyable.offset().left - $scrollable.offset().left + $scrollable.scrollLeft();
 				difference = Math.abs($scrollable.scrollLeft() - spyableleft);
 			}

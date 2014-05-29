@@ -79,7 +79,6 @@ $i: 0;
 					@if $j <= $i {
 						#{$stringBeginning}#{$numCols}#{$stringBreakpoint2} {
 
-							
 							#{$stringMiddle}#{$index}#{$stringBreakpoint1} {
 								width: #{$percentage};
 							}

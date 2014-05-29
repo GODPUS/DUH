@@ -1,3 +1,21 @@
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VISIBLE-ONLY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
+@each $breakpoint1, $size1 in $breakpoints {
+
+	.visible-#{$breakpoint1}-only {
+		@each $breakpoint2, $size2 in $breakpoints {
+			@include only($breakpoint2) {
+				@if $breakpoint1 != $breakpoint2 {
+					display: none;
+				}
+			}
+		}
+	}
+	
+}
+
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MARGIN & PADDING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 //margin and padding
 $spacingMax: 50;
 $spacingMultiplier: 5;
