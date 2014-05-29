@@ -37,14 +37,17 @@ html {
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DEFAULT ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-@for $index from 1 through $defaultRowColNum {
+@each $breakpoint, $size in $breakpoints {
 
-	$percentage: (100%/$defaultRowColNum)*($index);
-	$string: '.row > .col-';
+	@include and-up($breakpoint) {
 
-	@each $breakpoint, $size in $breakpoints {
-		@include and-up($breakpoint) {
-			#{$string}#{$index} {
+		@for $index from 1 through $defaultRowColNum {
+
+			$percentage: (100%/$defaultRowColNum)*($index);
+			$string: '.col-';
+			$stringBreakpoint: '-'+$breakpoint;
+
+			#{$string}#{$index}#{$stringBreakpoint} {
 				width: #{$percentage};
 			}
 		}
@@ -53,31 +56,43 @@ html {
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
+$i: 0;
+
 @each $breakpoint1, $size1 in $breakpoints {
-	$stringBeginning: '.row.cols-';
-	$stringMiddle: '& > .col-';
-	$stringBreakpoint1: '-'+$breakpoint1;
 
-	@each $numCols in $rowCols {
+	@include and-up($breakpoint1) {
 
-		#{$stringBeginning}#{$numCols}#{$stringBreakpoint1} {
+		@each $numCols in $rowCols {
+	
+		@for $index from 1 through $numCols {
+			$percentage: (100%/$numCols)*($index);
 
-			@include and-up($breakpoint1) {
+				$j: 0;
 
 				@each $breakpoint2, $size2 in $breakpoints {
+
+					$stringBeginning: '.row.cols-';
+					$stringMiddle: '& > .col-';
+					$stringBreakpoint1: '-'+$breakpoint1;
 					$stringBreakpoint2: '-'+$breakpoint2;
-	
-					@for $index from 1 through $numCols {
-						$percentage: (100%/$numCols)*($index);
-				
-						#{$stringMiddle}#{$index}#{$stringBreakpoint2} {
-							width: #{$percentage};
+
+					@if $j <= $i {
+						#{$stringBeginning}#{$numCols}#{$stringBreakpoint2} {
+
+							
+							#{$stringMiddle}#{$index}#{$stringBreakpoint1} {
+								width: #{$percentage};
+							}
 						}
 					}
+
+					$j: ($j+1);
 				}
 			}
 		}
 	}
+
+	$i: ($i+1);
 }
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! GUTTERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
