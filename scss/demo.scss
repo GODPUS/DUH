@@ -19,16 +19,18 @@ button.active {
 }
 
 .demo-comment {
+	margin-top: 20px;
 	font-style: italic;
 	font-size: 0.9em;
-	margin-top: 5px;
-	margin-bottom: 5px;
-	color: #999;
+	padding: 20px;
+	color: #555;
+	background-color: #eeeeee;
+	border-bottom: dotted 1px;
 }
 
 section {
-	padding-bottom: 25px;
-	margin-bottom: 25px;
+	padding-bottom: 50px;
+	margin-bottom: 50px;
 	border-bottom: solid 1px #ccc;
 }
 

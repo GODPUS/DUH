@@ -16,7 +16,7 @@
 	}
 }
 
-$allSizes: ();
+$allSizes: () !global;
 
 @mixin all-sizes-queue($name, $ruleValueMap) {
  	$allSizes: append($allSizes, ($name, $ruleValueMap), comma) !global;

@@ -11,65 +11,116 @@
 			<h1>STRAP ON</h1>
 			<h5>Like bootstrap but with more balls</h5>
 
-			<div class="row">
+
+			<section class="row">
 				<div class="col-12-sm">
-					<h2>Variables</h2>
-					<h5>(in _variables.scss)</h5>
+					<h2>Grid System</h2>
 
-					<section class="row">
-						<div class="col-3-md">Breakpoints</div>
-						<div class="col-9-md">
-							<div class="demo-code">
-								<div class="demo-comment">
-									key is the name, first value in list is the min-width of the screen to trigger the breakpoint.
-									second value in the list is the width of the .container class at that screen size.
-									the breakpoint names will be used as the suffix on responsive classes.
+					<section>
+						<h3>Breakpoints</h3>
+
+						<div class="demo-comment">
+							in _variables.scss:<br />
+							<br />
+							key is the name, first value in list is the min-width of the screen to trigger the breakpoint.
+							second value in the list is the width of the .container class at that screen size.
+							the breakpoint names will be used as the suffix on responsive classes.
+						</div>
+						<div class="demo-code">
+							$breakpoints: ('sm': (0, 100%), 'md': (768, 100%), 'lg': (960, 960px));
+						</div>
+
+						<h4>Respond to breakpoints with sass using either:</h4>
+
+						<div class="demo-comment">
+							in this example the and-up mixin will apply rules to size md and up (applying only to md and lg. ignorning sm)
+						</div>
+						<div class="demo-code">
+							@include and-up(md){ border: none; }
+						</div>
+	
+						or
+
+						<div class="demo-comment">
+							in this example the only mixin will only apply rules to the specified size (applying only to md. ignorning sm and lg.)
+						</div>
+						<div class="demo-code">
+							@include only(md){ border: none; }
+						</div>
+						
+						<h4>Respond to breakpoints with javascript using:</h4>
+						
+						<div class="demo-code">
+							$(strapOn).on('breakpoint', function(){
+								console.log(strapOn.breakpoint);
+							});
+						</div>
+					</section>
+
+					<section>
+						<h3>Columns</h3>
+						<div class="demo-comment">
+							these are the different column amounts a row can have, the numbers will adjust the width of direct child column widths
+							example: class="row cols-5"
+						</div>
+						<div class="demo-code">
+							$rowCols: (5, 12, 24);
+						</div>
+						<div class="demo-comment">
+							the default number of columns a row has
+						</div>
+						<div class="demo-code">
+							$defaultRowColNum: 12;
+						</div>
+
+						<div class="row cols-5-sm cols-12-md cols-24-lg marg-t-20-sm">
+							<div class="col-3-sm">
+								<div class="demo-block">
+									<span class="visible-sm-only">3 columns of 5</span>
+									<span class="visible-md-only">3 columns of 12</span>
+									<span class="visible-lg-only">3 columns of 24</span>
 								</div>
-
-								$breakpoints: ('sm': (0, 100%), 'md': (768, 100%), 'lg': (960, 960px));
+							</div>
+							<div class="col-2-sm col-9-md col-21-lg">
+								<div class="demo-block">
+									<span class="visible-sm-only">2 columns of 5</span>
+									<span class="visible-md-only">9 columns of 12</span>
+									<span class="visible-lg-only">21 columns of 24</span>
+								</div>
 							</div>
 						</div>
 					</section>
 
-					<section class="row">
-						<div class="col-3-md">Columns</div>
-						<div class="col-9-md">
-							<div class="demo-code">
-								<div class="demo-comment">
-									these are the different column amounts a row can have, the numbers will adjust the width of direct child column widths
-									example: class="row cols-5"
-								</div>
-								$rowCols: (5, 12, 24);
-
-								<div class="demo-comment">
-									the default number of columns a row has
-								</div>					
-								$defaultRowColNum: 12;
-							</div>
+					<section>
+						<h3>Gutters</h3>
+						<div class="demo-comment">
+							gutter classes are meant to be used in conjunction with col- classes to specify their left and right padding.
+							child .row classes will inherit these and correct their margin-left and margin-right accordingly.
+							example: class="col-6-sm gutter-15-md" (this would give a 15 pixel padding to this column on size md and up, and go back to the default on sm)
 						</div>
-					</section>
+						<div class="demo-code">
+							$gutterSizes: (0, 5, 10, 15, 20, 25, 30);
+						</div>
+						<div class="demo-comment">
+							set default size of column classes
+							child .row classes will inherit these and correct their margin-left and margin-right accordingly.
+						</div>		
+						<div class="demo-code">			
+							$defaultGutterSize: 10;
+						</div>
 
-					<section class="row">
-						<div class="col-3-md">Gutters</div>
-						<div class="col-9-md">
-							<div class="demo-code">
-								<div class="demo-comment">
-									gutter classes are meant to be used in conjunction with col- classes to specify their left and right padding.
-									child .row classes will inherit these and correct their margin-left and margin-right accordingly.
-									example: class="col-6-sm gutter-15-md" (this would give a 15 pixel padding to this column on size md and up, and go back to the default on sm)
+						<div class="row">
+							<div class="col-3-sm gutter-10-sm gutter-20-md gutter-30-lg">
+								<div class="demo-block">
+									<span class="visible-sm-only">10px gutter</span>
+									<span class="visible-md-only">20px gutter</span>
+									<span class="visible-lg-only">30px gutter</span>
 								</div>
-								$gutterSizes: (0, 5, 10, 15, 20, 25, 30);
-
-								<div class="demo-comment">
-									set default size of column classes
-									child .row classes will inherit these and correct their margin-left and margin-right accordingly.
-								</div>					
-								$defaultGutterSize: 10;
 							</div>
 						</div>
 					</section>
 				</div>
-			</div>
+			</section>
 
 			<div class="row">
 				<div class="col-12-sm">

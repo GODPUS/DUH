@@ -54,6 +54,15 @@ html {
 	}
 }
 
+/*!!!!!!!! PERCENTAGE COLUMNS !!!!!!!!!!!*/
+@for $index from 1 through 100 {
+	$percentage: 100%/$index;
+
+	@include all-sizes-queue(col-#{$index}, (width: #{$percentage}));
+}
+
+@include generate-all-sizes-queue();
+
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 $i: 0;
@@ -81,6 +90,15 @@ $i: 0;
 
 							#{$stringMiddle}#{$index}#{$stringBreakpoint1} {
 								width: #{$percentage};
+							}
+						}
+
+						@if $breakpoint1 != $breakpoint2 {
+							#{$stringBeginning}#{$numCols}#{$stringBreakpoint1} {
+
+								#{$stringMiddle}#{$index}#{$stringBreakpoint2} {
+									width: #{$percentage};
+								}
 							}
 						}
 					}
