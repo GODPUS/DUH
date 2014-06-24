@@ -51,7 +51,7 @@ $allSizes: () !global;
 			}
 		}
 	}
-	$allSizes: ();
+	$allSizes: () !global;
 }
 
 @mixin all-sizes($name) {

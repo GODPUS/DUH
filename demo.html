@@ -12,8 +12,8 @@
 			<h5>Like bootstrap but with more balls</h5>
 
 
-			<section class="row">
-				<div class="col-12-sm">
+			<div class="row">
+				<div class="col-1-sm">
 					<h2>Grid System</h2>
 
 					<section>
@@ -60,32 +60,34 @@
 					<section>
 						<h3>Columns</h3>
 						<div class="demo-comment">
-							these are the different column amounts a row can have, the numbers will adjust the width of direct child column widths
-							example: class="row cols-5"
-						</div>
-						<div class="demo-code">
-							$rowCols: (5, 12, 24);
-						</div>
-						<div class="demo-comment">
-							the default number of columns a row has
-						</div>
-						<div class="demo-code">
-							$defaultRowColNum: 12;
+							column numbers = 100%/column number.<br />
+							col-1-sm = 100%;<br />
+							col-2-sm = 50%;<br />
+							col-3-sm = 33.3%;<br />
+							col-4-sm = 25%;<br />
+							etc...<br />
 						</div>
 
-						<div class="row cols-5-sm cols-12-md cols-24-lg marg-t-20-sm">
-							<div class="col-3-sm">
+						<div class="row marg-t-20-sm">
+							<div class="col-1-sm col-2-md col-3-lg">
 								<div class="demo-block">
-									<span class="visible-sm-only">3 columns of 5</span>
-									<span class="visible-md-only">3 columns of 12</span>
-									<span class="visible-lg-only">3 columns of 24</span>
+									<span class="visible-sm-only">100% = .col-1-sm</span>
+									<span class="visible-md-only">50% = .col-2-md</span>
+									<span class="visible-lg-only">33.3% = .col-3-lg</span>
 								</div>
 							</div>
-							<div class="col-2-sm col-9-md col-21-lg">
+							<div class="col-2-sm col-3-md col-1-lg">
 								<div class="demo-block">
-									<span class="visible-sm-only">2 columns of 5</span>
-									<span class="visible-md-only">9 columns of 12</span>
-									<span class="visible-lg-only">21 columns of 24</span>
+									<span class="visible-sm-only">50% = .col-2-sm</span>
+									<span class="visible-md-only">33.3% = .col-3-md</span>
+									<span class="visible-lg-only">100% = .col-1-lg</span>
+								</div>
+							</div>
+							<div class="col-3-sm col-1-md col-2-lg">
+								<div class="demo-block">
+									<span class="visible-sm-only">33.3% = .col-3-sm</span>
+									<span class="visible-md-only">100% = .col-1-md</span>
+									<span class="visible-lg-only">50% = .col-2-lg</span>
 								</div>
 							</div>
 						</div>
@@ -94,23 +96,42 @@
 					<section>
 						<h3>Gutters</h3>
 						<div class="demo-comment">
-							gutter classes are meant to be used in conjunction with col- classes to specify their left and right padding.
-							child .row classes will inherit these and correct their margin-left and margin-right accordingly.
-							example: class="col-6-sm gutter-15-md" (this would give a 15 pixel padding to this column on size md and up, and go back to the default on sm)
+							use gutter classes in conjunction with row classes to specify the gutter space for direct column children
 						</div>
 						<div class="demo-code">
 							$gutterSizes: (0, 5, 10, 15, 20, 25, 30);
 						</div>
 						<div class="demo-comment">
-							set default size of column classes
-							child .row classes will inherit these and correct their margin-left and margin-right accordingly.
+							the default gutter size of col- classes
 						</div>		
 						<div class="demo-code">			
 							$defaultGutterSize: 10;
 						</div>
 
-						<div class="row">
-							<div class="col-3-sm gutter-10-sm gutter-20-md gutter-30-lg">
+						<div class="row gutter-10-sm gutter-20-md gutter-30-lg marg-t-20-sm">
+							<div class="col-2-sm">
+								<div class="demo-block">
+									<span class="visible-sm-only">10px gutter</span>
+									<span class="visible-md-only">20px gutter</span>
+									<span class="visible-lg-only">30px gutter</span>
+								</div>
+								<div class="row gutter-0-sm">
+									<div class="col-2-sm">
+										<div class="demo-block text-center-sm">nested 0px gutter</div>
+									</div>
+									<div class="col-2-sm">
+										<div class="demo-block text-center-sm">nested 0px gutter</div>
+									</div>
+								</div>
+							</div>
+							<div class="col-2-sm">
+								<div class="demo-block">
+									<span class="visible-sm-only">10px gutter</span>
+									<span class="visible-md-only">20px gutter</span>
+									<span class="visible-lg-only">30px gutter</span>
+								</div>
+							</div>
+							<div class="col-1-sm">
 								<div class="demo-block">
 									<span class="visible-sm-only">10px gutter</span>
 									<span class="visible-md-only">20px gutter</span>
@@ -120,46 +141,22 @@
 						</div>
 					</section>
 				</div>
-			</section>
-
-			<div class="row">
-				<div class="col-12-sm">
-					<h2>Grid</h2>
-					<h5>According to the settings above:</h5>
-
-					<div class="row cols-5-md cols-24-lg">
-						<div class="col-6-sm gutter-0-sm-only col-3-md center-horiz-md-only col-18-lg">
-							<div class="demo-block">
-								<span class="visible-sm-only">col-6-sm (of the default 12) with no gutter</span>
-								<span class="visible-md-only">col-3-md center-horiz-md-only (of the specified 5)</span>
-								<span class="visible-lg-only">col-18-lg (of the specified 24)</span>
-							</div>
-						</div>
-						<div class="col-6-sm gutter-0-sm-only col-3-md center-horiz-md-only col-4-lg">
-							<div class="demo-block">
-								<span class="visible-sm-only">col-6-sm (of the default 12) with no gutter</span>
-								<span class="visible-md-only">col-3-md center-horiz-md-only (of the specified 5)</span>
-								<span class="visible-lg-only">col-4-lg (of the specified 24)</span>
-							</div>
-						</div>
-					</div>
-
-				</div>
 			</div>
 
 			<div class="row">
-				<div class="col-12-sm">
+				<div class="col-1-sm">
 					<h2>Javascript via data attributes</h2>
 					<h5>a combination of data-show-href, data-hide-href, data-toggle-href, data-scroll-href, data-tab-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
 
 					<section class="row">
-						<div class="col-3-md">Dropdowns</div>
-						<div class="col-9-md">
+						<div class="col-1-sm">
+							<h3>Dropdowns</h3>
 
 							<ul>
 								<li>if two elements have the same href they will update the other when one changes like with this select group and button group</li>
 								<li>a 'show' and a 'hide' event are triggered for both the button and the href, which you can listen and respond to via js like in demo.js</li>
 								<li>an .active class is also added to both the button and the href which you can use via css for styling and cssanimations</li>
+								<li>add a data-tab-group to all grouped buttons so that they are unselected when another is selected</li>
 							</ul>
 
 							<select class="marg-b-20-sm">
@@ -186,15 +183,15 @@
 					</section>
 
 					<section class="row">
-						<div class="col-3-md">Modals</div>
-						<div class="col-9-md">
+						<div class="col-1-sm">
+							<h3>Modals</h3>
 							<button data-show-href="#modal1">Modal 1 Show Button</button>
 						</div>
 					</section>
 
 					<section class="row">
-						<div class="col-3-md">Scroll to and scroll spy</div>
-						<div class="col-9-md">
+						<div class="col-1-sm">
+							<h3>Scroll to and scroll spy</h3>
 							<select class="marg-b-20-sm">
 								<option data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
 								<option data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1">Scroll 2 Button</option>

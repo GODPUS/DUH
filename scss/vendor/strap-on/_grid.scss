@@ -1,5 +1,6 @@
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HTML !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 html {
 	@each $breakpoint, $size in $breakpoints {
 		@include and-up($breakpoint) {
@@ -9,6 +10,7 @@ html {
 }
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CONTAINER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+
 .container {
 	@each $breakpoint, $size in $breakpoints {
 		@include and-up($breakpoint) {
@@ -35,26 +37,8 @@ html {
 	padding-right: #{$defaultGutterSize}px;
 }
 
-/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! DEFAULT ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PERCENTAGE COLUMNS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-@each $breakpoint, $size in $breakpoints {
-
-	@include and-up($breakpoint) {
-
-		@for $index from 1 through $defaultRowColNum {
-
-			$percentage: (100%/$defaultRowColNum)*($index);
-			$string: '.col-';
-			$stringBreakpoint: '-'+$breakpoint;
-
-			#{$string}#{$index}#{$stringBreakpoint} {
-				width: #{$percentage};
-			}
-		}
-	}
-}
-
-/*!!!!!!!! PERCENTAGE COLUMNS !!!!!!!!!!!*/
 @for $index from 1 through 100 {
 	$percentage: 100%/$index;
 
@@ -63,62 +47,28 @@ html {
 
 @include generate-all-sizes-queue();
 
-/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! ROWS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
-$i: 0;
-
-@each $breakpoint1, $size1 in $breakpoints {
-
-	@include and-up($breakpoint1) {
-
-		@each $numCols in $rowCols {
-	
-		@for $index from 1 through $numCols {
-			$percentage: (100%/$numCols)*($index);
-
-				$j: 0;
-
-				@each $breakpoint2, $size2 in $breakpoints {
-
-					$stringBeginning: '.row.cols-';
-					$stringMiddle: '& > .col-';
-					$stringBreakpoint1: '-'+$breakpoint1;
-					$stringBreakpoint2: '-'+$breakpoint2;
-
-					@if $j <= $i {
-						#{$stringBeginning}#{$numCols}#{$stringBreakpoint2} {
-
-							#{$stringMiddle}#{$index}#{$stringBreakpoint1} {
-								width: #{$percentage};
-							}
-						}
-
-						@if $breakpoint1 != $breakpoint2 {
-							#{$stringBeginning}#{$numCols}#{$stringBreakpoint1} {
-
-								#{$stringMiddle}#{$index}#{$stringBreakpoint2} {
-									width: #{$percentage};
-								}
-							}
-						}
-					}
-
-					$j: ($j+1);
-				}
-			}
-		}
-	}
-
-	$i: ($i+1);
-}
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! GUTTERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-@each $size in $gutterSizes {
-	@include all-sizes(gutter-#{$size}){
-		padding-left: #{$size}px; 
-		padding-right: #{$size}px;
+@each $breakpoint, $size in $breakpoints {
+	@include and-up($breakpoint){
+		@each $size in $gutterSizes {
+			.gutter-#{$size}-#{$breakpoint} {
+				margin-left: -#{$size}px; 
+				margin-right: -#{$size}px;
 
-		& > .row { margin-left: -#{$size}px; margin-right: -#{$size}px; }
+				& > [class^="col-"] { padding-left: #{$size}px; padding-right: #{$size}px; }
+			}
+		}
+	}
+	@include only($breakpoint){
+		@each $size in $gutterSizes {
+			.gutter-#{$size}-#{$breakpoint}-only {
+				margin-left: -#{$size}px; 
+				margin-right: -#{$size}px;
+
+				& > [class^="col-"] { padding-left: #{$size}px; padding-right: #{$size}px; }
+			}
+		}
 	}
 }
