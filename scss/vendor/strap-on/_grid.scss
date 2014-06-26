@@ -37,12 +37,13 @@ html {
 	padding-right: #{$defaultGutterSize}px;
 }
 
-/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FRACTION COLUMNS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! COLUMNS & OFFSETS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 @for $index from 1 through $defaultColumnDenominator {
 	@if $index != $defaultColumnDenominator {
 		$percentage: (100%/($defaultColumnDenominator))*$index;
 		@include all-sizes-queue(col-#{$index}, (width: #{$percentage}));
+		@include all-sizes-queue(offset-#{$index}, (margin-left: #{$percentage}));
 	}
 }
 
@@ -53,6 +54,7 @@ html {
 		@if $index1 != $index2 {
 			$percentage2: $percentage1 * $index2;
 			@include all-sizes-queue(col-#{$index2}-of-#{$index1}, (width: #{$percentage2}));
+			@include all-sizes-queue(offset-#{$index2}-of-#{$index1}, (margin-left: #{$percentage2}));
 		}
 	}
 }
