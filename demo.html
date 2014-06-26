@@ -13,7 +13,7 @@
 
 
 			<div class="row">
-				<div class="col-1-sm">
+				<div class="col-full-sm">
 					<h2>Grid System</h2>
 
 					<section>
@@ -28,6 +28,20 @@
 						</div>
 						<div class="demo-code">
 							$breakpoints: ('sm': (0, 100%), 'md': (768, 100%), 'lg': (960, 960px));
+						</div>
+
+						<div class="demo-comment">
+							according to our breakpoints variable, all responsive classes will have suffixes like so. For example the .col-1 classes will be:
+						</div>
+						<div class="demo-code">
+							<ul>
+								<li>.col-1-sm      <span class="demo-list-comment">//from width 0 and up</span></li> 
+								<li>.col-1-sm-only <span class="demo-list-comment">//only from width 0 to 767</span></li>
+								<li>.col-1-md      <span class="demo-list-comment">//from width 768 and up</span></li>
+								<li>.col-1-md-only <span class="demo-list-comment">//only from width 768 to 959</span></li>
+								<li>.col-1-lg      <span class="demo-list-comment">//from width 960 and up</span></li>
+								<li>.col-1-lg-only <span class="demo-list-comment">//since this is the largest it is the same as .col-1-lg, <br /> we include the only to make it more readable and consistent</span></li>
+							</ul>
 						</div>
 
 						<h4>Respond to breakpoints with sass using either:</h4>
@@ -48,46 +62,73 @@
 							@include only(md){ border: none; }
 						</div>
 						
-						<h4>Respond to breakpoints with javascript using:</h4>
+						<h4>Respond to breakpoints with jquery using:</h4>
 						
 						<div class="demo-code">
-							$(strapOn).on('breakpoint', function(){
-								console.log(strapOn.breakpoint);
-							});
+							$(StrapOn).on('breakpoint', function(){ console.log(StrapOn.breakpoint); });
 						</div>
 					</section>
 
 					<section>
 						<h3>Columns</h3>
 						<div class="demo-comment">
-							column numbers = 100%/column number.<br />
-							col-1-sm = 100%;<br />
-							col-2-sm = 50%;<br />
-							col-3-sm = 33.3%;<br />
-							col-4-sm = 25%;<br />
-							etc...<br />
+							in _variables.scss
+						</div>
+						<div class="demo-code">
+							$columnDenominators: (5, 7); <br />
+							$defaultColumnDenominator: 12;
+						</div>
+						<div class="demo-comment">
+							in the example, $defaultColumnDenominator is set to 12. This makes the default classes a fraction of 12. Like:
+						</div>
+						<div class="demo-code">
+							<ul>
+								<li>.col-1-sm { width: 8.33333%; }   <span class="demo-list-comment">// 1/12 of 100%</span></li>
+								<li>.col-2-sm { width: 16.66667%; }  <span class="demo-list-comment">// 2/12 of 100%</span></li>
+								<li>.col-3-sm { width: 25%; }        <span class="demo-list-comment">// 3/12 of 100%</span></li>
+								<li>.col-4-sm { width: 33.33333%; }  <span class="demo-list-comment">// 4/12 of 100%</span></li>
+								<li>.col-5-sm { width: 41.66667%; }  <span class="demo-list-comment">// 5/12 of 100%</span></li>
+								<li>.col-6-sm { width: 50%; }        <span class="demo-list-comment">// 6/12 of 100%</span></li>
+								<li>.col-7-sm { width: 58.33333%; }  <span class="demo-list-comment">// 7/12 of 100%</span></li>
+								<li>.col-8-sm { width: 66.66667%; }  <span class="demo-list-comment">// 8/12 of 100%</span></li>
+								<li>.col-9-sm { width: 75%; }        <span class="demo-list-comment">// 9/12 of 100%</span></li>
+								<li>.col-10-sm { width: 83.33333%; } <span class="demo-list-comment">// 10/12 of 100%</span></li>
+								<li>.col-11-sm { width: 91.66667%; } <span class="demo-list-comment">// 11/12 of 100%</span></li>
+							</ul>
+						</div>
+						<div class="demo-comment">
+							and the $columnDenominators list variable creates classes other than the default to achieve column layouts not possible with the default. For example, for the first number, 5, we get classes like:
+						</div>
+						<div class="demo-code">
+							<ul>
+								<li>.col-1-of-5-sm { width: 20%; }  <span class="demo-list-comment">// 1/5 of 100%</span></li>
+								<li>.col-2-of-5-sm { width: 40%; }  <span class="demo-list-comment">// 2/5 of 100%</span></li>
+								<li>.col-3-of-5-sm { width: 60%; }  <span class="demo-list-comment">// 3/5 of 100%</span></li>
+								<li>.col-4-of-5-sm { width: 80%; }  <span class="demo-list-comment">// 4/5 of 100%</span></li>
+							</ul>
+
 						</div>
 
 						<div class="row marg-t-20-sm">
-							<div class="col-1-sm col-2-md col-3-lg">
+							<div class="col-3-sm col-6-md col-9-lg">
 								<div class="demo-block">
-									<span class="visible-sm-only">100% = .col-1-sm</span>
-									<span class="visible-md-only">50% = .col-2-md</span>
-									<span class="visible-lg-only">33.3% = .col-3-lg</span>
+									<span class="visible-sm-only">3/12 = .col-3-sm</span>
+									<span class="visible-md-only">6/12 = .col-6-md</span>
+									<span class="visible-lg-only">9/12 = .col-9-lg</span>
 								</div>
 							</div>
-							<div class="col-2-sm col-3-md col-1-lg">
+							<div class="col-2-of-5-sm col-3-of-5-md col-full-lg">
 								<div class="demo-block">
-									<span class="visible-sm-only">50% = .col-2-sm</span>
-									<span class="visible-md-only">33.3% = .col-3-md</span>
-									<span class="visible-lg-only">100% = .col-1-lg</span>
+									<span class="visible-sm-only">2/5 = .col-2-of-5-sm</span>
+									<span class="visible-md-only">3/5 = .col-3-of-5-md</span>
+									<span class="visible-lg-only">100% = .col-full-lg</span>
 								</div>
 							</div>
-							<div class="col-3-sm col-1-md col-2-lg">
+							<div class="col-6-of-7-sm col-full-md col-3-of-7-lg">
 								<div class="demo-block">
-									<span class="visible-sm-only">33.3% = .col-3-sm</span>
-									<span class="visible-md-only">100% = .col-1-md</span>
-									<span class="visible-lg-only">50% = .col-2-lg</span>
+									<span class="visible-sm-only">6/7 = .col-6-of-7-sm</span>
+									<span class="visible-md-only">100% = .col-full-md</span>
+									<span class="visible-lg-only">3/7 = .col-3-of-7-lg</span>
 								</div>
 							</div>
 						</div>
@@ -109,29 +150,29 @@
 						</div>
 
 						<div class="row gutter-10-sm gutter-20-md gutter-30-lg marg-t-20-sm">
-							<div class="col-2-sm">
+							<div class="col-6-sm">
 								<div class="demo-block">
 									<span class="visible-sm-only">10px gutter</span>
 									<span class="visible-md-only">20px gutter</span>
 									<span class="visible-lg-only">30px gutter</span>
 								</div>
 								<div class="row gutter-0-sm">
-									<div class="col-2-sm">
+									<div class="col-6-sm">
 										<div class="demo-block text-center-sm">nested 0px gutter</div>
 									</div>
-									<div class="col-2-sm">
+									<div class="col-6-sm">
 										<div class="demo-block text-center-sm">nested 0px gutter</div>
 									</div>
 								</div>
 							</div>
-							<div class="col-2-sm">
+							<div class="col-6-sm">
 								<div class="demo-block">
 									<span class="visible-sm-only">10px gutter</span>
 									<span class="visible-md-only">20px gutter</span>
 									<span class="visible-lg-only">30px gutter</span>
 								</div>
 							</div>
-							<div class="col-1-sm">
+							<div class="col-full-sm">
 								<div class="demo-block">
 									<span class="visible-sm-only">10px gutter</span>
 									<span class="visible-md-only">20px gutter</span>
@@ -144,12 +185,12 @@
 			</div>
 
 			<div class="row">
-				<div class="col-1-sm">
+				<div class="col-full-sm">
 					<h2>Javascript via data attributes</h2>
 					<h5>a combination of data-show-href, data-hide-href, data-toggle-href, data-scroll-href, data-tab-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
 
 					<section class="row">
-						<div class="col-1-sm">
+						<div class="col-full-sm">
 							<h3>Dropdowns</h3>
 
 							<ul>
@@ -183,14 +224,14 @@
 					</section>
 
 					<section class="row">
-						<div class="col-1-sm">
+						<div class="col-full-sm">
 							<h3>Modals</h3>
 							<button data-show-href="#modal1">Modal 1 Show Button</button>
 						</div>
 					</section>
 
 					<section class="row">
-						<div class="col-1-sm">
+						<div class="col-full-sm">
 							<h3>Scroll to and scroll spy</h3>
 							<select class="marg-b-20-sm">
 								<option data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1" class="active">Scroll 1 Button</option>

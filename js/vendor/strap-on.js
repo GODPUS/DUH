@@ -1,6 +1,7 @@
 $(function(){
 
-	var strapOn = {
+	var StrapOn = {
+
 		breakpoint: {},
 
 		show: function($el, type) {
@@ -45,30 +46,30 @@ $(function(){
 	}
 
 	//show, hide, toggle, scroll
-	$('body').on('click', '[data-show-href]', function(){ strapOn.show($(this), 'show'); });
-	$('body').on('click', '[data-hide-href]', function(){ strapOn.hide($(this), 'hide'); });
-	$('body').on('click', '[data-toggle-href]', function(){ strapOn.toggle($(this), 'toggle'); });
+	$('body').on('click', '[data-show-href]', function(){ StrapOn.show($(this), 'show'); });
+	$('body').on('click', '[data-hide-href]', function(){ StrapOn.hide($(this), 'hide'); });
+	$('body').on('click', '[data-toggle-href]', function(){ StrapOn.toggle($(this), 'toggle'); });
 	$('body').on('change', 'select', function(){
 		var $selectedOption = $(this).find('option:selected');
-		if($selectedOption.attr('data-show-href')){ strapOn.show($selectedOption, 'show'); }
-		if($selectedOption.attr('data-hide-href')){ strapOn.hide($selectedOption, 'hide'); }
-		if($selectedOption.attr('data-toggle-href')){ strapOn.toggle($selectedOption, 'toggle'); }
+		if($selectedOption.attr('data-show-href')){ StrapOn.show($selectedOption, 'show'); }
+		if($selectedOption.attr('data-hide-href')){ StrapOn.hide($selectedOption, 'hide'); }
+		if($selectedOption.attr('data-toggle-href')){ StrapOn.toggle($selectedOption, 'toggle'); }
 		if($selectedOption.attr('data-scroll-href')){
-			strapOn.show($selectedOption, 'scroll'); 
-			strapOn.scrollTo($selectedOption);
+			StrapOn.show($selectedOption, 'scroll'); 
+			StrapOn.scrollTo($selectedOption);
 		}
 	});
 
 	$('body').on('click', '[data-scroll-href]', function(){ 
 		var $this = $(this);
-		strapOn.show($this, 'scroll'); 
-		strapOn.scrollTo($this);
+		StrapOn.show($this, 'scroll'); 
+		StrapOn.scrollTo($this);
 	});
 
 	//scrollspy
 	$('[data-scrollspy]').on('mousewheel', function(){
 		var $scrollable = $(this);
-		var closestNum = 100000000000000000000;
+		var closestNum = null;
 		var $closest = null;
 		var direction = $scrollable.data('scrollspy');
 
@@ -86,23 +87,23 @@ $(function(){
 				difference = Math.abs($scrollable.scrollLeft() - spyableleft);
 			}
 			
-			if(difference < closestNum){
+			if(closestNum == null || difference < closestNum){
 				closestNum = difference;
 				$closest = $button;
 			}
 		});
 
-		strapOn.show($closest, 'scroll');
+		StrapOn.show($closest, 'scroll');
 	});
 	
 
 	//breakpoints
 	$(window).on('load resize', function(){
 		var checkBreakpoint = getCurrentBreakpoint();
-		if(strapOn.breakpoint.name != checkBreakpoint.name){
-			strapOn.breakpoint = checkBreakpoint;
-			$(strapOn).trigger('breakpoint');
-			console.log('breakpoint', strapOn.breakpoint);
+		if(StrapOn.breakpoint.name != checkBreakpoint.name){
+			StrapOn.breakpoint = checkBreakpoint;
+			$(StrapOn).trigger('breakpoint');
+			console.log('breakpoint', StrapOn.breakpoint);
 		}
 	});
 

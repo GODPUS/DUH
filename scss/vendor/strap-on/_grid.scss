@@ -37,13 +37,27 @@ html {
 	padding-right: #{$defaultGutterSize}px;
 }
 
-/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! PERCENTAGE COLUMNS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! FRACTION COLUMNS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-@for $index from 1 through 100 {
-	$percentage: 100%/$index;
-
-	@include all-sizes-queue(col-#{$index}, (width: #{$percentage}));
+@for $index from 1 through $defaultColumnDenominator {
+	@if $index != $defaultColumnDenominator {
+		$percentage: (100%/($defaultColumnDenominator))*$index;
+		@include all-sizes-queue(col-#{$index}, (width: #{$percentage}));
+	}
 }
+
+@each $index1 in $columnDenominators {
+	$percentage1: 100%/($index1);
+
+	@for $index2 from 1 through $index1 {
+		@if $index1 != $index2 {
+			$percentage2: $percentage1 * $index2;
+			@include all-sizes-queue(col-#{$index2}-of-#{$index1}, (width: #{$percentage2}));
+		}
+	}
+}
+
+@include all-sizes-queue(col-full, (width: 100%));
 
 @include generate-all-sizes-queue();
 
