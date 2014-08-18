@@ -355,7 +355,8 @@ th {
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CONTAINER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 .container {
   padding-left: 10px;
-  padding-right: 10px; }
+  padding-right: 10px;
+  overflow: hidden; }
   @media only screen and (min-width: 0px) {
     .container {
       width: 100%; } }
