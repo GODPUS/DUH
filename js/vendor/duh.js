@@ -13,7 +13,7 @@ $(function(){
 				var $tabGroup = $('[data-tab-group="'+$tab.data('tab-group')+'"]').not($tab);
 				$tabGroup.removeClass('active').trigger('hide');
 				$tab.addClass('active').trigger('show');
-				if($tab.is('option')){ $tab.attr('selected', 'selected'); }
+				if($tab.is('option')){ $tab.prop('selected', 'selected'); }
 			});
 
 			var $tabPane = $(href);
@@ -52,10 +52,10 @@ $(function(){
 	$('body').on('click', '[data-toggle-href]', function(){ DUH.toggle($(this), 'toggle'); });
 	$('body').on('change', 'select', function(){
 		var $selectedOption = $(this).find('option:selected');
-		if($selectedOption.attr('data-show-href')){ DUH.show($selectedOption, 'show'); }
-		if($selectedOption.attr('data-hide-href')){ DUH.hide($selectedOption, 'hide'); }
-		if($selectedOption.attr('data-toggle-href')){ DUH.toggle($selectedOption, 'toggle'); }
-		if($selectedOption.attr('data-scroll-href')){
+		if($selectedOption.prop('data-show-href')){ DUH.show($selectedOption, 'show'); }
+		if($selectedOption.prop('data-hide-href')){ DUH.hide($selectedOption, 'hide'); }
+		if($selectedOption.prop('data-toggle-href')){ DUH.toggle($selectedOption, 'toggle'); }
+		if($selectedOption.prop('data-scroll-href')){
 			DUH.show($selectedOption, 'scroll'); 
 			DUH.scrollTo($selectedOption);
 		}

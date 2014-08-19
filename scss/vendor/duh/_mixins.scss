@@ -95,3 +95,41 @@ $allSizes: () !global;
 	-moz-#{$name}: $argument;
 	-o-#{$name}: $argument;
 }
+
+$fonts: () !global;
+
+@mixin font-import($name, $path, $family) {
+  @font-face {
+    font-family: $name;
+    src: url($path+".eot");
+    src: url($path+".eot?#iefix") format("embedded-opentype"),
+         url($path+".woff") format("woff"),
+         url($path+".ttf") format("truetype"),
+         url($path+".svg#"+$name) format("svg");
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  $fonts: map-merge($fonts, ($name: $family)) !global;
+}
+
+@mixin font($name) {
+   $family: map-get($fonts, $name);
+   @if length($family) > 0 {
+     font-family: "#{$name}", #{$family};
+   }@else{
+     font-family: "#{$name}";
+   }
+}
+
+@mixin rotate( $degrees ) {
+  -webkit-transform: rotate(#{$degrees}deg);
+  -moz-transform: rotate(#{$degrees}deg);
+  -ms-transform: rotate(#{$degrees}deg);
+  -o-transform: rotate(#{$degrees}deg);
+  transform: rotate(#{$degrees}deg);
+
+  filter:  progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=#{cos($degrees)}, M12=-#{sin($degrees)}, M21=#{sin($degrees)}, M22=#{cos($degrees)});
+  -ms-filter: "progid:DXImageTransform.Microsoft.Matrix(sizingMethod='auto expand', M11=#{cos($degrees)}, M12=-#{sin($degrees)}, M21=#{sin($degrees)}, M22=#{cos($degrees)})";
+  zoom: 1;
+ }
