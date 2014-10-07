@@ -5,42 +5,55 @@ $(function(){
 		breakpoint: {},
 
 		show: function($el, type) {
-			var href = $el.data(type+'-href');
-			var $sameHrefTabs = $('[data-'+type+'-href="'+href+'"]');
+			$el.addClass('active').triggerHandler('DUH.show');
+			if($el.is('option')){ $el.prop('selected', 'selected'); }
 
-			$sameHrefTabs.each(function(){
-				var $tab = $(this);
-				var $tabGroup = $('[data-tab-group="'+$tab.data('tab-group')+'"]').not($tab);
-				$tabGroup.removeClass('active').trigger('hide');
-				$tab.addClass('active').trigger('show');
-				if($tab.is('option')){ $tab.prop('selected', 'selected'); }
-			});
+			if(type){
+				var href = $el.data(type+'-href');
+				var $sameHrefElements = $('[data-'+type+'-href="'+href+'"]').not($el);
 
-			var $tabPane = $(href);
-			var $tabPaneGroup = $('[data-tab-group="'+$tabPane.data('tab-group')+'"]').not($tabPane);
-			$tabPaneGroup.removeClass('active').trigger('hide');
-			$tabPane.addClass('active').trigger('show');
+				$sameHrefElements.each(function(){
+					var $el = $(this);
+					$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').triggerHandler('hide');
+					$el.addClass('active').triggerHandler('show');
+					if($el.is('option')){ $el.prop('selected', 'selected'); }
+				});
+
+				var $target = $(href);
+				var $targetGroup = $('[data-group="'+$target.data('group')+'"]').not($target);
+				$targetGroup.removeClass('active').each(function(){ $(this).triggerHandler('hide'); });
+				$target.addClass('active').each(function(){ $(this).triggerHandler('show'); });
+			}
 		},
 
 		hide: function($el, type) {
-			var href = $el.data(type+'-href');
-			$el.removeClass('active').trigger('hide');
-			$(href).removeClass('active').trigger('hide');
-			if(type === 'hide'){ $('[data-show-href="'+href+'"]').removeClass('active').trigger('hide'); }
+			$el.removeClass('active').triggerHandler('hide');
+
+			if(type) {
+				var href = $el.data(type+'-href');
+				$(href).removeClass('active').each(function(){ $(this).triggerHandler('hide'); });
+				if(type === 'hide'){ $('[data-show-href="'+href+'"]').removeClass('active').each(function(){ $(this).triggerHandler('hide'); }); }
+			}
 		},
 
 		toggle: function($el, type){
+			if(!type){ var type = null; }
 			if($el.hasClass('active')){ this.hide($el, type); }else{ this.show($el, type); }
 		},
 
-		scrollTo: function($el){
+		scrollTo: function($el, offsetX, offsetY){
 			var $scrollTo = $($el.data('scroll-href'));
 			var $scrollable = $($el.data('scrollable'));
-			if($scrollable.data('scrollspy') === 'vertical'){
-				$scrollable.stop().animate({ scrollTop: $scrollTo.offset().top - $scrollable.offset().top + $scrollable.scrollTop() }, 200);
+			var _offsetX = offsetX || $el.data('offset-x') || 0;
+			var _offsetY = offsetY || $el.data('offset-y') || 0;
+			var direction = $scrollable.data('scrollspy');
+			if($scrollable.is('body')){ $scrollable = $("html, body"); }
+
+			if(direction === 'vertical'){
+				$scrollable.stop(true, true).animate({ scrollTop: $scrollTo.offset().top - _offsetY }, 200);
 			}
-			if($scrollable.data('scrollspy') === 'horizontal'){
-				$scrollable.stop().animate({ scrollLeft: $scrollTo.offset().left - $scrollable.offset().left + $scrollable.scrollLeft() }, 200);
+			if(direction === 'horizontal'){
+				$scrollable.stop(true, true).animate({ scrollLeft: $scrollTo.offset().left - _offsetX }, 200);
 			}
 		}
 	}
@@ -63,38 +76,56 @@ $(function(){
 
 	$('body').on('click', '[data-scroll-href]', function(){ 
 		var $this = $(this);
-		DUH.show($this, 'scroll'); 
+		DUH.show($this, 'scroll');
 		DUH.scrollTo($this);
 	});
 
+	var isFireFox = (/Firefox/i.test(navigator.userAgent));
+	var mousewheelevt = isFireFox ? "DOMMouseScroll" : "mousewheel";
+
 	//scrollspy
-	$('[data-scrollspy]').on('mousewheel', function(){
+	$('[data-scrollspy]').on(mousewheelevt, function(){
 		var $scrollable = $(this);
 		var closestNum = null;
 		var $closest = null;
+		var mostBottomNum = 0;
+		var $mostBottom = null;
 		var direction = $scrollable.data('scrollspy');
+		var scrollTop = $scrollable.scrollTop();
+		if($scrollable.is('body')){ scrollTop = $('body').scrollTop() || $('html').scrollTop(); }
 
-		$('[data-scrollable="#'+$scrollable.attr('id')+'"]').each(function(){
+		$('[data-scrollable="#'+$scrollable.prop('id')+'"]').each(function(){
 			var $button = $(this);
 			var $spyable = $($button.data('scroll-href'));
 			var difference;
 
 			if(direction === 'vertical'){
-				var spyabletop = $spyable.offset().top - $scrollable.offset().top + $scrollable.scrollTop();
-				difference = Math.abs($scrollable.scrollTop() - spyabletop);
+				difference = Math.abs(scrollTop - $spyable.offset().top);
 			}
 			if(direction === 'horizontal'){
-				var spyableleft = $spyable.offset().left - $scrollable.offset().left + $scrollable.scrollLeft();
-				difference = Math.abs($scrollable.scrollLeft() - spyableleft);
+				difference = Math.abs(scrollTop - $spyable.offset().left);
 			}
-			
+
 			if(closestNum == null || difference < closestNum){
 				closestNum = difference;
 				$closest = $button;
 			}
+
+			if($spyable.offset().top > mostBottomNum){
+				mostBottomNum = $spyable.offset().top;
+				$mostBottom = $button;
+			}
 		});
 
-		DUH.show($closest, 'scroll');
+		var scrollableHeight = $scrollable[0].scrollHeight === $scrollable.height() ? $(window).height() : $scrollable.height();
+
+		if(scrollTop >= $scrollable[0].scrollHeight - scrollableHeight)
+		{
+			DUH.show($mostBottom, 'scroll');
+		}else{
+			DUH.show($closest, 'scroll');
+		}
+		
 	});
 
 
