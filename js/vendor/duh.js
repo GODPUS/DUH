@@ -46,7 +46,7 @@ $(function(){
 			if(options.$scrollable.is('body')){ options.$scrollable = $("html, body"); }
 
 			if(options.direction === 'horizontal'){
-				options.$scrollable.stop(true, true).animate({ scrollLeft: options.$el.offset().left - options.offsetX }, options.speed);
+				options.$scrollable.stop(true, true).animate({ scrollLeft: $el.offset().left - options.offsetX }, options.speed);
 			}else{
 				options.$scrollable.stop(true, true).animate({ scrollTop: $el.offset().top - options.offsetY }, options.speed);
 			}
