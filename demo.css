@@ -3727,6 +3727,7 @@ th {
 @include font-import('LobsterBoldItalic', './fonts/LobsterBoldItalic/LobsterTwo-BoldItalic', (weight: bold, style: italic, family: 'Helvetica, sans-serif'));
 */
 body {
+  position: relative;
   font-family: monospace;
   background-color: #fbfbfb;
   font-size: 14px;

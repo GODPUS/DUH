@@ -5,26 +5,26 @@ $(function(){
 		breakpoint: {},
 
 		show: function($el){
-			$el.addClass('active').triggerHandler('DUH.show');
-			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).triggerHandler('DUH.hide'); });
+			$el.addClass('active').triggerHandler('DUH:show');
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).triggerHandler('DUH:hide'); });
 
 			var id = $el.prop('id');
 			var $links = $('[data-show-href="#'+id+'"], [data-toggle-href="#'+id+'"], [data-scroll-href="#'+id+'"]');
 			$links.each(function(){
 				var $link = $(this);
-				$link.addClass('active').triggerHandler('DUH.show');
+				$link.addClass('active').triggerHandler('DUH:show');
 				if($link.is('option')){ $link.prop('selected', 'selected'); }
-				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).triggerHandler('DUH.hide'); });
+				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).triggerHandler('DUH:hide'); });
 			});
 		},
 
 		hide: function($el){
-			$el.removeClass('active').triggerHandler('DUH.hide');
+			$el.removeClass('active').triggerHandler('DUH:hide');
 
 			var id = $el.prop('id');
 			var $links = $('[data-show-href="#'+id+'"], [data-toggle-href="#'+id+'"], [data-scroll-href="#'+id+'"], [data-hide-href="#'+id+'"]');
 			$links.each(function(){
-				$(this).removeClass('active').triggerHandler('DUH.hide');
+				$(this).removeClass('active').triggerHandler('DUH:hide');
 			});
 		},
 
@@ -46,14 +46,18 @@ $(function(){
 			if(options.$scrollable.is('body')){ options.$scrollable = $("html, body"); }
 
 			if(options.direction === 'horizontal'){
-				options.$scrollable.stop(true, true).animate({ scrollLeft: $el.offset().left - options.offsetX }, options.speed);
+				options.$scrollable.stop(true, true).animate({
+			        scrollLeft:  options.$scrollable.scrollLeft() - options.$scrollable.offset().left + $el.offset().left - options.offsetX
+			    }, options.speed); 
 			}else{
-				options.$scrollable.stop(true, true).animate({ scrollTop: $el.offset().top - options.offsetY }, options.speed);
+				options.$scrollable.stop(true, true).animate({
+			        scrollTop:  options.$scrollable.scrollTop() - options.$scrollable.offset().top + $el.offset().top - options.offsetY
+			    }, options.speed); 
 			}
 		}
 	}
 
-	function scrollToFromLink($this){
+	function _scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
 		DUH.scrollTo($($this.data('scroll-href')),{
 			$scrollable: $($this.data('scrollable')), 
@@ -73,12 +77,12 @@ $(function(){
 		if($selectedOption.data('hide-href')){ DUH.hide($($selectedOption.data('hide-href'))); }
 		if($selectedOption.data('toggle-href')){ DUH.toggle($($selectedOption.data('toggle-href'))); }
 		if($selectedOption.data('scroll-href')){
-			scrollToFromLink($selectedOption);
+			_scrollToFromLink($selectedOption);
 		}
 	});
 
 	$('body').on('click', '[data-scroll-href]', function(){ 
-		scrollToFromLink($(this));
+		_scrollToFromLink($(this));
 	});
 
 	var isFireFox = (/Firefox/i.test(navigator.userAgent));
@@ -87,45 +91,34 @@ $(function(){
 	//scrollspy
 	$('[data-scrollspy]').on(mousewheelevt, function(){
 		var $scrollable = $(this);
-		var closestNum = null;
-		var $closest = null;
-		var mostBottomNum = 0;
-		var $mostBottom = null;
 		var direction = $scrollable.data('scrollspy');
 		var scrollTop = $scrollable.scrollTop();
+		var scrollLeft = $scrollable.scrollLeft();
+		var closestNum = Infinity;
+		var $closest = null;
 		if($scrollable.is('body')){ scrollTop = $('body').scrollTop() || $('html').scrollTop(); }
 
 		$('[data-scrollable="#'+$scrollable.prop('id')+'"]').each(function(){
 			var $button = $(this);
 			var $spyable = $($button.data('scroll-href'));
+			var spyableScrollTop = $scrollable.scrollTop() - $scrollable.offset().top + $spyable.offset().top;
+			var spyableScrollLeft = $scrollable.scrollLeft() - $scrollable.offset().left + $spyable.offset().left;
 			var difference;
 
-			if(direction === 'vertical'){
-				difference = Math.abs(scrollTop - $spyable.offset().top);
-			}
 			if(direction === 'horizontal'){
-				difference = Math.abs(scrollTop - $spyable.offset().left);
+				difference = Math.abs(scrollLeft - spyableScrollLeft);
+			}else{
+				difference = Math.abs(scrollTop - spyableScrollTop);
 			}
 
-			if(closestNum == null || difference < closestNum){
+			if(difference < closestNum){
 				closestNum = difference;
 				$closest = $spyable;
 			}
-
-			if($spyable.offset().top > mostBottomNum){
-				mostBottomNum = $spyable.offset().top;
-				$mostBottom = $spyable;
-			}
+			
 		});
 
-		var scrollableHeight = $scrollable[0].scrollHeight === $scrollable.height() ? $(window).height() : $scrollable.height();
-
-		if(scrollTop >= $scrollable[0].scrollHeight - scrollableHeight)
-		{
-			DUH.show($mostBottom);
-		}else{
-			DUH.show($closest);
-		}
+		DUH.show($closest);
 		
 	});
 
