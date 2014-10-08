@@ -1,18 +1,31 @@
-@mixin between($sizeSmaller, $sizeBigger) {
+@mixin between-num($sizeSmaller, $sizeBigger) {
 	@media only screen and (min-width: #{$sizeSmaller}px) and (max-width: #{$sizeBigger}px) { @content; }
 }
 
-@mixin at-least($size) {
+@mixin above-num($size) {
 	@media only screen and (min-width: #{$size}px) { @content; }
 }
 
-@mixin at-most($size) {
+@mixin below-num($size) {
 	@media only screen and (max-width: #{$size}px) { @content; }
 }
 
-@mixin and-up($breakpoint) {
+@mixin and-above($breakpoint) {
 	$size: nth(map-get($breakpoints, $breakpoint), 1);
 	@media only screen and (min-width: #{$size}px) { @content; }
+}
+
+@mixin and-below($breakpoint) {
+	$size: nth(map-get($breakpoints, $breakpoint), 1);
+	$keys: map-keys($breakpoints);
+	$index: index($keys, $breakpoint);
+
+	@if $index < length($breakpoints) {
+		$nextSizeUp: nth(map-get($breakpoints, nth($keys, $index+1)), 1);
+		@media only screen and (max-width: #{$nextSizeUp}px) { @content; }
+	} @else {
+		@media only screen and (min-width: 0px) { @content; }
+	}
 }
 
 @mixin only($breakpoint) {
@@ -36,7 +49,7 @@ $allSizes: () !global;
 
 @mixin generate-all-sizes-queue() {
 	@each $breakpoint, $size in $breakpoints {
-		@include and-up($breakpoint) {
+		@include and-above($breakpoint) {
 			@for $i from 1 through length($allSizes) {
 				$name: nth(nth($allSizes, $i), 1);
 				$ruleValueMap: nth(nth($allSizes, $i), 2);
@@ -68,7 +81,7 @@ $allSizes: () !global;
 
 @mixin all-sizes($name) {
 	@each $breakpoint, $size in $breakpoints {
-		@include and-up($breakpoint) {
+		@include and-above($breakpoint) {
 			.#{$name}-#{$breakpoint} { @content }
 		}
 		@include only($breakpoint) {

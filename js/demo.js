@@ -8,4 +8,8 @@ $(function(){
 	}).on('DUH:hide', function(){
 		$(this).stop().animate({ height: 0 }, 150);
 	});
+
+	$(DUH).on('DUH:breakpoint', function(){
+		console.log(DUH.breakpoint);
+	});
 });

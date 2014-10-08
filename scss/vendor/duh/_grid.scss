@@ -3,7 +3,7 @@
 
 html {
 	@each $breakpoint, $size in $breakpoints {
-		@include and-up($breakpoint) {
+		@include and-above($breakpoint) {
 			font-family: $breakpoint+':'+(nth($size, 1));
 		}
 	}
@@ -13,7 +13,7 @@ html {
 
 .container {
 	@each $breakpoint, $size in $breakpoints {
-		@include and-up($breakpoint) {
+		@include and-above($breakpoint) {
 			width: nth($size, 2);
 		}
 	}
@@ -68,9 +68,9 @@ html {
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! GUTTERS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 @each $breakpoint, $size in $breakpoints {
-	@include and-up($breakpoint){
+	@include and-above($breakpoint){
 		@each $size in $gutterSizes {
-			.gutter-#{$size}-#{$breakpoint} {
+			.row.gutter-#{$size}-#{$breakpoint} {
 				margin-left: -#{$size}px; 
 				margin-right: -#{$size}px;
 
@@ -80,7 +80,7 @@ html {
 	}
 	@include only($breakpoint){
 		@each $size in $gutterSizes {
-			.gutter-#{$size}-#{$breakpoint}-only {
+			.row.gutter-#{$size}-#{$breakpoint}-only {
 				margin-left: -#{$size}px; 
 				margin-right: -#{$size}px;
 

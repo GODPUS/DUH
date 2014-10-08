@@ -48,13 +48,18 @@
 						<h4>Respond to breakpoints with sass using either:</h4>
 
 						<div class="demo-comment">
-							in this example the and-up mixin will apply rules to size md and up (applying only to md and lg. ignorning sm)
+							in this example the and-above mixin will apply rules to size md and up (applying only to md and lg. ignorning sm)
 						</div>
 						<div class="demo-code">
-							@include and-up(md){ border: none; }
+							@include and-above(md){ border: none; }
 						</div>
-	
-						or
+
+						<div class="demo-comment">
+							in this example the and-below mixin will apply rules to size md and below (applying only to md and sm. ignorning lg)
+						</div>
+						<div class="demo-code">
+							@include and-below(md){ border: none; }
+						</div>
 
 						<div class="demo-comment">
 							in this example the only mixin will only apply rules to the specified size (applying only to md. ignorning sm and lg.)
@@ -62,11 +67,23 @@
 						<div class="demo-code">
 							@include only(md){ border: none; }
 						</div>
+
+						<h4>Respond to arbitrary pixel sizes</h3>
+
+						<div class="demo-comment">
+							use the between-num, above-num, and below-num mixins
+						</div>
+						<div class="demo-code">
+							<p>@include between-num(400, 800){ background-color: red; }</p>
+							<p>@include above-num(800){ background-color: red; }</p>
+							<p>@include below-num(400){ background-color: red; }</p>
+						</div>
+
 						
 						<h4>Respond to breakpoints with jquery using:</h4>
 						
 						<div class="demo-code">
-							$(DUH).on('breakpoint', function(){ console.log(DUH.breakpoint); });
+							$(DUH).on('DUH:breakpoint', function(){ console.log(DUH.breakpoint); });
 						</div>
 					</section>
 
@@ -164,7 +181,7 @@
 					<section>
 						<h3>Gutters</h3>
 						<div class="demo-comment">
-							use gutter classes in conjunction with row classes to specify the gutter space for direct column children
+							only use gutter classes in conjunction with row classes to specify the gutter space for direct column children
 						</div>
 						<div class="demo-code">
 							$gutterSizes: (0, 5, 10, 15, 20, 25, 30);
@@ -208,29 +225,54 @@
 							</div>
 						</div>
 					</section>
+
+					<section>
+						<h3>Margins, Padding, and Visibility</h3>
+						<div class="demo-comment">
+							inside of _allsizes.scss is the code that creates the margin, padding, and visibility classes. The $spacingMax variable is the maximum number for margin and padding classes. The $spacingMultiplier variable is the number that will be multipled on each iteration. For instance if $spacingMax is set to 50 and $spacingMultiplier is set to 5 we will get margin and padding classes that have values 0,5,10,15,20,25,30,35,40,45,50. Assuming these values we will generate classes for example, where 5 is a representation of any of those values, and sm is a representation of the breakpoint suffix.
+						</div>
+						<div class="demo-code">
+							<p>.marg-5-sm { margin: 5px; }</p>
+                            <p>.marg-t-5-sm { margin-top: 5px; }</p>
+                            <p>.marg-l-5-sm { margin-top: 5px; }</p>
+                            <p>.marg-r-5-sm { margin-top: 5px; }</p>
+                            <p>.pad-5-sm { margin: 5px; }</p>
+                            <p>.pad-t-5-sm { margin-top: 5px; }</p>
+                            <p>.pad-l-5-sm { margin-top: 5px; }</p>
+                            <p>.pad-r-5-sm { margin-top: 5px; }</p>
+						</div>
+						<div class="demo-comment">
+							visibility classes are also available that allow you to hide elements without having to worry about which display property they had when wanting to turn them back on. basically it adds display: none to any breakpoint that is not the breakpoint suffix of the class. use like this on your elements: 
+						</div>		
+						<div class="demo-code">			
+							<p>class="visible-sm-only"</p>
+							<p>class="visible-md-only"</p>
+							<p>class="visible-lg-only"</p>
+						</div>
+					</section>
 				</div>
 			</div>
 
 			<div class="row">
 				<div class="col-full-sm">
 					<h2>Javascript via data attributes</h2>
-					<h5>a combination of data-show-href, data-hide-href, data-toggle-href, data-scroll-href, data-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
+					<h5>a combination of data-show-target, data-hide-target, data-toggle-target, data-scroll-target, data-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
 
 					<section class="row">
 						<div class="col-full-sm">
 							<h3>Dropdowns</h3>
 
 							<ul>
-								<li>if two elements have the same href they will update the other when one changes like with this select group and button group</li>
-								<li>a 'show' and a 'hide' event are triggered for both the button and the href, which you can listen and respond to via js like in demo.js</li>
-								<li>an .active class is also added to both the button and the href which you can use via css for styling and cssanimations</li>
-								<li>add a data-group to all grouped buttons so that they are unselected when another is selected</li>
+								<li>if two elements have the same target element id they will update the other when one changes like with this select group and button group</li>
+								<li>a 'DUH:show' and a 'DUH:hide' event are triggered for both the button and the target element, which you can listen and respond to via js like in demo.js</li>
+								<li>an .active class is also added to both the button and the target element which you can use via css for styling and cssanimations</li>
+								<li>add a data-group value with the same name to all grouped buttons and/or target elements so that they are deactivated when another is selected (like tabs)</li>
 							</ul>
 
 							<select class="marg-b-20-sm">
-								<option data-toggle-href="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
-								<option data-toggle-href="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
-								<option data-toggle-href="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
+								<option data-toggle-target="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
+								<option data-toggle-target="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
+								<option data-toggle-target="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
 							</select>
 
 							<div>
@@ -240,12 +282,17 @@
 							</div>
 
 							<div>
-								<button data-toggle-href="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
-								<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active">TAB PANE 1 !</div>
-								<button data-toggle-href="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
+								<button data-toggle-target="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
+								<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active active">TAB PANE 1 !
+
+								</div>
+
+								<button data-toggle-target="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
 								<div id="tab-pane-2" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
-								<button data-toggle-href="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
+
+								<button data-toggle-target="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
 								<div id="tab-pane-3" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !</div>
+
 							</div>
 						</div>
 					</section>
@@ -253,7 +300,7 @@
 					<section class="row">
 						<div class="col-full-sm">
 							<h3>Modals</h3>
-							<button data-show-href="#modal1">Modal 1 Show Button</button>
+							<button data-show-target="#modal1">Modal 1 Show Button</button>
 						</div>
 					</section>
 
@@ -261,15 +308,15 @@
 						<div class="col-full-sm">
 							<h3>Scroll to and scroll spy</h3>
 							<select class="marg-b-20-sm">
-								<option data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
-								<option data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 2 Button</option>
-								<option data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 3 Button</option>
+								<option data-scroll-target="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
+								<option data-scroll-target="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 2 Button</option>
+								<option data-scroll-target="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 3 Button</option>
 							</select>
 
 							<div>
-								<button data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
-								<button data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 2 Button</button>
-								<button data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 3 Button</button>
+								<button data-scroll-target="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
+								<button data-scroll-target="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 2 Button</button>
+								<button data-scroll-target="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 3 Button</button>
 							</div>
 
 							<div id="scrollable-1" data-scrollspy="vertical" class="demo-scroll-container">
@@ -312,9 +359,9 @@
 
 		</div>
 
-		<div id="modal1" class="demo-modal" data-hide-href="#modal1">
+		<div id="modal1" class="demo-modal" data-hide-target="#modal1">
 			<div class="demo-modal-inner">
-				<button data-hide-href="#modal1">Modal 1 Hide Button</button>
+				<button data-hide-target="#modal1">Modal 1 Hide Button</button>
 				<h2>MODAL 1</h2>
 			</div>
 		</div>

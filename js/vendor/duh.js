@@ -9,7 +9,7 @@ $(function(){
 			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).triggerHandler('DUH:hide'); });
 
 			var id = $el.prop('id');
-			var $links = $('[data-show-href="#'+id+'"], [data-toggle-href="#'+id+'"], [data-scroll-href="#'+id+'"]');
+			var $links = $('[data-show-target="#'+id+'"], [data-toggle-target="#'+id+'"], [data-scroll-target="#'+id+'"]');
 			$links.each(function(){
 				var $link = $(this);
 				$link.addClass('active').triggerHandler('DUH:show');
@@ -22,7 +22,7 @@ $(function(){
 			$el.removeClass('active').triggerHandler('DUH:hide');
 
 			var id = $el.prop('id');
-			var $links = $('[data-show-href="#'+id+'"], [data-toggle-href="#'+id+'"], [data-scroll-href="#'+id+'"], [data-hide-href="#'+id+'"]');
+			var $links = $('[data-show-target="#'+id+'"], [data-toggle-target="#'+id+'"], [data-scroll-target="#'+id+'"], [data-hide-target="#'+id+'"]');
 			$links.each(function(){
 				$(this).removeClass('active').triggerHandler('DUH:hide');
 			});
@@ -59,7 +59,7 @@ $(function(){
 
 	function _scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
-		DUH.scrollTo($($this.data('scroll-href')),{
+		DUH.scrollTo($($this.data('scroll-target')),{
 			$scrollable: $($this.data('scrollable')), 
 			direction: direction,
 			offsetX: $this.data('scroll-offset-x'),
@@ -68,20 +68,20 @@ $(function(){
 		});
 	}
 
-	$('body').on('click', '[data-show-href]',   function(){ DUH.show($($(this).data('show-href'))); });
-	$('body').on('click', '[data-hide-href]',   function(){ DUH.hide($($(this).data('hide-href'))); });
-	$('body').on('click', '[data-toggle-href]', function(){ DUH.toggle($($(this).data('toggle-href'))); });
+	$('body').on('click', '[data-show-target]',   function(){ DUH.show($($(this).data('show-target'))); });
+	$('body').on('click', '[data-hide-target]',   function(){ DUH.hide($($(this).data('hide-target'))); });
+	$('body').on('click', '[data-toggle-target]', function(){ DUH.toggle($($(this).data('toggle-target'))); });
 	$('body').on('change', 'select', function(){
 		var $selectedOption = $(this).find('option:selected');
-		if($selectedOption.data('show-href')){ DUH.show($($selectedOption.data('show-href'))); }
-		if($selectedOption.data('hide-href')){ DUH.hide($($selectedOption.data('hide-href'))); }
-		if($selectedOption.data('toggle-href')){ DUH.toggle($($selectedOption.data('toggle-href'))); }
-		if($selectedOption.data('scroll-href')){
+		if($selectedOption.data('show-target')){ DUH.show($($selectedOption.data('show-target'))); }
+		if($selectedOption.data('hide-target')){ DUH.hide($($selectedOption.data('hide-target'))); }
+		if($selectedOption.data('toggle-target')){ DUH.toggle($($selectedOption.data('toggle-target'))); }
+		if($selectedOption.data('scroll-target')){
 			_scrollToFromLink($selectedOption);
 		}
 	});
 
-	$('body').on('click', '[data-scroll-href]', function(){ 
+	$('body').on('click', '[data-scroll-target]', function(){ 
 		_scrollToFromLink($(this));
 	});
 
@@ -100,7 +100,7 @@ $(function(){
 
 		$('[data-scrollable="#'+$scrollable.prop('id')+'"]').each(function(){
 			var $button = $(this);
-			var $spyable = $($button.data('scroll-href'));
+			var $spyable = $($button.data('scroll-target'));
 			var spyableScrollTop = $scrollable.scrollTop() - $scrollable.offset().top + $spyable.offset().top;
 			var spyableScrollLeft = $scrollable.scrollLeft() - $scrollable.offset().left + $spyable.offset().left;
 			var difference;
@@ -128,8 +128,7 @@ $(function(){
 		var checkBreakpoint = getCurrentBreakpoint();
 		if(DUH.breakpoint.name != checkBreakpoint.name){
 			DUH.breakpoint = checkBreakpoint;
-			$(DUH).trigger('breakpoint');
-			console.log('breakpoint', DUH.breakpoint);
+			$(DUH).trigger('DUH:breakpoint');
 		}
 	});
 
