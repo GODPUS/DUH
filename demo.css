@@ -1820,8 +1820,10 @@ th {
     display: none; }
 
   .center-horiz-sm {
-    margin: 0 auto;
-    float: none; }
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block; }
 
   .text-left-sm {
     text-align: left; }
@@ -2184,8 +2186,10 @@ th {
     display: none; }
 
   .center-horiz-sm-only {
-    margin: 0 auto;
-    float: none; }
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block; }
 
   .text-left-sm-only {
     text-align: left; }
@@ -2548,8 +2552,10 @@ th {
     display: none; }
 
   .center-horiz-md {
-    margin: 0 auto;
-    float: none; }
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block; }
 
   .text-left-md {
     text-align: left; }
@@ -2912,8 +2918,10 @@ th {
     display: none; }
 
   .center-horiz-md-only {
-    margin: 0 auto;
-    float: none; }
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block; }
 
   .text-left-md-only {
     text-align: left; }
@@ -3276,8 +3284,10 @@ th {
     display: none; }
 
   .center-horiz-lg {
-    margin: 0 auto;
-    float: none; }
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block; }
 
   .text-left-lg {
     text-align: left; }
@@ -3640,8 +3650,10 @@ th {
     display: none; }
 
   .center-horiz-lg-only {
-    margin: 0 auto;
-    float: none; }
+    margin-left: auto;
+    margin-right: auto;
+    float: none;
+    display: block; }
 
   .text-left-lg-only {
     text-align: left; }
@@ -3687,6 +3699,33 @@ th {
   -moz-box-sizing: border-box;
   -o-box-sizing: border-box; }
 
+/* include fonts */
+/* order must go from font-weights to font-weights AND font-styles */
+/* we are using the mixed method that works with the most browsers as described here: 
+   http://www.smashingmagazine.com/2013/02/14/setting-weights-and-styles-at-font-face-declaration/ */
+ /*
+100    Extra Light or Ultra Light
+200    Light or Thin
+300    Book or Demi
+400    Normal or Regular
+500    Medium
+600    Semibold, Demibold
+700    Bold
+800    Black, Extra Bold or Heavy
+900    Extra Black, Fat, Poster or Ultra Black
+ */
+/* weight and style default to normal if not specified */
+/*
+@include font-import('AvenirRegular', './fonts/AvenirRegular/AvenirNextRegular', (family: 'Arial, sans-serif'));
+@include font-import('AvenirLight',   './fonts/AvenirLight/AvenirNextLight',     (weight: 100, family: 'Arial, sans-serif'));
+@include font-import('AvenirDemi',    './fonts/AvenirDemi/AvenirNextDemi',       (weight: 600, family: 'Arial, sans-serif'));
+@include font-import('AvenirBold',    './fonts/AvenirBold/AvenirNextBold',       (weight: bold, family: 'Arial, sans-serif'));
+
+@include font-import('LobsterRegular',    './fonts/LobsterRegular/LobsterTwo-Regular',       (family: 'Helvetica, sans-serif'));
+@include font-import('LobsterBold',       './fonts/LobsterBold/LobsterTwo-Bold',             (weight: bold, family: 'Helvetica, sans-serif'));
+@include font-import('LobsterItalic',     './fonts/LobsterItalic/LobsterTwo-Italic',         (style: italic, family: 'Helvetica, sans-serif'));
+@include font-import('LobsterBoldItalic', './fonts/LobsterBoldItalic/LobsterTwo-BoldItalic', (weight: bold, style: italic, family: 'Helvetica, sans-serif'));
+*/
 body {
   font-family: monospace;
   background-color: #fbfbfb;

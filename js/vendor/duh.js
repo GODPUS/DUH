@@ -14,7 +14,7 @@ $(function(){
 				var $link = $(this);
 				$link.addClass('active').triggerHandler('DUH.show');
 				if($link.is('option')){ $link.prop('selected', 'selected'); }
-				$('[data-group="'+$link.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).triggerHandler('DUH.hide'); });
+				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).triggerHandler('DUH.hide'); });
 			});
 		},
 
@@ -55,7 +55,6 @@ $(function(){
 
 	function scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
-		console.log(direction);
 		DUH.scrollTo($($this.data('scroll-href')),{
 			$scrollable: $($this.data('scrollable')), 
 			direction: direction,
@@ -70,7 +69,6 @@ $(function(){
 	$('body').on('click', '[data-toggle-href]', function(){ DUH.toggle($($(this).data('toggle-href'))); });
 	$('body').on('change', 'select', function(){
 		var $selectedOption = $(this).find('option:selected');
-		console.log($selectedOption);
 		if($selectedOption.data('show-href')){ DUH.show($($selectedOption.data('show-href'))); }
 		if($selectedOption.data('hide-href')){ DUH.hide($($selectedOption.data('hide-href'))); }
 		if($selectedOption.data('toggle-href')){ DUH.toggle($($selectedOption.data('toggle-href'))); }
