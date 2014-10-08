@@ -96,7 +96,7 @@ $(function(){
 		var scrollLeft = $scrollable.scrollLeft();
 		var closestNum = Infinity;
 		var $closest = null;
-		if($scrollable.is('body')){ scrollTop = $('body').scrollTop() || $('html').scrollTop(); }
+		if($scrollable.is('body') || $scrollable.is('html')){ scrollTop = $('body').scrollTop() || $('html').scrollTop(); }
 
 		$('[data-scrollable="#'+$scrollable.prop('id')+'"]').each(function(){
 			var $button = $(this);
