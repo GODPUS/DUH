@@ -214,7 +214,7 @@
 			<div class="row">
 				<div class="col-full-sm">
 					<h2>Javascript via data attributes</h2>
-					<h5>a combination of data-show-href, data-hide-href, data-toggle-href, data-scroll-href, data-tab-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
+					<h5>a combination of data-show-href, data-hide-href, data-toggle-href, data-scroll-href, data-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
 
 					<section class="row">
 						<div class="col-full-sm">
@@ -224,13 +224,13 @@
 								<li>if two elements have the same href they will update the other when one changes like with this select group and button group</li>
 								<li>a 'show' and a 'hide' event are triggered for both the button and the href, which you can listen and respond to via js like in demo.js</li>
 								<li>an .active class is also added to both the button and the href which you can use via css for styling and cssanimations</li>
-								<li>add a data-tab-group to all grouped buttons so that they are unselected when another is selected</li>
+								<li>add a data-group to all grouped buttons so that they are unselected when another is selected</li>
 							</ul>
 
 							<select class="marg-b-20-sm">
-								<option data-toggle-href="#tab-pane-1" data-tab-group="tab-select-group-1" class="active">Tab 1 Button</option>
-								<option data-toggle-href="#tab-pane-2" data-tab-group="tab-select-group-1">Tab 2 Button</option>
-								<option data-toggle-href="#tab-pane-3" data-tab-group="tab-select-group-1">Tab 3 Button</option>
+								<option data-toggle-href="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
+								<option data-toggle-href="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
+								<option data-toggle-href="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
 							</select>
 
 							<div>
@@ -240,12 +240,12 @@
 							</div>
 
 							<div>
-								<button data-toggle-href="#tab-pane-1" data-tab-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
-								<div id="tab-pane-1" data-tab-group="tab-panes-group-1" class="demo-tab-pane initial-active">TAB PANE 1 !</div>
-								<button data-toggle-href="#tab-pane-2" data-tab-group="tab-buttons-group-1">Tab 2 Button</button>
-								<div id="tab-pane-2" data-tab-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
-								<button data-toggle-href="#tab-pane-3" data-tab-group="tab-buttons-group-1">Tab 3 Button</button>
-								<div id="tab-pane-3" data-tab-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !</div>
+								<button data-toggle-href="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
+								<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active">TAB PANE 1 !</div>
+								<button data-toggle-href="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
+								<div id="tab-pane-2" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
+								<button data-toggle-href="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
+								<div id="tab-pane-3" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !</div>
 							</div>
 						</div>
 					</section>
@@ -261,15 +261,15 @@
 						<div class="col-full-sm">
 							<h3>Scroll to and scroll spy</h3>
 							<select class="marg-b-20-sm">
-								<option data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
-								<option data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1">Scroll 2 Button</option>
-								<option data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-tab-group="scroll-select-group-1">Scroll 3 Button</option>
+								<option data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
+								<option data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 2 Button</option>
+								<option data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 3 Button</option>
 							</select>
 
 							<div>
-								<button data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-tab-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
-								<button data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-tab-group="scroll-buttons-group-1">Scroll 2 Button</button>
-								<button data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-tab-group="scroll-buttons-group-1">Scroll 3 Button</button>
+								<button data-scroll-href="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
+								<button data-scroll-href="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 2 Button</button>
+								<button data-scroll-href="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 3 Button</button>
 							</div>
 
 							<div id="scrollable-1" data-scrollspy="vertical" class="demo-scroll-container">

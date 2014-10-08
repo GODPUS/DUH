@@ -4,80 +4,83 @@ $(function(){
 
 		breakpoint: {},
 
-		show: function($el, type) {
+		show: function($el){
 			$el.addClass('active').triggerHandler('DUH.show');
-			if($el.is('option')){ $el.prop('selected', 'selected'); }
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).triggerHandler('DUH.hide'); });
 
-			if(type){
-				var href = $el.data(type+'-href');
-				var $sameHrefElements = $('[data-'+type+'-href="'+href+'"]').not($el);
-
-				$sameHrefElements.each(function(){
-					var $el = $(this);
-					$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').triggerHandler('hide');
-					$el.addClass('active').triggerHandler('show');
-					if($el.is('option')){ $el.prop('selected', 'selected'); }
-				});
-
-				var $target = $(href);
-				var $targetGroup = $('[data-group="'+$target.data('group')+'"]').not($target);
-				$targetGroup.removeClass('active').each(function(){ $(this).triggerHandler('hide'); });
-				$target.addClass('active').each(function(){ $(this).triggerHandler('show'); });
-			}
+			var id = $el.prop('id');
+			var $links = $('[data-show-href="#'+id+'"], [data-toggle-href="#'+id+'"], [data-scroll-href="#'+id+'"]');
+			$links.each(function(){
+				var $link = $(this);
+				$link.addClass('active').triggerHandler('DUH.show');
+				if($link.is('option')){ $link.prop('selected', 'selected'); }
+				$('[data-group="'+$link.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).triggerHandler('DUH.hide'); });
+			});
 		},
 
-		hide: function($el, type) {
-			$el.removeClass('active').triggerHandler('hide');
+		hide: function($el){
+			$el.removeClass('active').triggerHandler('DUH.hide');
 
-			if(type) {
-				var href = $el.data(type+'-href');
-				$(href).removeClass('active').each(function(){ $(this).triggerHandler('hide'); });
-				if(type === 'hide'){ $('[data-show-href="'+href+'"]').removeClass('active').each(function(){ $(this).triggerHandler('hide'); }); }
-			}
+			var id = $el.prop('id');
+			var $links = $('[data-show-href="#'+id+'"], [data-toggle-href="#'+id+'"], [data-scroll-href="#'+id+'"], [data-hide-href="#'+id+'"]');
+			$links.each(function(){
+				$(this).removeClass('active').triggerHandler('DUH.hide');
+			});
 		},
 
-		toggle: function($el, type){
-			if(!type){ var type = null; }
-			if($el.hasClass('active')){ this.hide($el, type); }else{ this.show($el, type); }
+		toggle: function($el){
+			if($el.hasClass('active')){ this.hide($el); }else{ this.show($el); }
 		},
 
-		scrollTo: function($el, offsetX, offsetY){
-			var $scrollTo = $($el.data('scroll-href'));
-			var $scrollable = $($el.data('scrollable'));
-			var _offsetX = offsetX || $el.data('offset-x') || 0;
-			var _offsetY = offsetY || $el.data('offset-y') || 0;
-			var direction = $scrollable.data('scrollspy');
-			if($scrollable.is('body')){ $scrollable = $("html, body"); }
+		scrollTo: function($el, options){
+			this.show($el);
 
-			if(direction === 'vertical'){
-				$scrollable.stop(true, true).animate({ scrollTop: $scrollTo.offset().top - _offsetY }, 200);
-			}
-			if(direction === 'horizontal'){
-				$scrollable.stop(true, true).animate({ scrollLeft: $scrollTo.offset().left - _offsetX }, 200);
+			options = $.extend({
+				$scrollable: $('body'),
+				direction: 'vertical',
+				speed: 200,
+				offsetX: 0,
+				offsetY: 0
+			}, options);
+
+			if(options.$scrollable.is('body')){ options.$scrollable = $("html, body"); }
+
+			if(options.direction === 'horizontal'){
+				options.$scrollable.stop(true, true).animate({ scrollLeft: options.$el.offset().left - options.offsetX }, options.speed);
+			}else{
+				options.$scrollable.stop(true, true).animate({ scrollTop: $el.offset().top - options.offsetY }, options.speed);
 			}
 		}
 	}
 
+	function scrollToFromLink($this){
+		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
+		console.log(direction);
+		DUH.scrollTo($($this.data('scroll-href')),{
+			$scrollable: $($this.data('scrollable')), 
+			direction: direction,
+			offsetX: $this.data('scroll-offset-x'),
+			offsetY: $this.data('scroll-offset-y'),
+			speed: $this.data('scroll-speed')
+		});
+	}
 
-	//show, hide, toggle, scroll
-	$('body').on('click', '[data-show-href]',   function(){ DUH.show($(this), 'show'); });
-	$('body').on('click', '[data-hide-href]',   function(){ DUH.hide($(this), 'hide'); });
-	$('body').on('click', '[data-toggle-href]', function(){ DUH.toggle($(this), 'toggle'); });
+	$('body').on('click', '[data-show-href]',   function(){ DUH.show($($(this).data('show-href'))); });
+	$('body').on('click', '[data-hide-href]',   function(){ DUH.hide($($(this).data('hide-href'))); });
+	$('body').on('click', '[data-toggle-href]', function(){ DUH.toggle($($(this).data('toggle-href'))); });
 	$('body').on('change', 'select', function(){
 		var $selectedOption = $(this).find('option:selected');
-		if($selectedOption.prop('data-show-href')){ DUH.show($selectedOption, 'show'); }
-		if($selectedOption.prop('data-hide-href')){ DUH.hide($selectedOption, 'hide'); }
-		if($selectedOption.prop('data-toggle-href')){ DUH.toggle($selectedOption, 'toggle'); }
-		if($selectedOption.prop('data-scroll-href')){
-			DUH.show($selectedOption, 'scroll'); 
-			DUH.scrollTo($selectedOption);
+		console.log($selectedOption);
+		if($selectedOption.data('show-href')){ DUH.show($($selectedOption.data('show-href'))); }
+		if($selectedOption.data('hide-href')){ DUH.hide($($selectedOption.data('hide-href'))); }
+		if($selectedOption.data('toggle-href')){ DUH.toggle($($selectedOption.data('toggle-href'))); }
+		if($selectedOption.data('scroll-href')){
+			scrollToFromLink($selectedOption);
 		}
 	});
 
 	$('body').on('click', '[data-scroll-href]', function(){ 
-		var $this = $(this);
-		DUH.show($this, 'scroll');
-		DUH.scrollTo($this);
+		scrollToFromLink($(this));
 	});
 
 	var isFireFox = (/Firefox/i.test(navigator.userAgent));
@@ -108,12 +111,12 @@ $(function(){
 
 			if(closestNum == null || difference < closestNum){
 				closestNum = difference;
-				$closest = $button;
+				$closest = $spyable;
 			}
 
 			if($spyable.offset().top > mostBottomNum){
 				mostBottomNum = $spyable.offset().top;
-				$mostBottom = $button;
+				$mostBottom = $spyable;
 			}
 		});
 
@@ -121,9 +124,9 @@ $(function(){
 
 		if(scrollTop >= $scrollable[0].scrollHeight - scrollableHeight)
 		{
-			DUH.show($mostBottom, 'scroll');
+			DUH.show($mostBottom);
 		}else{
-			DUH.show($closest, 'scroll');
+			DUH.show($closest);
 		}
 		
 	});
