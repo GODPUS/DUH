@@ -140,7 +140,7 @@ $(function(){
 		if (breakpoint != null){ 
 			breakpoint = breakpoint.replace(/['",]/g, ''); 
 			breakpointObj.name = breakpoint.split(':')[0];
-			breakpointObj.minWidth = breakpoint.split(':')[1];
+			breakpointObj.width = breakpoint.split(':')[1];
 		};
 		return breakpointObj;
 	}
