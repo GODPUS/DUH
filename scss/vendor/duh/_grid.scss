@@ -30,7 +30,7 @@ html {
 	margin-right: -#{$defaultGutterSize}px;
 }
 
-[class^="col-"] {
+[class*="col-"] {
 	display: block;
 	float: left;
 	width: 100%;
@@ -74,7 +74,7 @@ html {
 				margin-left: -#{$size}px; 
 				margin-right: -#{$size}px;
 
-				& > [class^="col-"] { padding-left: #{$size}px; padding-right: #{$size}px; }
+				& > [class*="col-"] { padding-left: #{$size}px; padding-right: #{$size}px; }
 			}
 		}
 	}
@@ -84,7 +84,7 @@ html {
 				margin-left: -#{$size}px; 
 				margin-right: -#{$size}px;
 
-				& > [class^="col-"] { padding-left: #{$size}px; padding-right: #{$size}px; }
+				& > [class*="col-"] { padding-left: #{$size}px; padding-right: #{$size}px; }
 			}
 		}
 	}
