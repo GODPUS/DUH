@@ -1,0 +1,35 @@
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! VISIBLE-ONLY !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+@each $breakpoint1, $size1 in $breakpoints {
+
+	.visible-#{$breakpoint1}-only {
+		@each $breakpoint2, $size2 in $breakpoints {
+			@include only($breakpoint2) {
+				@if $breakpoint1 != $breakpoint2 {
+					display: none;
+				}
+			}
+		}
+	}
+	
+}
+
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MARGIN & PADDING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+$currentSpacing: 0;
+
+@while $currentSpacing < ($spacingMax+1) {
+	@include all-sizes-queue(marg-#{$currentSpacing},   (margin: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-t-#{$currentSpacing}, (margin-top: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-b-#{$currentSpacing}, (margin-bottom: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-l-#{$currentSpacing}, (margin-left: #{$currentSpacing}px));
+	@include all-sizes-queue(marg-r-#{$currentSpacing}, (margin-right: #{$currentSpacing}px));
+
+	@include all-sizes-queue(pad-#{$currentSpacing},   (padding: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-t-#{$currentSpacing}, (padding-top: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-b-#{$currentSpacing}, (padding-bottom: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-l-#{$currentSpacing}, (padding-left: #{$currentSpacing}px));
+	@include all-sizes-queue(pad-r-#{$currentSpacing}, (padding-right: #{$currentSpacing}px));
+
+	$currentSpacing: $currentSpacing + $spacingMultiplier !global;
+}
+
+@include generate-all-sizes-queue();
