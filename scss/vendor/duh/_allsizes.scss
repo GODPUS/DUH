@@ -15,11 +15,6 @@
 }
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MARGIN & PADDING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-
-//margin and padding
-$spacingMax: 50;
-$spacingMultiplier: 5;
-
 $currentSpacing: 0;
 
 @while $currentSpacing < ($spacingMax+1) {
@@ -37,20 +32,5 @@ $currentSpacing: 0;
 
 	$currentSpacing: $currentSpacing + $spacingMultiplier !global;
 }
-
-
-@include all-sizes-queue(float-left, (float: left));
-@include all-sizes-queue(float-right, (float: right));
-@include all-sizes-queue(display-none, (display: none));
-@include all-sizes-queue(center-horiz, (margin-left: auto, margin-right: auto, float: none, display: block));
-@include all-sizes-queue(text-left, (text-align: left));
-@include all-sizes-queue(text-right, (text-align: right));
-@include all-sizes-queue(text-center, (text-align: center));
-@include all-sizes-queue(full-width, (width: 100%));
-@include all-sizes-queue(full-height, (height: 100%));
-@include all-sizes-queue(display-table, (display: table));
-@include all-sizes-queue(display-table-cell, (display: table-cell));
-
-/* add custom classes here */
 
 @include generate-all-sizes-queue();

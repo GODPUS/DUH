@@ -1,10 +1,11 @@
 @import 'variables';
 @import 'mixins';
+@import 'helper-mixins';
 
 @import 'grid';
 @import 'allsizes';
-@import 'helpers';
+@import 'allsizes-custom';
 
 *, *:before, *:after {
-	@include vendor-prefix(box-sizing, border-box)
+	@include vendor-prefix-property(box-sizing, border-box)
 }

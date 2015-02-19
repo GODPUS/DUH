@@ -1,11 +1,22 @@
+//array of breakpoint objects with their respective breakpoint number and width size to be set on all .container classes
 $breakpoints: ('sm': (0, 100%), 
 			   'md': (768, 100%), 
 			   'lg': (960, 960px));
 
-$gutterSizes: (0, 5, 10, 15, 20, 25, 30);
+//to change the gutter between columns for use only on .row classes like: <div class="row gutter-5-lg gutter-10-md gutter-0-sm">
+$gutterSizes: (0, 5, 10, 15, 20, 25, 30); 
+
+//the default gutter size on columns
 $defaultGutterSize: 10;
 
-$columnDenominators: (5, 7);
+//other column denominators like: col-1-of-5-sm and col-1-of-7-sm
+$columnDenominators: (5, 7); 
+
+//default column denominator for regular use like: col-1-sm
 $defaultColumnDenominator: 12;
+
+//variables for margin and padding classes
+$spacingMax: 50;
+$spacingMultiplier: 5;
 
 
