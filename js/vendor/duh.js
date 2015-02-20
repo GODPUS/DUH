@@ -2,72 +2,77 @@
 
 	window.DUH = { breakpoint: {} };
 
-	$.fn.DUHShow = function(){
-		var $el = this;
-		var selector = $el.selector;
-		console.log(selector);
-		$el.addClass('active').trigger('DUH:show');
-		$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger('DUH:hide'); });
+	var methods = {
+		show: function(){
+			var $el = this;
+			var selector = $el.selector;
+			$el.addClass('active').trigger('DUH:show');
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger('DUH:hide'); });
 
-		var $links = $('[data-show-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-scroll-target="'+selector+'"]');
-		$links.each(function(){
-			var $link = $(this);
-			$link.addClass('active').trigger('DUH:show');
-			if($link.is('option')){ $link.prop('selected', 'selected'); }
-			$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger('DUH:hide'); });
-		});
+			var $links = $('[data-show-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-scroll-target="'+selector+'"]');
+			$links.each(function(){
+				var $link = $(this);
+				$link.addClass('active').trigger('DUH:show');
+				if($link.is('option')){ $link.prop('selected', 'selected'); }
+				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger('DUH:hide'); });
+			});
 
-		return this;
-	}
+			return this;
+		},
 
-	$.fn.DUHHide = function(){
-		var $el = this;
-		var selector = $el.selector;
-		$el.removeClass('active').trigger('DUH:hide');
+		hide: function(){
+			var $el = this;
+			var selector = $el.selector;
+			$el.removeClass('active').trigger('DUH:hide');
 
-		var $links = $('[data-hide-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-show-target="'+selector+'"]');
-		$links.each(function(){
-			$(this).removeClass('active').trigger('DUH:hide');
-		});
+			var $links = $('[data-hide-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-show-target="'+selector+'"]');
+			$links.each(function(){
+				$(this).removeClass('active').trigger('DUH:hide');
+			});
 
-		return this;
-	}
+			return this;
+		},
 
-	$.fn.DUHToggle = function(){
-		var $el = this;
-		var selector = $el.selector;
-		if($el.hasClass('active')){ $el.DUHHide(); }else{ $el.DUHShow(); }
+		toggle: function(){
+			var $el = this;
+			var selector = $el.selector;
+			if($el.hasClass('active')){ $el.DUH('hide'); }else{ $el.DUH('show'); }
 
-		return this;
-	}
+			return this;
+		},
 
-	$.fn.DUHScrollTo = function(options){
-		var $el = this;
-		var selector = $el.selector;
-		$el.DUHShow();
+		scroll: function(options){
+			var $el = this;
+			var selector = $el.selector;
+			$el.DUH('show');
 
-		options = $.extend({
-			$scrollable: $('body'),
-			direction: 'vertical',
-			speed: 200,
-			offsetX: 0,
-			offsetY: 0
-		}, options);
+			options = $.extend({
+				$scrollable: $('body'),
+				direction: 'vertical',
+				speed: 200,
+				offsetX: 0,
+				offsetY: 0
+			}, options);
 
-		if(options.$scrollable.is('body')){ options.$scrollable = $("html, body"); }
+			if(options.$scrollable.is('body')){ options.$scrollable = $("html, body"); }
 
-		if(options.direction === 'horizontal'){
-			options.$scrollable.stop(true, true).animate({
-		        scrollLeft:  options.$scrollable.scrollLeft() - options.$scrollable.offset().left + $el.offset().left - options.offsetX
-		    }, options.speed); 
-		}else{
-			options.$scrollable.stop(true, true).animate({
-		        scrollTop:  options.$scrollable.scrollTop() - options.$scrollable.offset().top + $el.offset().top - options.offsetY
-		    }, options.speed); 
+			if(options.direction === 'horizontal'){
+				options.$scrollable.stop(true, true).animate({
+			        scrollLeft:  options.$scrollable.scrollLeft() - options.$scrollable.offset().left + $el.offset().left - options.offsetX
+			    }, options.speed); 
+			}else{
+				options.$scrollable.stop(true, true).animate({
+			        scrollTop:  options.$scrollable.scrollTop() - options.$scrollable.offset().top + $el.offset().top - options.offsetY
+			    }, options.speed); 
+			}
+
+			return this;
 		}
+	};
 
-		return this;
-	}
+	$.fn.DUH = function(method){
+		return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+	};
 
 	$.fn.onlyOn = function(event, selector, callback) {
 		$.fn.on.apply(this, [event, selector, function(e){
@@ -82,7 +87,7 @@
 
 	function _scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
-		$($this.data('scroll-target')).DUHScrollTo({
+		$($this.data('scroll-target')).DUH('scroll', {
 			$scrollable: $($this.data('scrollable')), 
 			direction: direction,
 			offsetX: $this.data('scroll-offset-x'),
@@ -93,17 +98,17 @@
 
 	$(document).ready(function(){
 
-		$('body').on('click', '[data-show-target]',   function(){ $($(this).data('show-target')).DUHShow(); });
-		$('body').on('click', '[data-hide-target]',   function(){ $($(this).data('hide-target')).DUHHide(); });
-		$('body').on('click', '[data-toggle-target]', function(){ $($(this).data('toggle-target')).DUHToggle(); });
-		$('body').on('mouseenter', '[data-hover-toggle-target]', function(){ $($(this).data('hover-toggle-target')).DUHShow(); });
-		$('body').on('mouseleave', '[data-hover-toggle-target]', function(){ $($(this).data('hover-toggle-target')).DUHHide(); });
+		$('body').on('click', '[data-show-target]',   function(){ $($(this).data('show-target')).DUH('show'); });
+		$('body').on('click', '[data-hide-target]',   function(){ $($(this).data('hide-target')).DUH('hide'); });
+		$('body').on('click', '[data-toggle-target]', function(){ $($(this).data('toggle-target')).DUH('toggle'); });
+		$('body').on('mouseenter', '[data-hover-toggle-target]', function(){ $($(this).data('hover-toggle-target')).DUH('show'); });
+		$('body').on('mouseleave', '[data-hover-toggle-target]', function(){ $($(this).data('hover-toggle-target')).DUH('hide'); });
 
 		$('body').on('change', 'select', function(){
 			var $selectedOption = $(this).find('option:selected');
-			if($selectedOption.data('show-target')){ $($selectedOption.data('show-target')).DUHShow(); }
-			if($selectedOption.data('hide-target')){ $($selectedOption.data('hide-target')).DUHHide(); }
-			if($selectedOption.data('toggle-target')){ $($selectedOption.data('toggle-target')).DUHToggle(); }
+			if($selectedOption.data('show-target')){ $($selectedOption.data('show-target')).DUH('show'); }
+			if($selectedOption.data('hide-target')){ $($selectedOption.data('hide-target')).DUH('hide'); }
+			if($selectedOption.data('toggle-target')){ $($selectedOption.data('toggle-target')).DUH('toggle'); }
 			if($selectedOption.data('scroll-target')){
 				_scrollToFromLink($selectedOption);
 			}
@@ -146,7 +151,7 @@
 				
 			});
 
-			$closest.DUHShow();		
+			$closest.DUH('show');		
 		});
 
 
