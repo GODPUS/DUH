@@ -3,34 +3,15 @@
 	window.DUH = { 
 		breakpoint: {},
 		breakpoints: [],
+
 		events: {
 			breakpoint: 'DUH.events.breakpoint',
 			show: 'DUH.events.show',
 			hide: 'DUH.events.hide',
-			toggle: 'DUH.events.toggle',
 			scroll: 'DUH.events.scroll'
 		},
-		onBreakpoint: function(breakpoints, callback){
-			if (arguments.length === 1) {
-				callback = arguments[0];
-				breakpoints = null;
-			}
 
-			$(DUH).on(DUH.events.breakpoint, function(){
-				if(breakpoints){
-					if(breakpoints.indexOf(DUH.breakpoint.name) > -1){
-						callback.apply(this);
-					}
-				}else{
-					callback.apply(this);
-				}
-			});
-		}
-	};
-
-	var methods = {
-		show: function(){
-			var $el = this;
+		show: function($el){
 			var selector = $el.selector;
 			$el.addClass('active').trigger(DUH.events.show);
 			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger(DUH.events.hide); });
@@ -43,11 +24,10 @@
 				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger(DUH.events.hide); });
 			});
 
-			return this;
+			return $el;
 		},
 
-		hide: function(){
-			var $el = this;
+		hide: function($el){
 			var selector = $el.selector;
 			$el.removeClass('active').trigger(DUH.events.hide);
 
@@ -56,21 +36,20 @@
 				$(this).removeClass('active').trigger(DUH.events.hide);
 			});
 
-			return this;
+			return $el;
 		},
 
-		toggle: function(){
-			var $el = this;
+		toggle: function($el){
 			var selector = $el.selector;
-			if($el.hasClass('active')){ $el.DUH('hide'); }else{ $el.DUH('show'); }
+			if($el.hasClass('active')){ DUH.hide($el); }else{ DUH.show($el); }
 
-			return this;
+			return $el;
 		},
 
-		scroll: function(options){
-			var $el = this;
+		scroll: function($el, options){
 			var selector = $el.selector;
-			$el.DUH('show');
+			DUH.show($el);
+			$el.trigger(DUH.events.scroll);
 
 			options = $.extend({
 				$scrollable: $('body'),
@@ -92,12 +71,25 @@
 			    }, options.speed); 
 			}
 
-			return this;
-		}
-	};
+			return $el;
+		},
 
-	$.fn.DUH = function(method){
-		return methods[method].apply(this, Array.prototype.slice.call(arguments, 1));
+		onBreakpoint: function(breakpoints, callback){
+			if (arguments.length === 1) {
+				callback = arguments[0];
+				breakpoints = null;
+			}
+
+			$(DUH).on(DUH.events.breakpoint, function(){
+				if(breakpoints){
+					if(breakpoints.indexOf(DUH.breakpoint.name) > -1){
+						callback.apply(this);
+					}
+				}else{
+					callback.apply(this);
+				}
+			});
+		}
 	};
 
 	$.fn.onlyOn = function(event, selector, callback) {
@@ -113,7 +105,7 @@
 
 	function scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
-		$($this.data('scroll-target')).DUH('scroll', {
+		DUH.scroll($($this.data('scroll-target')), {
 			$scrollable: $($this.data('scrollable')), 
 			direction: direction,
 			offsetX: $this.data('scroll-offset-x'),
@@ -124,17 +116,17 @@
 
 	$(document).ready(function(){
 
-		$('body').on('click', '[data-show-target]',   function(){ $($(this).data('show-target')).DUH('show'); });
-		$('body').on('click', '[data-hide-target]',   function(){ $($(this).data('hide-target')).DUH('hide'); });
-		$('body').on('click', '[data-toggle-target]', function(){ $($(this).data('toggle-target')).DUH('toggle'); });
-		$('body').on('mouseenter', '[data-hover-toggle-target]', function(){ $($(this).data('hover-toggle-target')).DUH('show'); });
-		$('body').on('mouseleave', '[data-hover-toggle-target]', function(){ $($(this).data('hover-toggle-target')).DUH('hide'); });
+		$('body').on('click', '[data-show-target]',   function(){ DUH.show($($(this).data('show-target'))); });
+		$('body').on('click', '[data-hide-target]',   function(){ DUH.hide($($(this).data('hide-target'))); });
+		$('body').on('click', '[data-toggle-target]', function(){ DUH.toggle($($(this).data('toggle-target'))); });
+		$('body').on('mouseenter', '[data-hover-toggle-target]', function(){ DUH.show($($(this).data('hover-toggle-target'))); });
+		$('body').on('mouseleave', '[data-hover-toggle-target]', function(){ DUH.hide($($(this).data('hover-toggle-target'))); });
 
 		$('body').on('change', 'select', function(){
 			var $selectedOption = $(this).find('option:selected');
-			if($selectedOption.data('show-target')){ $($selectedOption.data('show-target')).DUH('show'); }
-			if($selectedOption.data('hide-target')){ $($selectedOption.data('hide-target')).DUH('hide'); }
-			if($selectedOption.data('toggle-target')){ $($selectedOption.data('toggle-target')).DUH('toggle'); }
+			if($selectedOption.data('show-target')){ DUH.show($($selectedOption.data('show-target'))); }
+			if($selectedOption.data('hide-target')){ DUH.hide($($selectedOption.data('hide-target'))); }
+			if($selectedOption.data('toggle-target')){ DUH.toggle($($selectedOption.data('toggle-target'))); }
 			if($selectedOption.data('scroll-target')){
 				scrollToFromLink($selectedOption);
 			}
@@ -177,7 +169,7 @@
 				
 			});
 
-			$closest.DUH('show');		
+			DUH.show($closest);		
 		});
 
 
