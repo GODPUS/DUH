@@ -2,9 +2,14 @@
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HTML !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
 html {
+	$breakpointsString: '';
+	@each $breakpoint, $size in $breakpoints {
+		$breakpointsString: $breakpointsString+(','+$breakpoint+':'+(nth($size, 1)));
+	}
+
 	@each $breakpoint, $size in $breakpoints {
 		@include and-above($breakpoint) {
-			font-family: $breakpoint+':'+(nth($size, 1));
+			font-family: $breakpoint+':'+(nth($size, 1))+$breakpointsString;
 		}
 	}
 }

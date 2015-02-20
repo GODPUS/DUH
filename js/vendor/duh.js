@@ -1,20 +1,46 @@
 ;(function($){
 
-	window.DUH = { breakpoint: {} };
+	window.DUH = { 
+		breakpoint: {},
+		breakpoints: [],
+		events: {
+			breakpoint: 'DUH.events.breakpoint',
+			show: 'DUH.events.show',
+			hide: 'DUH.events.hide',
+			toggle: 'DUH.events.toggle',
+			scroll: 'DUH.events.scroll'
+		},
+		onBreakpoint: function(breakpoints, callback){
+			if (arguments.length === 1) {
+				callback = arguments[0];
+				breakpoints = null;
+			}
+
+			$(DUH).on(DUH.events.breakpoint, function(){
+				if(breakpoints){
+					if(breakpoints.indexOf(DUH.breakpoint.name) > -1){
+						callback.apply(this);
+					}
+				}else{
+					callback.apply(this);
+				}
+			});
+		}
+	};
 
 	var methods = {
 		show: function(){
 			var $el = this;
 			var selector = $el.selector;
-			$el.addClass('active').trigger('DUH:show');
-			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger('DUH:hide'); });
+			$el.addClass('active').trigger(DUH.events.show);
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger(DUH.events.hide); });
 
 			var $links = $('[data-show-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-scroll-target="'+selector+'"]');
 			$links.each(function(){
 				var $link = $(this);
-				$link.addClass('active').trigger('DUH:show');
+				$link.addClass('active').trigger(DUH.events.show);
 				if($link.is('option')){ $link.prop('selected', 'selected'); }
-				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger('DUH:hide'); });
+				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger(DUH.events.hide); });
 			});
 
 			return this;
@@ -23,11 +49,11 @@
 		hide: function(){
 			var $el = this;
 			var selector = $el.selector;
-			$el.removeClass('active').trigger('DUH:hide');
+			$el.removeClass('active').trigger(DUH.events.hide);
 
 			var $links = $('[data-hide-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-show-target="'+selector+'"]');
 			$links.each(function(){
-				$(this).removeClass('active').trigger('DUH:hide');
+				$(this).removeClass('active').trigger(DUH.events.hide);
 			});
 
 			return this;
@@ -85,7 +111,7 @@
 		return this;
 	};
 
-	function _scrollToFromLink($this){
+	function scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
 		$($this.data('scroll-target')).DUH('scroll', {
 			$scrollable: $($this.data('scrollable')), 
@@ -110,12 +136,12 @@
 			if($selectedOption.data('hide-target')){ $($selectedOption.data('hide-target')).DUH('hide'); }
 			if($selectedOption.data('toggle-target')){ $($selectedOption.data('toggle-target')).DUH('toggle'); }
 			if($selectedOption.data('scroll-target')){
-				_scrollToFromLink($selectedOption);
+				scrollToFromLink($selectedOption);
 			}
 		});
 
 		$('body').on('click', '[data-scroll-target]', function(){ 
-			_scrollToFromLink($(this));
+			scrollToFromLink($(this));
 		});
 
 		var isFireFox = (/Firefox/i.test(navigator.userAgent));
@@ -160,23 +186,41 @@
 			var checkBreakpoint = getCurrentBreakpoint();
 			if(DUH.breakpoint.name != checkBreakpoint.name){
 				DUH.breakpoint = checkBreakpoint;
-				$(DUH).trigger('DUH:breakpoint');
+				$(DUH).trigger(DUH.events.breakpoint);
 			}
 		});
 
-		function getCurrentBreakpoint(){
+		function getBreakpointString(){
 			var breakpoint = null;
-			var breakpointObj = {};
 			if (document.documentElement.currentStyle) { breakpoint = document.documentElement.currentStyle["fontFamily"]; }
 			if (window.getComputedStyle) { breakpoint = window.getComputedStyle(document.documentElement,null).getPropertyValue('font-family'); }
-			if (breakpoint != null){ 
-				breakpoint = breakpoint.replace(/['",]/g, ''); 
-				breakpointObj.name = breakpoint.split(':')[0];
-				breakpointObj.width = parseInt(breakpoint.split(':')[1]);
-			};
+			if (breakpoint != null){ return breakpoint; }else{ return false; }
+		}
+
+		function getCurrentBreakpoint(){
+			var breakpoint = getBreakpointString();
+			var breakpointObj = {};
+			breakpoint = breakpoint.replace(/['",]/g, '');
+			breakpointObj.name = breakpoint.split(':')[0];
+			breakpointObj.width = parseInt(breakpoint.split(':')[1]);
 			return breakpointObj;
 		}
 
+		function getAllBreakpoints(){
+			var breakpoint = getBreakpointString();
+			var breakpoints = [];
+			breakpoints = breakpoint.split(',');
+			breakpoints.shift();
+
+			for(var i = 0; i < breakpoints.length; i++){
+				var string = breakpoints[i].replace(/['",]/g, '');
+				var name = string.split(':')[0];
+				var width = parseInt(string.split(':')[1]);
+				DUH.breakpoints.push({ name: name, width: width });
+			}
+		}
+
+		getAllBreakpoints();
 	});
 
 })(jQuery);

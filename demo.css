@@ -378,13 +378,13 @@ body {
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HTML !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 @media only screen and (min-width: 0px) {
   html {
-    font-family: "sm:0"; } }
+    font-family: "sm:0,sm:0,md:768,lg:960"; } }
 @media only screen and (min-width: 768px) {
   html {
-    font-family: "md:768"; } }
+    font-family: "md:768,sm:0,md:768,lg:960"; } }
 @media only screen and (min-width: 960px) {
   html {
-    font-family: "lg:960"; } }
+    font-family: "lg:960,sm:0,md:768,lg:960"; } }
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CONTAINER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 .container {
