@@ -6,34 +6,34 @@
 
 		events: {
 			breakpoint: 'DUH.events.breakpoint',
-			show: 'DUH.events.show',
-			hide: 'DUH.events.hide',
+			activate: 'DUH.events.activate',
+			deactivate: 'DUH.events.deactivate',
 			scroll: 'DUH.events.scroll'
 		},
 
-		show: function($el){
+		activate: function($el){
 			var selector = $el.selector;
-			$el.addClass('active').trigger(DUH.events.show);
-			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger(DUH.events.hide); });
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger(DUH.events.deactivate); });
+			$el.addClass('active').trigger(DUH.events.activate);
 
-			var $links = $('[data-show-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-scroll-target="'+selector+'"]');
+			var $links = $('[data-activate="'+selector+'"], [data-toggle="'+selector+'"], [data-scroll="'+selector+'"]').not($el);
 			$links.each(function(){
 				var $link = $(this);
-				$link.addClass('active').trigger(DUH.events.show);
+				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger(DUH.events.deactivate); });
 				if($link.is('option')){ $link.prop('selected', 'selected'); }
-				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger(DUH.events.hide); });
+				$link.addClass('active').trigger(DUH.events.activate);
 			});
 
 			return $el;
 		},
 
-		hide: function($el){
+		deactivate: function($el){
 			var selector = $el.selector;
-			$el.removeClass('active').trigger(DUH.events.hide);
+			$el.removeClass('active').trigger(DUH.events.deactivate);
 
-			var $links = $('[data-hide-target="'+selector+'"], [data-toggle-target="'+selector+'"], [data-show-target="'+selector+'"]');
+			var $links = $('[data-deactivate="'+selector+'"], [data-toggle="'+selector+'"], [data-activate="'+selector+'"]').not($el);
 			$links.each(function(){
-				$(this).removeClass('active').trigger(DUH.events.hide);
+				$(this).removeClass('active').trigger(DUH.events.deactivate);
 			});
 
 			return $el;
@@ -41,14 +41,14 @@
 
 		toggle: function($el){
 			var selector = $el.selector;
-			if($el.hasClass('active')){ DUH.hide($el); }else{ DUH.show($el); }
+			if($el.hasClass('active')){ DUH.deactivate($el); }else{ DUH.activate($el); }
 
 			return $el;
 		},
 
 		scroll: function($el, options){
 			var selector = $el.selector;
-			DUH.show($el);
+			DUH.activate($el);
 			$el.trigger(DUH.events.scroll);
 
 			options = $.extend({
@@ -105,7 +105,7 @@
 
 	function scrollToFromLink($this){
 		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
-		DUH.scroll($($this.data('scroll-target')), {
+		DUH.scroll($($this.data('scroll')), {
 			$scrollable: $($this.data('scrollable')), 
 			direction: direction,
 			offsetX: $this.data('scroll-offset-x'),
@@ -116,23 +116,23 @@
 
 	$(document).ready(function(){
 
-		$('body').on('click', '[data-show-target]',   function(){ DUH.show($($(this).data('show-target'))); });
-		$('body').on('click', '[data-hide-target]',   function(){ DUH.hide($($(this).data('hide-target'))); });
-		$('body').on('click', '[data-toggle-target]', function(){ DUH.toggle($($(this).data('toggle-target'))); });
-		$('body').on('mouseenter', '[data-hover-toggle-target]', function(){ DUH.show($($(this).data('hover-toggle-target'))); });
-		$('body').on('mouseleave', '[data-hover-toggle-target]', function(){ DUH.hide($($(this).data('hover-toggle-target'))); });
+		$('body').on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
+		$('body').on('click', '[data-deactivate]',   function(){ DUH.deactivate($($(this).data('deactivate'))); });
+		$('body').on('click', '[data-toggle]', function(){ DUH.toggle($($(this).data('toggle'))); });
+		$('body').on('mouseenter', '[data-hover]', function(){ DUH.activate($($(this).data('hover'))); });
+		$('body').on('mouseleave', '[data-hover]', function(){ DUH.deactivate($($(this).data('hover'))); });
 
 		$('body').on('change', 'select', function(){
 			var $selectedOption = $(this).find('option:selected');
-			if($selectedOption.data('show-target')){ DUH.show($($selectedOption.data('show-target'))); }
-			if($selectedOption.data('hide-target')){ DUH.hide($($selectedOption.data('hide-target'))); }
-			if($selectedOption.data('toggle-target')){ DUH.toggle($($selectedOption.data('toggle-target'))); }
-			if($selectedOption.data('scroll-target')){
+			if($selectedOption.data('activate')){ DUH.activate($($selectedOption.data('activate'))); }
+			if($selectedOption.data('deactivate')){ DUH.deactivate($($selectedOption.data('deactivate'))); }
+			if($selectedOption.data('toggle')){ DUH.toggle($($selectedOption.data('toggle'))); }
+			if($selectedOption.data('scroll')){
 				scrollToFromLink($selectedOption);
 			}
 		});
 
-		$('body').on('click', '[data-scroll-target]', function(){ 
+		$('body').on('click', '[data-scroll]', function(){ 
 			scrollToFromLink($(this));
 		});
 
@@ -151,7 +151,7 @@
 
 			$('[data-scrollable="#'+$scrollable.prop('id')+'"]').each(function(){
 				var $button = $(this);
-				var $spyable = $($button.data('scroll-target'));
+				var $spyable = $($button.data('scroll'));
 				var spyableScrollTop = $scrollable.scrollTop() - $scrollable.offset().top + $spyable.offset().top;
 				var spyableScrollLeft = $scrollable.scrollLeft() - $scrollable.offset().left + $spyable.offset().left;
 				var difference;
@@ -164,12 +164,12 @@
 
 				if(difference < closestNum){
 					closestNum = difference;
-					$closest = $($button.data('scroll-target'));
+					$closest = $($button.data('scroll'));
 				}
 				
 			});
 
-			DUH.show($closest);		
+			DUH.activate($closest);		
 		});
 
 

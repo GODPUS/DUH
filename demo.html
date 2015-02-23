@@ -83,7 +83,17 @@
 						<h4>Respond to breakpoints with jquery using:</h4>
 						
 						<div class="demo-code">
-							$(DUH).on('DUH:breakpoint', function(){ console.log(DUH.breakpoint); });
+							DUH.onBreakpoint(function(){
+								console.log('ALL!');
+							});
+
+							DUH.onBreakpoint(['sm'], function(){
+								console.log('SM ONLY!');
+							});
+
+							DUH.onBreakpoint(['lg', 'md'], function(){
+								console.log('LG OR MD!');
+							});
 						</div>
 					</section>
 
@@ -229,7 +239,7 @@
 					<section>
 						<h3>Margins, Padding, and Visibility</h3>
 						<div class="demo-comment">
-							inside of _allsizes.scss is the code that creates the margin, padding, and visibility classes. The $spacingMax variable is the maximum number for margin and padding classes. The $spacingMultiplier variable is the number that will be multipled on each iteration. For instance if $spacingMax is set to 50 and $spacingMultiplier is set to 5 we will get margin and padding classes that have values 0,5,10,15,20,25,30,35,40,45,50. Assuming these values we will generate classes for example, where 5 is a representation of any of those values, and sm is a representation of the breakpoint suffix.
+							inside of _helpers.scss is the code that creates the margin, padding, and visibility classes. The $spacingMax variable is the maximum number for margin and padding classes. The $spacingMultiplier variable is the number that will be multipled on each iteration. For instance if $spacingMax is set to 50 and $spacingMultiplier is set to 5 we will get margin and padding classes that have values 0,5,10,15,20,25,30,35,40,45,50. Assuming these values we will generate classes for example, where 5 is a representation of any of those values, and sm is a representation of the breakpoint suffix.
 						</div>
 						<div class="demo-code">
 							<p>.marg-5-sm { margin: 5px; }</p>
@@ -244,7 +254,7 @@
                             <p>.pad-b-5-sm { padding-bottom: 5px; }</p>
 						</div>
 						<div class="demo-comment">
-							visibility classes are also available that allow you to hide elements without having to worry about which display property they had when wanting to turn them back on. basically it adds display: none to any breakpoint that is not the breakpoint suffix of the class. use like this on your elements: 
+							visibility classes are also available that allow you to deactivate elements without having to worry about which display property they had when wanting to turn them back on. basically it adds display: none to any breakpoint that is not the breakpoint suffix of the class. use like this on your elements: 
 						</div>		
 						<div class="demo-code">			
 							<p>class="visible-sm-only"</p>
@@ -258,23 +268,71 @@
 			<div class="row">
 				<div class="col-full-sm">
 					<h2>Javascript via data attributes</h2>
-					<h5>a combination of data-show-target, data-hide-target, data-toggle-target, data-scroll-target, data-group are used to make dropdowns, accordions, tabs, modals, and scroll-to's</h5>
 
 					<section class="row">
 						<div class="col-full-sm">
-							<h3>Dropdowns</h3>
+							<h3>Dropdowns, Accordions, Tabs, Modals, and whatever really.</h3>
+
+							<div class="demo-comment">
+								using a combination of the following data attributes we can easily create common UX situations
+							</div>		
+							<div class="demo-code">			
+								<p>data-activate="#elementID"</p>
+								<p>data-deactivate="#elementID"</p>
+								<p>data-toggle="#elementID"</p>
+								<p>data-scroll="#elementID"</p>
+								<p>data-hover="#elementID"</p>
+								<p>data-group="shared-group-name-1"</p>
+							</div>
+
+							<h3>Activation & Deactivation</h3>
+
+							<div class="demo-comment">
+								<p>Activation and Deactivation are the two methods that drive all of these situations.</p>
+								<p>An active element is activated via the addition of the .active class and triggered via jquery with the DUH.events.activate event</p>
+								<p>A deactive element is dectivated via the removal of the .active class and triggered via jquery with the DUH.events.deactivate event</p>
+							</div>		
+							<div class="demo-code">
+								<button data-activate="#modal">Show Modal Button 1</button>	
+								<button data-activate="#modal">Show Modal Button 2</button>
+								<div id="modal">Modal</div>
+							</div>
+
+							<h3>data-activate</h3>
+
+							<div class="demo-comment">
+								<p>specifying a selector to the data-activate attribute will add an .active class and trigger a DUH.events.activate event for both the selector, and all other elements that have the same data-activate, data-toggle, or data-scroll value when clicked.</p>
+								<p>in this case clicking either the first or second button will result the activation of all three elements</p>
+							</div>		
+							<div class="demo-code">
+								<button data-activate="#modal">Show Modal Button 1</button>	
+								<button data-activate="#modal">Show Modal Button 2</button>
+								<div id="modal">Modal</div>
+							</div>
+
+							<h3>data-deactivate</h3>
+
+							<div class="demo-comment">
+								<p>specifying a selector to the data-deactivate attribute will remove the .active class and trigger a DUH.events.activate event for both the selector, and all other elements that have the same data-deactivate, data-activate, or data-toggle value when clicked.</p>
+								<p>in this case clicking the Show Modal Button will add an active class</p>
+							</div>		
+							<div class="demo-code">
+								<button data-activate="#modal">Show Modal Button</button>	
+								<button data-deactivate="#modal">Hide Modal Button</button>	
+								<div id="modal">Modal</div>
+							</div>
 
 							<ul>
 								<li>if two elements have the same target element id they will update the other when one changes like with this select group and button group</li>
-								<li>a 'DUH:show' and a 'DUH:hide' event are triggered for both the button and the target element, which you can listen and respond to via js like in demo.js</li>
+								<li>a 'DUH:activate' and a 'DUH:deactivate' event are triggered for both the button and the target element, which you can listen and respond to via js like in demo.js</li>
 								<li>an .active class is also added to both the button and the target element which you can use via css for styling and cssanimations</li>
 								<li>add a data-group value with the same name to all grouped buttons and/or target elements so that they are deactivated when another is selected (like tabs)</li>
 							</ul>
 
 							<select class="marg-b-20-sm">
-								<option data-toggle-target="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
-								<option data-toggle-target="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
-								<option data-toggle-target="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
+								<option data-toggle="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
+								<option data-toggle="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
+								<option data-toggle="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
 							</select>
 
 							<div>
@@ -284,22 +342,22 @@
 							</div>
 
 							<div>
-								<button data-toggle-target="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
+								<button data-toggle="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
 								<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active active">TAB PANE 1 !
 
 								</div>
 
-								<button data-toggle-target="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
+								<button data-toggle="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
 								<div id="tab-pane-2" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
 
-								<button data-toggle-target="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
+								<button data-toggle="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
 								<div id="tab-pane-3" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !
 									<div id="tab-pane-5" data-group="tab-panes-group-2" class="demo-tab-pane">TAB PANE 5 !
 									</div>
 								</div>
 
-								<button data-toggle-target="#tab-pane-4" data-group="tab-buttons-group-1">Tab 4 Button</button>
-								<button data-toggle-target="#tab-pane-5" data-group="tab-buttons-group-2">Tab 5 Button</button>
+								<button data-toggle="#tab-pane-4" data-group="tab-buttons-group-1">Tab 4 Button</button>
+								<button data-toggle="#tab-pane-5" data-group="tab-buttons-group-2">Tab 5 Button</button>
 
 							</div>
 						</div>
@@ -308,7 +366,7 @@
 					<section class="row">
 						<div class="col-full-sm">
 							<h3>Modals</h3>
-							<button data-show-target="#modal1">Modal 1 Show Button</button>
+							<button data-activate="#modal1">Modal 1 Show Button</button>
 						</div>
 					</section>
 
@@ -316,15 +374,15 @@
 						<div class="col-full-sm">
 							<h3>Scroll to and scroll spy</h3>
 							<select class="marg-b-20-sm">
-								<option data-scroll-target="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
-								<option data-scroll-target="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 2 Button</option>
-								<option data-scroll-target="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 3 Button</option>
+								<option data-scroll="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
+								<option data-scroll="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 2 Button</option>
+								<option data-scroll="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 3 Button</option>
 							</select>
 
 							<div>
-								<button data-scroll-target="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
-								<button data-scroll-target="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 2 Button</button>
-								<button data-scroll-target="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 3 Button</button>
+								<button data-scroll="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
+								<button data-scroll="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 2 Button</button>
+								<button data-scroll="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 3 Button</button>
 							</div>
 
 							<div id="scrollable-1" data-scrollspy="vertical" class="demo-scroll-container">
@@ -367,9 +425,9 @@
 
 		</div>
 
-		<div id="modal1" class="demo-modal" data-hide-target="#modal1">
+		<div id="modal1" class="demo-modal" data-deactivate="#modal1">
 			<div class="demo-modal-inner">
-				<button data-hide-target="#modal1">Modal 1 Hide Button</button>
+				<button data-deactivate="#modal1">Modal 1 Hide Button</button>
 				<h2>MODAL 1</h2>
 			</div>
 		</div>
