@@ -7,8 +7,7 @@
 		events: {
 			breakpoint: 'DUH.events.breakpoint',
 			activate: 'DUH.events.activate',
-			deactivate: 'DUH.events.deactivate',
-			scroll: 'DUH.events.scroll'
+			deactivate: 'DUH.events.deactivate'
 		},
 
 		activate: function($el){
@@ -16,7 +15,7 @@
 			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger(DUH.events.deactivate); });
 			$el.addClass('active').trigger(DUH.events.activate);
 
-			var $links = $('[data-activate="'+selector+'"], [data-toggle="'+selector+'"], [data-scroll="'+selector+'"]').not($el);
+			var $links = $('[data-activate="'+selector+'"], [data-toggle="'+selector+'"]').not($el);
 			$links.each(function(){
 				var $link = $(this);
 				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger(DUH.events.deactivate); });
@@ -42,34 +41,6 @@
 		toggle: function($el){
 			var selector = $el.selector;
 			if($el.hasClass('active')){ DUH.deactivate($el); }else{ DUH.activate($el); }
-
-			return $el;
-		},
-
-		scroll: function($el, options){
-			var selector = $el.selector;
-			DUH.activate($el);
-			$el.trigger(DUH.events.scroll);
-
-			options = $.extend({
-				$scrollable: $('body'),
-				direction: 'vertical',
-				speed: 200,
-				offsetX: 0,
-				offsetY: 0
-			}, options);
-
-			if(options.$scrollable.is('body')){ options.$scrollable = $("html, body"); }
-
-			if(options.direction === 'horizontal'){
-				options.$scrollable.stop(true, true).animate({
-			        scrollLeft:  options.$scrollable.scrollLeft() - options.$scrollable.offset().left + $el.offset().left - options.offsetX
-			    }, options.speed); 
-			}else{
-				options.$scrollable.stop(true, true).animate({
-			        scrollTop:  options.$scrollable.scrollTop() - options.$scrollable.offset().top + $el.offset().top - options.offsetY
-			    }, options.speed); 
-			}
 
 			return $el;
 		},
@@ -103,19 +74,8 @@
 		return this;
 	};
 
-	function scrollToFromLink($this){
-		var direction = $this.data('scrollable') ? $($this.data('scrollable')).data('scrollspy') : null;
-		DUH.scroll($($this.data('scroll')), {
-			$scrollable: $($this.data('scrollable')), 
-			direction: direction,
-			offsetX: $this.data('scroll-offset-x'),
-			offsetY: $this.data('scroll-offset-y'),
-			speed: $this.data('scroll-speed')
-		});
-	}
-
 	$(document).ready(function(){
-
+		//event listeners
 		$('body').on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
 		$('body').on('click', '[data-deactivate]',   function(){ DUH.deactivate($($(this).data('deactivate'))); });
 		$('body').on('click', '[data-toggle]', function(){ DUH.toggle($($(this).data('toggle'))); });
@@ -127,51 +87,7 @@
 			if($selectedOption.data('activate')){ DUH.activate($($selectedOption.data('activate'))); }
 			if($selectedOption.data('deactivate')){ DUH.deactivate($($selectedOption.data('deactivate'))); }
 			if($selectedOption.data('toggle')){ DUH.toggle($($selectedOption.data('toggle'))); }
-			if($selectedOption.data('scroll')){
-				scrollToFromLink($selectedOption);
-			}
 		});
-
-		$('body').on('click', '[data-scroll]', function(){ 
-			scrollToFromLink($(this));
-		});
-
-		var isFireFox = (/Firefox/i.test(navigator.userAgent));
-		var mousewheelevt = isFireFox ? "DOMMouseScroll" : "mousewheel";
-
-		//scrollspy
-		$('[data-scrollspy]').on(mousewheelevt, function(){
-			var $scrollable = $(this);
-			var direction = $scrollable.data('scrollspy');
-			var scrollTop = $scrollable.scrollTop();
-			var scrollLeft = $scrollable.scrollLeft();
-			var closestNum = Infinity;
-			var $closest = null;
-			if($scrollable.is('body') || $scrollable.is('html')){ scrollTop = $('body').scrollTop() || $('html').scrollTop(); }
-
-			$('[data-scrollable="#'+$scrollable.prop('id')+'"]').each(function(){
-				var $button = $(this);
-				var $spyable = $($button.data('scroll'));
-				var spyableScrollTop = $scrollable.scrollTop() - $scrollable.offset().top + $spyable.offset().top;
-				var spyableScrollLeft = $scrollable.scrollLeft() - $scrollable.offset().left + $spyable.offset().left;
-				var difference;
-
-				if(direction === 'horizontal'){
-					difference = Math.abs(scrollLeft - spyableScrollLeft);
-				}else{
-					difference = Math.abs(scrollTop - spyableScrollTop);
-				}
-
-				if(difference < closestNum){
-					closestNum = difference;
-					$closest = $($button.data('scroll'));
-				}
-				
-			});
-
-			DUH.activate($closest);		
-		});
-
 
 		//breakpoints
 		$(window).on('load resize', function(){
