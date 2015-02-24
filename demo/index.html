@@ -374,24 +374,19 @@ $defaultGutterSize: 10;
 </code>
 					</pre>
 
-					<h3>data-toggle</h3>
+					<h3>data-hover</h3>
 
 					<div class="demo-comment">
 						<ul>
-							<li>triggered on click</li>
-							<li>toggles calling DUH.activate and DUH.deactivate on the element</li>
-							<li>trigger using JS with: DUH.toggle('#element')</li>
+							<li>triggered on hover</li>
+							<li>calls DUH.activate on mouseenter and DUH.deactivate on mouseleave</li>
 						</ul>
 					</div>		
-					<pre>
-<code class="language-markup">
-<button id="deactivate-modal-button" data-deactivate="#modal2">Deactivate Modal Button</button>
-<button id="toggle-modal-button" data-toggle="#modal2">Toggle Modal Button</button>
-<button id="activate-modal-button" data-activate="#modal2">Activate Modal Button</button>
-<div id="modal2" class="modal"><span class="active-text">Active</span> Modal</div>
+<div class="duplicate-code" data-language="markup">
+<button data-hover="#modal">Hover Modal Button</button>
+<div id="modal" class="modal"><span class="active-text">Active</span> Modal</div>
 </code>
-					</pre>
-
+</div>
 					<h3>data-group</h3>
 
 					<div class="demo-comment">
