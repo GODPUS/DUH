@@ -6,6 +6,20 @@ body {
 	height: 100%;
 }
 
+h1 {
+	font-size: 200px;
+	margin-bottom: 10px;
+}
+
+h3 {
+	margin-top: 75px;
+}
+
+h5 {
+	margin-top: 0px;
+	margin-bottom: 100px;
+}
+
 li {
 	margin-bottom: 15px;
 }
@@ -49,14 +63,13 @@ section {
 }
 
 .demo-tab-pane {
-	height: 400px;
 	line-height: 400px;
 	font-size: 30px;
 	text-align: center;
 	height: 0px;
 	overflow: hidden;
 
-	&.initial-active {
+	&.demo-initial-active {
 		height: auto;
 	}
 }

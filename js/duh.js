@@ -2,7 +2,9 @@
 
 	/*** DUH ***/
 
-	window.DUH = { 
+	window.DUH = {
+		activeClass: 'active',
+
 		breakpoint: {},
 		breakpoints: [],
 
@@ -14,15 +16,15 @@
 
 		activate: function($el){
 			var selector = $el.selector;
-			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass('active').each(function(){ $(this).trigger(DUH.events.deactivate); });
-			$el.addClass('active').trigger(DUH.events.activate);
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
+			$el.addClass(DUH.activeClass).trigger(DUH.events.activate);
 
 			var $links = $('[data-activate="'+selector+'"], [data-toggle="'+selector+'"]').not($el);
 			$links.each(function(){
 				var $link = $(this);
-				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass('active').each(function(){ $(this).trigger(DUH.events.deactivate); });
+				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
 				if($link.is('option')){ $link.prop('selected', 'selected'); }
-				$link.addClass('active').trigger(DUH.events.activate);
+				$link.addClass(DUH.activeClass).trigger(DUH.events.activate);
 			});
 
 			return $el;
@@ -30,11 +32,11 @@
 
 		deactivate: function($el){
 			var selector = $el.selector;
-			$el.removeClass('active').trigger(DUH.events.deactivate);
+			$el.removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
 
 			var $links = $('[data-deactivate="'+selector+'"], [data-toggle="'+selector+'"], [data-activate="'+selector+'"]').not($el);
 			$links.each(function(){
-				$(this).removeClass('active').trigger(DUH.events.deactivate);
+				$(this).removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
 			});
 
 			return $el;
@@ -42,7 +44,7 @@
 
 		toggle: function($el){
 			var selector = $el.selector;
-			if($el.hasClass('active')){ DUH.deactivate($el); }else{ DUH.activate($el); }
+			if($el.hasClass(DUH.activeClass)){ DUH.deactivate($el); }else{ DUH.activate($el); }
 
 			return $el;
 		},

@@ -39,13 +39,13 @@ $breakpoints: ('sm': (0, 100%), 'md': (768, 100%), 'lg': (960, 960px));
 				</div>
 				<pre>
 <code class="language-css">
-.col-1-sm         //from width 0 and up
-.col-1-sm-only    //only from width 0 to 767
-.col-1-md         //from width 768 and up
-.col-1-md-only    //only from width 768 to 959
-.col-1-lg         //from width 960 and up
-.col-1-lg-only    //since this is the largest it is the same as .col-1-lg, 
-	              //we include the only to make it more readable and consistent
+.col-1-sm {}         //from width 0 and up
+.col-1-sm-only {}    //only from width 0 to 767
+.col-1-md {}         //from width 768 and up
+.col-1-md-only {}    //only from width 768 to 959
+.col-1-lg {}         //from width 960 and up
+.col-1-lg-only {}    //since this is the largest it is the same as .col-1-lg, 
+	                 //we include the only to make it more readable and consistent
 </code>
 				</pre>
 
@@ -397,19 +397,19 @@ $defaultGutterSize: 10;
 							<li>in the example we create dropdown tabs which are animated via js </li>
 						</ul>
 					</div>		
-<pre class="language-javascript">
-<code>
+<pre>
+<code class="language-javascript">
 //use custom jquery onlyOn method to prevent parent elements with same 
 //selector from running callback function while still maintaining 'live' functionality.
 
 $body.onlyOn(DUH.events.activate, '.demo-tab-pane', function(event){
 
-	//use convienent animateAutoHeight method that takes the parameters (animationOptions, callback)
+	//use convenient animateAutoHeight method that takes the parameters (animationOptions, callback)
 	$(this).animateAutoHeight({ speed: 150 }, function(){ console.log('auto height animation complete!') });
 
 }).onlyOn(DUH.events.deactivate, '.demo-tab-pane', function(event){
 
-	//use convienent animateZeroHeight method that takes the parameters (animationOptions, callback)
+	//use convenient animateZeroHeight method that takes the parameters (animationOptions, callback)
 	$(this).animateZeroHeight({ speed: 150 }, function(){ console.log('zero height animation complete!') });
 
 });
@@ -425,7 +425,7 @@ $body.onlyOn(DUH.events.activate, '.demo-tab-pane', function(event){
 
 <div>
 	<button data-toggle="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
-	<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active active">TAB PANE 1 !</div>
+	<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane demo-initial-active active">TAB PANE 1 !</div>
 
 	<button data-toggle="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
 	<div id="tab-pane-2" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
