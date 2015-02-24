@@ -1,5 +1,7 @@
 ;(function($){
 
+	/*** DUH ***/
+
 	window.DUH = { 
 		breakpoint: {},
 		breakpoints: [],
@@ -63,15 +65,22 @@
 		}
 	};
 
-	$(document).ready(function(){
-		//event listeners
-		$('body').on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
-		$('body').on('click', '[data-deactivate]',   function(){ DUH.deactivate($($(this).data('deactivate'))); });
-		$('body').on('click', '[data-toggle]', function(){ DUH.toggle($($(this).data('toggle'))); });
-		$('body').on('mouseenter', '[data-hover]', function(){ DUH.activate($($(this).data('hover'))); });
-		$('body').on('mouseleave', '[data-hover]', function(){ DUH.deactivate($($(this).data('hover'))); });
+	/*** ATTACH TO DOM ***/
 
-		$('body').on('change', 'select', function(){
+	window.$document = $(document);
+	window.$window = $(window);
+	window.$html = $('html');
+	window.$body = $('body');
+
+	$document.ready(function(){
+		//event listeners
+		$body.on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
+		$body.on('click', '[data-deactivate]',   function(){ DUH.deactivate($($(this).data('deactivate'))); });
+		$body.on('click', '[data-toggle]', function(){ DUH.toggle($($(this).data('toggle'))); });
+		$body.on('mouseenter', '[data-hover]', function(){ DUH.activate($($(this).data('hover'))); });
+		$body.on('mouseleave', '[data-hover]', function(){ DUH.deactivate($($(this).data('hover'))); });
+
+		$body.on('change', 'select', function(){
 			var $selectedOption = $(this).find('option:selected');
 			if($selectedOption.data('activate')){ DUH.activate($($selectedOption.data('activate'))); }
 			if($selectedOption.data('deactivate')){ DUH.deactivate($($selectedOption.data('deactivate'))); }
@@ -79,7 +88,7 @@
 		});
 
 		//breakpoints
-		$(window).on('load resize', function(){
+		$window.on('load resize', function(){
 			var checkBreakpoint = getCurrentBreakpoint();
 			if(DUH.breakpoint.name != checkBreakpoint.name){
 				DUH.breakpoint = checkBreakpoint;
@@ -121,8 +130,8 @@
 	});
 
 	
-	//jquery helper methods
-	
+	/*** JQUERY HELPER METHODS ***/
+
 	$.fn.onlyOn = function(event, selector, callback) {
 		$.fn.on.apply(this, [event, selector, function(e){
 			if(e.target === this){
@@ -137,5 +146,34 @@
 	$.fn.exists = function(){
 		if(this.length){ return true }else{ return false }
 	}
+
+	$.fn.animateAutoHeight = function(animationOptions, callback) {
+		var self = this;
+		animationOptions = $.extend({
+			duration: 200,
+			complete: function(){
+				self.css('height', 'auto');
+				if(callback){ callback.apply(self); }
+			}
+		}, animationOptions);
+
+		var curHeight = this.outerHeight(true);
+		self.css('height', 'auto');
+		var autoHeight = this.outerHeight(true);
+
+		self.height(curHeight).stop(true).animate({ height: autoHeight }, animationOptions);
+	};
+
+	$.fn.animateZeroHeight = function(animationOptions, callback) {
+		var self = this;
+		animationOptions = $.extend({
+			duration: 200,
+			complete: function(){
+				if(callback){ callback.apply(self); }
+			}
+		}, animationOptions);
+
+		self.stop(true).animate({ height: 0 }, animationOptions);
+	};
 
 })(jQuery);
