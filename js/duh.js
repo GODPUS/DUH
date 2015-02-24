@@ -43,7 +43,6 @@
 		},
 
 		toggle: function($el){
-			var selector = $el.selector;
 			if($el.hasClass(DUH.activeClass)){ DUH.deactivate($el); }else{ DUH.activate($el); }
 
 			return $el;

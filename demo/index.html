@@ -291,6 +291,39 @@ $defaultGutterSize: 10;
 <div class="visible-lg-only"></div>
 </code>
 				</pre>
+
+
+				<h3>Custom Suffixed Classes</h3>
+
+				<div class="demo-comment">
+					inside _allsizes.scss are definitions for helper classes that will have added responsive suffixes.
+					add your own and make sure generate-all-sizes-queue() is called at the end. this example:
+				</div>
+				<pre>
+<code class="language-scss">
+@include all-sizes-queue(center-horiz, (margin-left: auto, margin-right: auto, float: none, display: block));
+@include all-sizes-queue(text-left, (text-align: left));
+
+@include generate-all-sizes-queue();
+</code>
+				</pre>
+
+				<div class="demo-comment">
+					will generate this css:
+				</div>
+<code class="language-css">
+.center-horiz-sm { margin-left: auto; margin-right: auto; float: none; display: block; }
+.center-horiz-sm-only { margin-left: auto; margin-right: auto; float: none; display: block; }
+.center-horiz-md { margin-left: auto; margin-right: auto; float: none; display: block; }
+.center-horiz-md-only { margin-left: auto; margin-right: auto; float: none; display: block; }
+.center-horiz-lg { margin-left: auto; margin-right: auto; float: none; display: block; }
+
+.text-left-sm { text-align: left; }
+.text-left-sm-only { text-align: left; }
+.text-left-md { text-align: left; }
+.text-left-md-only { text-align: left; }
+.text-left-lg { text-align: left; }
+</code>
 			</section>
 
 			<h2>Javascript</h2>

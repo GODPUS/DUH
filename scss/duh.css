@@ -3150,6 +3150,9 @@ body {
     padding-right: 50px; } }
 /* add custom classes here */
 @media only screen and (min-width: 0px) {
+  .pos-relative-sm {
+    position: relative; }
+
   .float-left-sm {
     float: left; }
 
@@ -3186,6 +3189,9 @@ body {
   .display-table-cell-sm {
     display: table-cell; } }
 @media only screen and (min-width: 0px) and (max-width: 767px) {
+  .pos-relative-sm-only {
+    position: relative; }
+
   .float-left-sm-only {
     float: left; }
 
@@ -3222,6 +3228,9 @@ body {
   .display-table-cell-sm-only {
     display: table-cell; } }
 @media only screen and (min-width: 768px) {
+  .pos-relative-md {
+    position: relative; }
+
   .float-left-md {
     float: left; }
 
@@ -3258,6 +3267,9 @@ body {
   .display-table-cell-md {
     display: table-cell; } }
 @media only screen and (min-width: 768px) and (max-width: 959px) {
+  .pos-relative-md-only {
+    position: relative; }
+
   .float-left-md-only {
     float: left; }
 
@@ -3294,6 +3306,9 @@ body {
   .display-table-cell-md-only {
     display: table-cell; } }
 @media only screen and (min-width: 960px) {
+  .pos-relative-lg {
+    position: relative; }
+
   .float-left-lg {
     float: left; }
 
@@ -3330,6 +3345,9 @@ body {
   .display-table-cell-lg {
     display: table-cell; } }
 @media only screen and (min-width: 960px) {
+  .pos-relative-lg-only {
+    position: relative; }
+
   .float-left-lg-only {
     float: left; }
 

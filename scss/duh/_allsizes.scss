@@ -1,3 +1,4 @@
+@include all-sizes-queue(pos-relative, (position: relative));
 @include all-sizes-queue(float-left, (float: left));
 @include all-sizes-queue(float-right, (float: right));
 @include all-sizes-queue(display-none, (display: none));
