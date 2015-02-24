@@ -63,17 +63,6 @@
 		}
 	};
 
-	$.fn.onlyOn = function(event, selector, callback) {
-		$.fn.on.apply(this, [event, selector, function(e){
-			if(e.target === this){
-				e.stopPropagation();
-				callback.apply(this, [e]);
-			}
-		}]);
-
-		return this;
-	};
-
 	$(document).ready(function(){
 		//event listeners
 		$('body').on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
@@ -130,5 +119,23 @@
 
 		getAllBreakpoints();
 	});
+
+	
+	//jquery helper methods
+	
+	$.fn.onlyOn = function(event, selector, callback) {
+		$.fn.on.apply(this, [event, selector, function(e){
+			if(e.target === this){
+				e.stopPropagation();
+				callback.apply(this, [e]);
+			}
+		}]);
+
+		return this;
+	};
+
+	$.fn.exists = function(){
+		if(this.length){ return true }else{ return false }
+	}
 
 })(jQuery);

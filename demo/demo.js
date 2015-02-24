@@ -16,10 +16,6 @@ $(function(){
 	DUH.activate($('#tab-pane-2'));
 	DUH.deactivate($('#tab-pane-2'));
 	DUH.toggle($('#tab-pane-2'));
-	DUH.scroll($('#tab-pane-2'), {
-		offsetY: 300,
-		speed: 200
-	});
 
 	DUH.onBreakpoint(function(){
 		console.log('ALL!');
@@ -32,4 +28,5 @@ $(function(){
 	DUH.onBreakpoint(['lg', 'md'], function(){
 		console.log('LG OR MD!');
 	});
+
 });

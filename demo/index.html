@@ -2,10 +2,14 @@
 <html>
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+		<link rel="stylesheet" type="text/css" href="../scss/duh.css" />
 		<link rel="stylesheet" type="text/css" href="demo.css" />
-		<script src="js/vendor/jquery-1.11.0.min.js"></script>
-		<script src="js/vendor/duh.js"></script>
-		<script src="js/demo.js"></script>
+		<script src="jquery-1.11.0.min.js"></script>
+		<script src="../js/duh.js"></script>
+		<script src="demo.js"></script>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/prism/0.0.1/prism.min.css" />
 	</head>
 	<body>
 		<div class="container center-horiz-sm">
@@ -35,6 +39,12 @@
 							according to our breakpoints variable, all responsive classes will have suffixes like so. For example the .col-1 classes will be:
 						</div>
 						<div class="demo-code">
+							<pre>
+								<code class="language-css">
+									p { color: red }
+									p { color: red }
+								</code>
+							</pre>
 							<ul>
 								<li>.col-1-sm      <span class="demo-list-comment">//from width 0 and up</span></li> 
 								<li>.col-1-sm-only <span class="demo-list-comment">//only from width 0 to 767</span></li>
@@ -280,7 +290,6 @@
 								<p>data-activate="#elementID"</p>
 								<p>data-deactivate="#elementID"</p>
 								<p>data-toggle="#elementID"</p>
-								<p>data-scroll="#elementID"</p>
 								<p>data-hover="#elementID"</p>
 								<p>data-group="shared-group-name-1"</p>
 							</div>
@@ -289,57 +298,55 @@
 
 							<div class="demo-comment">
 								<p>Activation and Deactivation are the two methods that drive all of these situations.</p>
-								<p>An active element is activated via the addition of the .active class and triggered via jquery with the DUH.events.activate event</p>
-								<p>A deactive element is dectivated via the removal of the .active class and triggered via jquery with the DUH.events.deactivate event</p>
-							</div>		
+								<p>An active element is activated via the addition of the .active class and has a DUH.events.activate event triggered via jquery</p>
+								<p>A deactive element is dectivated via the removal of the .active class and has a DUH.events.deactivate event triggered via jquery</p>
+							</div>
+
 							<div class="demo-code">
-								<button data-activate="#modal">Show Modal Button 1</button>	
-								<button data-activate="#modal">Show Modal Button 2</button>
-								<div id="modal">Modal</div>
+								
 							</div>
 
 							<h3>data-activate</h3>
 
 							<div class="demo-comment">
-								<p>specifying a selector to the data-activate attribute will add an .active class and trigger a DUH.events.activate event for both the selector, and all other elements that have the same data-activate, data-toggle, or data-scroll value when clicked.</p>
-								<p>in this case clicking either the first or second button will result the activation of all three elements</p>
+								<ul>
+									<li>triggered on click</li>
+									<li>on trigger: the clicked element ('#activate-modal-button'), the matching elements of selector value of data-activate ('#modal'), and matching elements with the same data-activate or data-toggle value as the clicked element ('#toggle-modal-button' and '#activate-modal-button-2') will add an .active class and receive the DUH.events.activate event via jquery</li>
+									<li>trigger using JS with: DUH.activate('#element')</li>
+								</ul>
 							</div>		
 							<div class="demo-code">
-								<button data-activate="#modal">Show Modal Button 1</button>	
-								<button data-activate="#modal">Show Modal Button 2</button>
-								<div id="modal">Modal</div>
+								<code>
+									<button id="activate-modal-button" data-activate="#modal1">Activate Modal Button</button>
+									<button id="toggle-modal-button" data-toggle="#modal1">Toggle Modal Button</button>
+									<button id="activate-modal-button-2" data-activate="#modal1">Activate Modal Button 2</button>
+									<div id="modal1" class="modal"><span class="active-text">Active</span> Modal</div>
+								</code>
 							</div>
 
 							<h3>data-deactivate</h3>
 
 							<div class="demo-comment">
-								<p>specifying a selector to the data-deactivate attribute will remove the .active class and trigger a DUH.events.activate event for both the selector, and all other elements that have the same data-deactivate, data-activate, or data-toggle value when clicked.</p>
-								<p>in this case clicking the Show Modal Button will add an active class</p>
+								<ul>
+									<li>triggered on click</li>
+									<li>on trigger: the clicked element ('#deactivate-modal-button'), the matching elements of selector value of data-deactivate ('#modal'), and matching elements with the same data-deactivate, data-activate, or data-toggle value as the clicked element ('#toggle-modal-button' and '#activate-modal-button') will remove the .active class and receive the DUH.events.deactivate event via jquery</li>
+									<li>trigger using JS with: DUH.activate('#element')</li>
+								</ul>
 							</div>		
 							<div class="demo-code">
-								<button data-activate="#modal">Show Modal Button</button>	
-								<button data-deactivate="#modal">Hide Modal Button</button>	
-								<div id="modal">Modal</div>
+								<code>
+									<button id="deactivate-modal-button" data-deactivate="#modal2">Deactivate Modal Button</button>
+									<button id="toggle-modal-button" data-toggle="#modal2">Toggle Modal Button</button>
+									<button id="activate-modal-button" data-activate="#modal2">Activate Modal Button</button>
+									<div id="modal2" class="modal"><span class="active-text">Active</span> Modal</div>
+								</code>
 							</div>
-
-							<ul>
-								<li>if two elements have the same target element id they will update the other when one changes like with this select group and button group</li>
-								<li>a 'DUH:activate' and a 'DUH:deactivate' event are triggered for both the button and the target element, which you can listen and respond to via js like in demo.js</li>
-								<li>an .active class is also added to both the button and the target element which you can use via css for styling and cssanimations</li>
-								<li>add a data-group value with the same name to all grouped buttons and/or target elements so that they are deactivated when another is selected (like tabs)</li>
-							</ul>
 
 							<select class="marg-b-20-sm">
 								<option data-toggle="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
 								<option data-toggle="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
 								<option data-toggle="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
 							</select>
-
-							<div>
-								
-								
-								
-							</div>
 
 							<div>
 								<button data-toggle="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
@@ -367,57 +374,6 @@
 						<div class="col-full-sm">
 							<h3>Modals</h3>
 							<button data-activate="#modal1">Modal 1 Show Button</button>
-						</div>
-					</section>
-
-					<section class="row">
-						<div class="col-full-sm">
-							<h3>Scroll to and scroll spy</h3>
-							<select class="marg-b-20-sm">
-								<option data-scroll="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-select-group-1" class="active">Scroll 1 Button</option>
-								<option data-scroll="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 2 Button</option>
-								<option data-scroll="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-select-group-1">Scroll 3 Button</option>
-							</select>
-
-							<div>
-								<button data-scroll="#scroll-area-1" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1" class="active">Scroll 1 Button</button>
-								<button data-scroll="#scroll-area-2" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 2 Button</button>
-								<button data-scroll="#scroll-area-3" data-scrollable="#scrollable-1" data-group="scroll-buttons-group-1">Scroll 3 Button</button>
-							</div>
-
-							<div id="scrollable-1" data-scrollspy="vertical" class="demo-scroll-container">
-								<div id="scroll-area-1" data-group="scroll-area-group-1" class="demo-scroll-area">
-									SCROLL AREA 1
-
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								</div>
-								<div id="scroll-area-2" data-group="scroll-area-group-1" class="demo-scroll-area">
-									SCROLL AREA 2
-
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								</div>
-								<div id="scroll-area-3" data-group="scroll-area-group-1" class="demo-scroll-area">
-									SCROLL AREA 3
-
-									Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-									tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-									quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-									consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-									cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-									proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-								</div>
-							</div>
-
 						</div>
 					</section>
 				</div>
