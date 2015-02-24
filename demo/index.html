@@ -308,7 +308,8 @@ $defaultGutterSize: 10;
 <div data-deactivate="#elementID"></div>
 <div data-toggle="#elementID"></div>
 <div data-hover="#elementID"></div>
-<div data-group="shared-group-name-1"></div></code>
+<div data-group="shared-group-name-1"></div>
+</code>
 					</pre>
 
 					<h3>Activation & Deactivation</h3>
@@ -336,13 +337,14 @@ $defaultGutterSize: 10;
 <div id="modal1" class="modal"><span class="active-text">Active</span> Modal</div>
 </code>
 					</pre>
+
 					<h3>data-deactivate</h3>
 
 					<div class="demo-comment">
 						<ul>
 							<li>triggered on click</li>
 							<li>on trigger: the clicked element ('#deactivate-modal-button'), the matching elements of selector value of data-deactivate ('#modal'), and matching elements with the same data-deactivate, data-activate, or data-toggle value as the clicked element ('#toggle-modal-button' and '#activate-modal-button') will remove the .active class and receive the DUH.events.deactivate event via jquery</li>
-							<li>trigger using JS with: DUH.activate('#element')</li>
+							<li>trigger using JS with: DUH.deactivate('#element')</li>
 						</ul>
 					</div>		
 					<pre>
@@ -354,31 +356,87 @@ $defaultGutterSize: 10;
 </code>
 					</pre>
 
-					<select class="marg-b-20-sm">
-						<option data-toggle="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
-						<option data-toggle="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
-						<option data-toggle="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
-					</select>
+					<h3>data-toggle</h3>
 
-					<div>
-						<button data-toggle="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
-						<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active active">TAB PANE 1 !
+					<div class="demo-comment">
+						<ul>
+							<li>triggered on click</li>
+							<li>toggles calling DUH.activate and DUH.deactivate on the element</li>
+							<li>trigger using JS with: DUH.toggle('#element')</li>
+						</ul>
+					</div>		
+					<pre>
+<code class="language-markup">
+<button id="deactivate-modal-button" data-deactivate="#modal2">Deactivate Modal Button</button>
+<button id="toggle-modal-button" data-toggle="#modal2">Toggle Modal Button</button>
+<button id="activate-modal-button" data-activate="#modal2">Activate Modal Button</button>
+<div id="modal2" class="modal"><span class="active-text">Active</span> Modal</div>
+</code>
+					</pre>
 
-						</div>
+					<h3>data-toggle</h3>
 
-						<button data-toggle="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
-						<div id="tab-pane-2" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
+					<div class="demo-comment">
+						<ul>
+							<li>triggered on click</li>
+							<li>toggles calling DUH.activate and DUH.deactivate on the element</li>
+							<li>trigger using JS with: DUH.toggle('#element')</li>
+						</ul>
+					</div>		
+					<pre>
+<code class="language-markup">
+<button id="deactivate-modal-button" data-deactivate="#modal2">Deactivate Modal Button</button>
+<button id="toggle-modal-button" data-toggle="#modal2">Toggle Modal Button</button>
+<button id="activate-modal-button" data-activate="#modal2">Activate Modal Button</button>
+<div id="modal2" class="modal"><span class="active-text">Active</span> Modal</div>
+</code>
+					</pre>
 
-						<button data-toggle="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
-						<div id="tab-pane-3" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !
-							<div id="tab-pane-5" data-group="tab-panes-group-2" class="demo-tab-pane">TAB PANE 5 !
-							</div>
-						</div>
+					<h3>data-group</h3>
 
-						<button data-toggle="#tab-pane-4" data-group="tab-buttons-group-1">Tab 4 Button</button>
-						<button data-toggle="#tab-pane-5" data-group="tab-buttons-group-2">Tab 5 Button</button>
+					<div class="demo-comment">
+						<ul>
+							<li>use in conjunction with data-activate and data-toggle</li>
+							<li>groups 'tabs' and 'tab panes' together to only show one group item at a time</li>
+							<li>use whatever name for groups you want to</li>
+							<li>in the example we create dropdown tabs which are animated via js </li>
+						</ul>
+					</div>		
+<pre class="language-javascript">
+<code>
+//use custom jquery onlyOn method to prevent parent elements with same 
+//selector from running callback function while still maintaining 'live' functionality.
+$('body').onlyOn(DUH.events.activate, '.demo-tab-pane', function(event){
+	var $this = $(this);
+	var curHeight = $this.height();
+	$this.css('height', 'auto');
+	var autoHeight = $this.height();
+	$this.height(curHeight).stop().animate({ height: autoHeight }, 150, function(){ $this.css('height', 'auto'); });
+}).onlyOn(DUH.events.deactivate, '.demo-tab-pane', function(event){
+	$(this).stop().animate({ height: 0 }, 150);
+});
+</code>
+</pre>
 
-					</div>
+<div class="duplicate-code" data-language="markup">
+<select class="marg-b-20-sm">
+	<option data-toggle="#tab-pane-1" data-group="tab-select-group-1" class="active">Tab 1 Button</option>
+	<option data-toggle="#tab-pane-2" data-group="tab-select-group-1">Tab 2 Button</option>
+	<option data-toggle="#tab-pane-3" data-group="tab-select-group-1">Tab 3 Button</option>
+</select>
+
+<div>
+	<button data-toggle="#tab-pane-1" data-group="tab-buttons-group-1" class="active">Tab 1 Button</button>
+	<div id="tab-pane-1" data-group="tab-panes-group-1" class="demo-tab-pane initial-active active">TAB PANE 1 !</div>
+
+	<button data-toggle="#tab-pane-2" data-group="tab-buttons-group-1">Tab 2 Button</button>
+	<div id="tab-pane-2" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 2 !</div>
+
+	<button data-toggle="#tab-pane-3" data-group="tab-buttons-group-1">Tab 3 Button</button>
+	<div id="tab-pane-3" data-group="tab-panes-group-1" class="demo-tab-pane">TAB PANE 3 !</div>
+</div>
+</div>
+
 				</div>
 			</section>
 
@@ -386,6 +444,18 @@ $defaultGutterSize: 10;
 				<div class="col-full-sm">
 					<h3>Modals</h3>
 					<button data-activate="#modal1">Modal 1 Show Button</button>
+
+<pre>
+<code class="language-markup">
+<button data-activate="#modal1">Modal 1 Show Button</button>
+<div id="modal1" class="demo-modal" data-deactivate="#modal1">
+	<div class="demo-modal-inner">
+		<button data-deactivate="#modal1">Modal 1 Hide Button</button>
+		<h2>MODAL 1</h2>
+	</div>
+</div>
+</code>
+</pre>
 				</div>
 			</section>
 		</div>
@@ -418,6 +488,12 @@ $defaultGutterSize: 10;
 			 	$('.language-markup').each(function(){
 			 		var html = escapeHtml($(this).html());
 			 		$(this).html(html);
+			 	});
+
+			 	$('.duplicate-code').each(function(){
+			 		var html = escapeHtml($(this).html());	
+			 		var language = $(this).data('language');
+			 		$(this).prepend('<pre><code class="language-'+language+'">'+html+'</code></pre>');
 			 	});
 			 });
 		</script>
