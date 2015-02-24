@@ -69,10 +69,11 @@
 
 	window.$document = $(document);
 	window.$window = $(window);
-	window.$html = $('html');
-	window.$body = $('body');
 
 	$document.ready(function(){
+		window.$html = $('html');
+		window.$body = $('body');
+
 		//event listeners
 		$body.on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
 		$body.on('click', '[data-deactivate]',   function(){ DUH.deactivate($($(this).data('deactivate'))); });
