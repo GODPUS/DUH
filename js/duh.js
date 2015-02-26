@@ -99,10 +99,13 @@
 		});
 
 		function getBreakpointString(){
+			return $('#duh-breakpoint-element').css('font-family');
+			/*
 			var breakpoint = null;
 			if (document.documentElement.currentStyle) { breakpoint = document.documentElement.currentStyle["fontFamily"]; }
 			if (window.getComputedStyle) { breakpoint = window.getComputedStyle(document.documentElement,null).getPropertyValue('font-family'); }
 			if (breakpoint != null){ return breakpoint; }else{ return false; }
+			*/
 		}
 
 		function getCurrentBreakpoint(){

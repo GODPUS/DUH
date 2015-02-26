@@ -1,3 +1,4 @@
+/****** HELPER MIXINS ******/
 /* include fonts */
 /* order must go from font-weights to font-weights AND font-styles */
 /* we are using the mixed method that works with the most browsers as described here: 
@@ -32,16 +33,18 @@ body {
 	@include font(AvenirRegular);
 }
 */
-/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HTML !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-@media only screen and (min-width: 0px) {
-  html {
-    font-family: "sm:0,sm:0,md:768,lg:960"; } }
-@media only screen and (min-width: 768px) {
-  html {
-    font-family: "md:768,sm:0,md:768,lg:960"; } }
-@media only screen and (min-width: 960px) {
-  html {
-    font-family: "lg:960,sm:0,md:768,lg:960"; } }
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BREAKPOINT ELEMENT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+#duh-breakpoint-element {
+  display: none !important; }
+  @media only screen and (min-width: 0px) {
+    #duh-breakpoint-element {
+      font-family: "sm:0,sm:0,md:768,lg:960"; } }
+  @media only screen and (min-width: 768px) {
+    #duh-breakpoint-element {
+      font-family: "md:768,sm:0,md:768,lg:960"; } }
+  @media only screen and (min-width: 960px) {
+    #duh-breakpoint-element {
+      font-family: "lg:960,sm:0,md:768,lg:960"; } }
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CONTAINER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 .container {

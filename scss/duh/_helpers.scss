@@ -15,8 +15,9 @@
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MARGIN & PADDING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 $currentSpacing: 0;
+$numLoops: round($spacingMax/$spacingMultiplier);
 
-@while $currentSpacing < ($spacingMax+1) {
+@for $i from 0 through $numLoops {
 	@include all-sizes-queue(marg-#{$currentSpacing},   (margin: #{$currentSpacing}px));
 	@include all-sizes-queue(marg-t-#{$currentSpacing}, (margin-top: #{$currentSpacing}px));
 	@include all-sizes-queue(marg-b-#{$currentSpacing}, (margin-bottom: #{$currentSpacing}px));

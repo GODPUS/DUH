@@ -1,7 +1,9 @@
 
-/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! HTML !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BREAKPOINT ELEMENT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
 
-html {
+#duh-breakpoint-element {
+	display: none !important;
+
 	$breakpointsString: '';
 	@each $breakpoint, $size in $breakpoints {
 		$breakpointsString: $breakpointsString+(','+$breakpoint+':'+(nth($size, 1)));

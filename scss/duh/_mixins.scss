@@ -89,3 +89,116 @@ $allSizes: () !global;
 		}
 	}
 }
+
+
+/****** HELPER MIXINS ******/
+
+@mixin clearfix {
+	clear: both;
+
+	&:before, &:after {
+		content: " ";
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+}
+
+@mixin unstyled {
+	border: 0;
+	outline: 0;
+	margin: 0;
+	padding: 0;
+	color: inherit;
+	text-decoration: none;
+	background: none;
+}
+
+@mixin vendor-prefix-property($name, $argument) {
+	#{$name}: $argument;
+	-webkit-#{$name}: $argument;
+	-ms-#{$name}: $argument;
+	-moz-#{$name}: $argument;
+	-o-#{$name}: $argument;
+}
+
+@mixin vendor-prefix-value($property, $value){
+  #{$property}: #{$value};
+  #{$property}: -webkit-#{$value};
+  #{$property}: -ms-#{$value};
+  #{$property}: -moz-#{$value};
+  #{$property}: -o-#{$value};
+}
+
+$fonts: () !global;
+
+@mixin font-import($name, $path, $options) {
+	$weight: map-get($options, 'weight');
+	$style: map-get($options, 'style');
+	$family: map-get($options, 'family');
+
+	@font-face {
+		font-family: $name;
+		src: url($path+".eot");
+		src: url($path+".eot?#iefix") format("embedded-opentype"),
+			 url($path+".woff") format("woff"),
+		     url($path+".ttf") format("truetype"),
+		     url($path+".svg#"+$name) format("svg");
+		@if $weight  { font-weight: #{$weight};   }@else{ font-weight: normal; }
+		@if $style   { font-style: #{$style};     }@else{ font-style: normal; }
+	}
+
+	$fonts: map-merge($fonts, ($name: $options)) !global;
+}
+
+@mixin font($name) {
+	$options: map-get($fonts, $name);
+	$weight: map-get($options, 'weight');
+	$style: map-get($options, 'style');
+	$family: map-get($options, 'family');
+
+	@if $family { font-family: "#{$name}", #{$family}; }@else{ font-family: "#{$name}"; }
+	@if $weight { font-weight: #{$weight};             }@else{ font-weight: normal; }
+	@if $style  { font-style: #{$style};               }@else{ font-style: normal; }
+}
+
+/* include fonts */
+/* order must go from font-weights to font-weights AND font-styles */
+/* we are using the mixed method that works with the most browsers as described here: 
+   http://www.smashingmagazine.com/2013/02/14/setting-weights-and-styles-at-font-face-declaration/ */
+
+ /*
+100    Extra Light or Ultra Light
+200    Light or Thin
+300    Book or Demi
+400    Normal or Regular
+500    Medium
+600    Semibold, Demibold
+700    Bold
+800    Black, Extra Bold or Heavy
+900    Extra Black, Fat, Poster or Ultra Black
+ */
+
+ /* weight and style default to normal if not specified */
+
+/*
+@include font-import('AvenirRegular', './fonts/AvenirRegular/AvenirNextRegular', (family: 'Arial, sans-serif'));
+@include font-import('AvenirLight',   './fonts/AvenirLight/AvenirNextLight',     (weight: 100, family: 'Arial, sans-serif'));
+@include font-import('AvenirDemi',    './fonts/AvenirDemi/AvenirNextDemi',       (weight: 600, family: 'Arial, sans-serif'));
+@include font-import('AvenirBold',    './fonts/AvenirBold/AvenirNextBold',       (weight: bold, family: 'Arial, sans-serif'));
+
+@include font-import('LobsterRegular',    './fonts/LobsterRegular/LobsterTwo-Regular',       (family: 'Helvetica, sans-serif'));
+@include font-import('LobsterBold',       './fonts/LobsterBold/LobsterTwo-Bold',             (weight: bold, family: 'Helvetica, sans-serif'));
+@include font-import('LobsterItalic',     './fonts/LobsterItalic/LobsterTwo-Italic',         (style: italic, family: 'Helvetica, sans-serif'));
+@include font-import('LobsterBoldItalic', './fonts/LobsterBoldItalic/LobsterTwo-BoldItalic', (weight: bold, style: italic, family: 'Helvetica, sans-serif'));
+*/
+
+/*
+font usage (never set font-weight, font-style, or font-family again):
+
+body {
+	@include font(AvenirRegular);
+}
+*/
