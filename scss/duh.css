@@ -34,16 +34,16 @@ body {
 }
 */
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! BREAKPOINT ELEMENT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
-#duh-breakpoint-element {
+#duh-breakpoint-info {
   display: none !important; }
   @media only screen and (min-width: 0px) {
-    #duh-breakpoint-element {
+    #duh-breakpoint-info {
       font-family: "sm:0,sm:0,md:768,lg:960"; } }
   @media only screen and (min-width: 768px) {
-    #duh-breakpoint-element {
+    #duh-breakpoint-info {
       font-family: "md:768,sm:0,md:768,lg:960"; } }
   @media only screen and (min-width: 960px) {
-    #duh-breakpoint-element {
+    #duh-breakpoint-info {
       font-family: "lg:960,sm:0,md:768,lg:960"; } }
 
 /*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! CONTAINER !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */

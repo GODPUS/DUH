@@ -15,28 +15,32 @@
 		},
 
 		activate: function($el){
-			var selector = $el.selector;
 			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
 			$el.addClass(DUH.activeClass).trigger(DUH.events.activate);
 
-			var $links = $('[data-activate="'+selector+'"], [data-toggle="'+selector+'"]').not($el);
-			$links.each(function(){
+			$('[data-activate], [data-toggle]').each(function(){
 				var $link = $(this);
-				$('[data-group="'+$link.data('group')+'"]').not($link).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
-				if($link.is('option')){ $link.prop('selected', 'selected'); }
-				$link.addClass(DUH.activeClass).trigger(DUH.events.activate);
+
+				if($el.is($link.data('activate')) || $el.is($link.data('toggle'))){
+
+					$('[data-group="'+$link.data('group')+'"]').not($link).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
+					if($link.is('option')){ $link.prop('selected', 'selected'); }
+					$link.addClass(DUH.activeClass).trigger(DUH.events.activate);
+				}
 			});
 
 			return $el;
 		},
 
 		deactivate: function($el){
-			var selector = $el.selector;
 			$el.removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
 
-			var $links = $('[data-deactivate="'+selector+'"], [data-toggle="'+selector+'"], [data-activate="'+selector+'"]').not($el);
-			$links.each(function(){
-				$(this).removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
+			var $links = $('[data-activate], [data-deactivate], [data-toggle]').each(function(){
+				var $link = $(this);
+
+				if($el.is($link.data('activate')) || $el.is($link.data('deactivate')) || $el.is($link.data('toggle'))){
+					$link.removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
+				}
 			});
 
 			return $el;
@@ -74,6 +78,7 @@
 	$document.ready(function(){
 		window.$html = $('html');
 		window.$body = $('body');
+		var $duhBreakpointInfo = $('#duh-breakpoint-info');
 
 		//event listeners
 		$body.on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
@@ -98,18 +103,8 @@
 			}
 		});
 
-		function getBreakpointString(){
-			return $('#duh-breakpoint-element').css('font-family');
-			/*
-			var breakpoint = null;
-			if (document.documentElement.currentStyle) { breakpoint = document.documentElement.currentStyle["fontFamily"]; }
-			if (window.getComputedStyle) { breakpoint = window.getComputedStyle(document.documentElement,null).getPropertyValue('font-family'); }
-			if (breakpoint != null){ return breakpoint; }else{ return false; }
-			*/
-		}
-
 		function getCurrentBreakpoint(){
-			var breakpoint = getBreakpointString();
+			var breakpoint = $duhBreakpointInfo.css('font-family');
 			var breakpointObj = {};
 			breakpoint = breakpoint.replace(/['",]/g, '');
 			breakpointObj.name = breakpoint.split(':')[0];
@@ -118,17 +113,17 @@
 		}
 
 		function getAllBreakpoints(){
-			var breakpoint = getBreakpointString();
+			var breakpoint = $duhBreakpointInfo.css('font-family');
 			var breakpoints = [];
 			breakpoints = breakpoint.split(',');
 			breakpoints.shift();
 
-			for(var i = 0; i < breakpoints.length; i++){
-				var string = breakpoints[i].replace(/['",]/g, '');
+			$.each(breakpoints, function(index, value){
+				var string = value.replace(/['",]/g, '');
 				var name = string.split(':')[0];
 				var width = parseInt(string.split(':')[1]);
 				DUH.breakpoints.push({ name: name, width: width });
-			}
+			});
 		}
 
 		getAllBreakpoints();
