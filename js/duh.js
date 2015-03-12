@@ -35,7 +35,7 @@
 		deactivate: function($el){
 			$el.removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
 
-			var $links = $('[data-activate], [data-deactivate], [data-toggle]').each(function(){
+			$('[data-activate], [data-deactivate], [data-toggle]').each(function(){
 				var $link = $(this);
 
 				if($el.is($link.data('activate')) || $el.is($link.data('deactivate')) || $el.is($link.data('toggle'))){
