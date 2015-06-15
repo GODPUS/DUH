@@ -3,29 +3,32 @@
 	/*** DUH ***/
 
 	window.DUH = {
-		activeClass: 'active',
+		activeClass: 'duh-active',
+		deactiveClass: 'duh-deactive',
+		hasInitialBreakpoint: false,
 
 		breakpoint: {},
 		breakpoints: [],
 
 		events: {
 			breakpoint: 'DUH.events.breakpoint',
+			initialBreakpoint: 'DUH.events.initialBreakpoint',
 			activate: 'DUH.events.activate',
 			deactivate: 'DUH.events.deactivate'
 		},
 
 		activate: function($el){
-			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
-			$el.addClass(DUH.activeClass).trigger(DUH.events.activate);
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass(DUH.activeClass).addClass(DUH.deactiveClass).trigger(DUH.events.deactivate);
+			$el.removeClass(DUH.deactiveClass).addClass(DUH.activeClass).trigger(DUH.events.activate);
 
 			$('[data-activate], [data-toggle]').each(function(){
 				var $link = $(this);
 
 				if($el.is($link.data('activate')) || $el.is($link.data('toggle'))){
 
-					$('[data-group="'+$link.data('group')+'"]').not($link).removeClass(DUH.activeClass).each(function(){ $(this).trigger(DUH.events.deactivate); });
+					$('[data-group="'+$link.data('group')+'"]').not($link).removeClass(DUH.activeClass).addClass(DUH.deactiveClass).trigger(DUH.events.deactivate);
 					if($link.is('option')){ $link.prop('selected', 'selected'); }
-					$link.addClass(DUH.activeClass).trigger(DUH.events.activate);
+					$link.removeClass(DUH.deactiveClass).addClass(DUH.activeClass).trigger(DUH.events.activate);
 				}
 			});
 
@@ -39,7 +42,7 @@
 				var $link = $(this);
 
 				if($el.is($link.data('activate')) || $el.is($link.data('deactivate')) || $el.is($link.data('toggle'))){
-					$link.removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
+					$link.removeClass(DUH.activeClass).addClass(DUH.deactiveClass).trigger(DUH.events.deactivate);
 				}
 			});
 
@@ -52,15 +55,41 @@
 			return $el;
 		},
 
-		onBreakpoint: function(breakpoints, callback){
+		isBreakpoint: function(breakpoint){
+			if(breakpoint instanceof Array){
+				if(breakpoint.indexOf(DUH.breakpoint.name) > -1){
+					return true;
+				}else{
+					return false;
+				}
+			}else if(typeof breakpoint === 'string'){
+				if(DUH.breakpoint.name === breakpoint){
+					return true;
+				}else{
+					return false;
+				}
+			}
+		},
+
+		onInitialBreakpoint: function(callback){
+			if(DUH.hasInitialBreakpoint){
+				callback.apply(this);
+			}else{
+				$(DUH).on(DUH.events.initialBreakpoint, function(){ 
+					callback.apply(this);
+				});
+			}
+		},
+
+		onBreakpoint: function(breakpoint, callback){
 			if (arguments.length === 1) {
 				callback = arguments[0];
-				breakpoints = null;
+				breakpoint = null;
 			}
 
 			$(DUH).on(DUH.events.breakpoint, function(){
-				if(breakpoints){
-					if(breakpoints.indexOf(DUH.breakpoint.name) > -1){
+				if(breakpoint){
+					if(DUH.isBreakpoint(breakpoint)){
 						callback.apply(this);
 					}
 				}else{
@@ -100,6 +129,11 @@
 			if(DUH.breakpoint.name != checkBreakpoint.name){
 				DUH.breakpoint = checkBreakpoint;
 				$(DUH).trigger(DUH.events.breakpoint);
+
+				if(!DUH.hasInitialBreakpoint){
+					DUH.hasInitialBreakpoint = true;
+					$(DUH).trigger(DUH.events.initialBreakpoint);
+				}
 			}
 		});
 
@@ -162,6 +196,22 @@
 		var autoHeight = this.outerHeight(true);
 
 		self.height(curHeight).stop(true).animate({ height: autoHeight }, animationOptions);
+	};
+
+	$.fn.animateAutoWidth = function(animationOptions, callback) {
+		var self = this;
+		animationOptions = $.extend({
+			duration: 200,
+			complete: function(){
+				self.css('width', 'auto');
+				if(callback){ callback.apply(self); }
+			}
+		}, animationOptions);
+
+		var curWidth = this.outerWidth(true);
+		self.css('width', 'auto');
+		var autoWidth = this.outerWidth(true);
+		self.width(curWidth).stop(true).animate({ width: autoWidth }, animationOptions);
 	};
 
 	$.fn.animateZeroHeight = function(animationOptions, callback) {

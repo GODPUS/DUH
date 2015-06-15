@@ -57,7 +57,7 @@ $allSizes: () !global;
 				.#{$name}-#{$breakpoint} { 
 
 					@each $rule, $value in $ruleValueMap {
-						#{$rule}: $value; 
+						#{$rule}: $value !important; 
 					}
 				}
 			}
@@ -70,7 +70,7 @@ $allSizes: () !global;
 				.#{$name}-#{$breakpoint}-only { 
 
 					@each $rule, $value in $ruleValueMap {
-						#{$rule}: $value; 
+						#{$rule}: $value !important; 
 					}
 				}
 			}
@@ -90,8 +90,8 @@ $allSizes: () !global;
 	}
 }
 
+/******* HELPER MIXINS *******/
 
-/****** HELPER MIXINS ******/
 
 @mixin clearfix {
 	clear: both;
@@ -130,6 +130,25 @@ $allSizes: () !global;
   #{$property}: -ms-#{$value};
   #{$property}: -moz-#{$value};
   #{$property}: -o-#{$value};
+}
+
+@mixin transition($values...) { 
+    $transitions: ();
+    @each $declaration in $values {
+        $prop: nth($declaration, 1);
+        $prop-opts: ();
+        $length: length($declaration);
+        @for $i from 2 through $length {
+            $prop-opts: append($prop-opts, nth($declaration, $i));   
+        }
+        $trans: ($prop, $prop-opts);
+        $transitions: append($transitions, $trans, comma);
+    }
+      
+    -webkit-transition: trans-prefix($transitions, webkit);
+    -moz-transition: trans-prefix($transitions, moz);
+    -o-transition: trans-prefix($transitions, o);
+    transition: $values;
 }
 
 $fonts: () !global;

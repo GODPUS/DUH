@@ -24,7 +24,7 @@ li {
 	margin-bottom: 15px;
 }
 
-button.active {
+button.duh-active {
 	color: red;
 }
 
@@ -79,7 +79,7 @@ section {
 		display: none;
 	}
 
-	&.active {
+	&.duh-active {
 		.active-text { display: inline-block; }
 	}
 }
@@ -101,7 +101,7 @@ section {
 	display: none;
 	background-color: rgba(0, 0, 0, 0.5);
 
-	&.active {
+	&.duh-active {
 		display: table;
 	}
 

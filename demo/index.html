@@ -104,7 +104,7 @@ $breakpoints: ('sm': (0, 100%), 'md': (768, 100%), 'lg': (960, 960px));
 				</pre>
 
 				
-				<h4>Respond to breakpoints with jquery using:</h4>
+				<h4>Respond to breakpoints with js using:</h4>
 				
 				<pre>
 <code class="language-javascript">
@@ -112,7 +112,7 @@ DUH.onBreakpoint(function(){
 	console.log('ALL!');
 });
 
-DUH.onBreakpoint(['sm'], function(){
+DUH.onBreakpoint('sm', function(){
 	console.log('SM ONLY!');
 });
 
@@ -361,8 +361,9 @@ $defaultGutterSize: 10;
 
 					<div class="demo-comment">
 						<p>Activation and Deactivation are the two methods that drive all of these situations.</p>
-						<p>An active element is activated via the addition of the .active class and has a DUH.events.activate event triggered via jquery</p>
-						<p>A deactive element is dectivated via the removal of the .active class and has a DUH.events.deactivate event triggered via jquery</p>
+						<p>Declare <b>DUH.activeClass</b> (default is '.duh-active') and <b>DUH.deactiveClass</b> (default is '.duh-deactive') in duh.js</p>
+						<p>An active element is activated via the addition of the DUH.active class, removal of the DUH.deactive class and has a DUH.events.activate event triggered via jquery</p>
+						<p>A deactive element is dectivated via the addition of the DUH.deactive class, removal of the DUH.active class and has a DUH.events.deactivate event triggered via jquery</p>
 					</div>
 
 					<h3>data-activate</h3>
@@ -428,8 +429,8 @@ $defaultGutterSize: 10;
 						</ul>
 					</div>		
 <div class="duplicate-code" data-language="markup">
-<button data-hover="#modal">Hover Modal Button</button>
-<div id="modal" class="modal"><span class="active-text">Active</span> Modal</div>
+<button data-hover="#hover-modal">Hover Modal Button</button>
+<div id="hover-modal" class="modal"><span class="active-text">Active</span> Modal</div>
 </code>
 </div>
 					<h3>data-group</h3>
@@ -544,6 +545,22 @@ $.fn.animateAutoHeight = function(animationOptions, callback) {
 	var autoHeight = this.outerHeight(true);
 
 	self.height(curHeight).stop(true).animate({ height: autoHeight }, animationOptions);
+};
+
+$.fn.animateAutoWidth = function(animationOptions, callback) {
+	var self = this;
+	animationOptions = $.extend({
+		duration: 200,
+		complete: function(){
+			self.css('width', 'auto');
+			if(callback){ callback.apply(self); }
+		}
+	}, animationOptions);
+
+	var curWidth = this.outerWidth(true);
+	self.css('width', 'auto');
+	var autoWidth = this.outerWidth(true);
+	self.width(curWidth).stop(true).animate({ width: autoWidth }, animationOptions);
 };
 
 $.fn.animateZeroHeight = function(animationOptions, callback) {

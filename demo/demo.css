@@ -19,7 +19,7 @@ h5 {
 li {
   margin-bottom: 15px; }
 
-button.active {
+button.duh-active {
   color: red; }
 
 code {
@@ -62,7 +62,7 @@ section {
 
 .modal .active-text {
   display: none; }
-.modal.active .active-text {
+.modal.duh-active .active-text {
   display: inline-block; }
 
 #tab-pane-1 {
@@ -90,7 +90,7 @@ section {
   left: 0;
   display: none;
   background-color: rgba(0, 0, 0, 0.5); }
-  .demo-modal.active {
+  .demo-modal.duh-active {
     display: table; }
   .demo-modal .demo-modal-inner {
     display: table-cell;

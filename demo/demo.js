@@ -19,7 +19,7 @@
 			console.log('ALL!');
 		});
 
-		DUH.onBreakpoint(['sm'], function(){
+		DUH.onBreakpoint('sm', function(){
 			console.log('SM ONLY!');
 		});
 

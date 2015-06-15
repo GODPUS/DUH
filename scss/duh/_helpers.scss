@@ -5,7 +5,7 @@
 		@each $breakpoint2, $size2 in $breakpoints {
 			@include only($breakpoint2) {
 				@if $breakpoint1 != $breakpoint2 {
-					display: none;
+					display: none !important;
 				}
 			}
 		}
@@ -32,5 +32,18 @@ $numLoops: round($spacingMax/$spacingMultiplier);
 
 	$currentSpacing: $currentSpacing + $spacingMultiplier !global;
 }
+
+
+/*! !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! MARGIN & PADDING !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! */
+$currentFontSize: $minFontSize;
+$numFontLoops: round($maxFontSize/$fontSizeMultiplier);
+@for $i from $minFontSize through $maxFontSize {
+	@include all-sizes-queue(font-#{$currentFontSize}, (font-size: #{$currentFontSize}px));
+
+	$currentFontSize: $currentFontSize + $fontSizeMultiplier !global;
+}
+
+@include all-sizes-queue(font-bold,   (font-weight: bold));
+@include all-sizes-queue(font-italic, (font-style: italic));
 
 @include generate-all-sizes-queue();

@@ -1,0 +1,25 @@
+/*
+Errno::ENOENT: No such file or directory - demo.scss
+
+Backtrace:
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin/compiler.rb:482:in `read'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin/compiler.rb:482:in `update_stylesheet'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin/compiler.rb:215:in `block in update_stylesheets'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin/compiler.rb:209:in `each'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin/compiler.rb:209:in `update_stylesheets'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin/compiler.rb:293:in `watch'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/plugin.rb:108:in `method_missing'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/exec/sass_scss.rb:370:in `watch_or_update'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/exec/sass_scss.rb:50:in `process_result'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/exec/base.rb:52:in `parse'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/lib/sass/exec/base.rb:19:in `parse!'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/gems/sass-3.4.9/bin/sass:13:in `<top (required)>'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/bin/sass:23:in `load'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/bin/sass:23:in `<main>'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/bin/ruby_noexec_wrapper:14:in `eval'
+/Users/mparisi/.rvm/gems/ruby-1.9.3-p448/bin/ruby_noexec_wrapper:14:in `<main>'
+*/
+body:before {
+  white-space: pre;
+  font-family: monospace;
+  content: "Errno::ENOENT: No such file or directory - demo.scss"; }
