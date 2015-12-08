@@ -111,16 +111,16 @@
 
 		//event listeners
 		$body.on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
-		$body.on('click', '[data-deactivate]',   function(){ DUH.deactivate($($(this).data('deactivate'))); });
-		$body.on('click', '[data-toggle]', function(){ DUH.toggle($($(this).data('toggle'))); });
+		$body.on('click', '[data-deactivate]', function(){ DUH.deactivate($($(this).data('deactivate'))); });
+		$body.on('click', '[data-toggle]',     function(){ DUH.toggle($($(this).data('toggle'))); });
 		$body.on('mouseenter', '[data-hover]', function(){ DUH.activate($($(this).data('hover'))); });
 		$body.on('mouseleave', '[data-hover]', function(){ DUH.deactivate($($(this).data('hover'))); });
 
 		$body.on('change', 'select', function(){
 			var $selectedOption = $(this).find('option:selected');
-			if($selectedOption.data('activate')){ DUH.activate($($selectedOption.data('activate'))); }
+			if($selectedOption.data('activate')){   DUH.activate($($selectedOption.data('activate'))); }
 			if($selectedOption.data('deactivate')){ DUH.deactivate($($selectedOption.data('deactivate'))); }
-			if($selectedOption.data('toggle')){ DUH.toggle($($selectedOption.data('toggle'))); }
+			if($selectedOption.data('toggle')){     DUH.toggle($($selectedOption.data('toggle'))); }
 		});
 
 		//breakpoints
@@ -224,6 +224,18 @@
 		}, animationOptions);
 
 		self.stop(true).animate({ height: 0 }, animationOptions);
+	};
+
+	$.fn.animateZeroWidth = function(animationOptions, callback) {
+		var self = this;
+		animationOptions = $.extend({
+			duration: 200,
+			complete: function(){
+				if(callback){ callback.apply(self); }
+			}
+		}, animationOptions);
+
+		self.stop(true).animate({ width: 0 }, animationOptions);
 	};
 
 })(jQuery);
