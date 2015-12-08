@@ -1,1 +1,0 @@
-sass --watch demo/demo.scss:demo/demo.css
