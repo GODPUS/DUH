@@ -99,7 +99,7 @@
 		window.$body = $('body');
 		var $duhBreakpointInfo = $('#duh-breakpoint-info');
 
-		$('[data-activate], [data-toggle], [data-hover], [data-deactivate]').each(function(){
+		$('[data-activate], [data-toggle], [data-deactivate], [data-hover]').each(function(){
 			var $this = $(this);
 			var dataAttr;
 
