@@ -17,40 +17,30 @@
 			deactivate: 'DUH.events.deactivate'
 		},
 
-		activate: function($el){
-			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass(DUH.activeClass).addClass(DUH.deactiveClass).trigger(DUH.events.deactivate);
-			$el.removeClass(DUH.deactiveClass).addClass(DUH.activeClass).trigger(DUH.events.activate);
+		activate: function($el, bubble){
+			var bubble = typeof bubble !== 'undefined' ?  bubble : true;
+			var triggerMethod = bubble ? 'trigger' : 'triggerHandler';
 
-			$('[data-activate], [data-toggle]').each(function(){
-				var $link = $(this);
-
-				if($el.is($link.data('activate')) || $el.is($link.data('toggle'))){
-
-					$('[data-group="'+$link.data('group')+'"]').not($link).removeClass(DUH.activeClass).addClass(DUH.deactiveClass).trigger(DUH.events.deactivate);
-					if($link.is('option')){ $link.prop('selected', 'selected'); }
-					$link.removeClass(DUH.deactiveClass).addClass(DUH.activeClass).trigger(DUH.events.activate);
-				}
-			});
+			$('[data-group="'+$el.data('group')+'"]').not($el).removeClass(DUH.activeClass).addClass(DUH.deactiveClass)[triggerMethod](DUH.events.deactivate);
+			if($el.is('option')){ $el.prop('selected', 'selected'); }
+			$el.removeClass(DUH.deactiveClass).addClass(DUH.activeClass)[triggerMethod](DUH.events.activate);
 
 			return $el;
 		},
 
-		deactivate: function($el){
-			$el.removeClass(DUH.activeClass).trigger(DUH.events.deactivate);
+		deactivate: function($el, bubble){
+			var bubble = typeof bubble !== 'undefined' ?  bubble : true;
+			var triggerMethod = bubble ? 'trigger' : 'triggerHandler';
 
-			$('[data-activate], [data-deactivate], [data-toggle]').each(function(){
-				var $link = $(this);
-
-				if($el.is($link.data('activate')) || $el.is($link.data('deactivate')) || $el.is($link.data('toggle'))){
-					$link.removeClass(DUH.activeClass).addClass(DUH.deactiveClass).trigger(DUH.events.deactivate);
-				}
-			});
+			$el.removeClass(DUH.activeClass)[triggerMethod](DUH.events.deactivate);
 
 			return $el;
 		},
 
-		toggle: function($el){
-			if($el.hasClass(DUH.activeClass)){ DUH.deactivate($el); }else{ DUH.activate($el); }
+		toggle: function($el, bubble){
+			var bubble = typeof bubble !== 'undefined' ?  bubble : true;
+
+			if($el.hasClass(DUH.activeClass)){ DUH.deactivate($el, bubble); }else{ DUH.activate($el, bubble); }
 
 			return $el;
 		},
@@ -109,18 +99,44 @@
 		window.$body = $('body');
 		var $duhBreakpointInfo = $('#duh-breakpoint-info');
 
-		//event listeners
-		$body.on('click', '[data-activate]',   function(){ DUH.activate($($(this).data('activate'))); });
-		$body.on('click', '[data-deactivate]', function(){ DUH.deactivate($($(this).data('deactivate'))); });
-		$body.on('click', '[data-toggle]',     function(){ DUH.toggle($($(this).data('toggle'))); });
-		$body.on('mouseenter', '[data-hover]', function(){ DUH.activate($($(this).data('hover'))); });
-		$body.on('mouseleave', '[data-hover]', function(){ DUH.deactivate($($(this).data('hover'))); });
+		$('[data-activate], [data-toggle], [data-hover], [data-deactivate]').each(function(){
+			var $this = $(this);
+			var dataAttr;
 
-		$body.on('change', 'select', function(){
-			var $selectedOption = $(this).find('option:selected');
-			if($selectedOption.data('activate')){   DUH.activate($($selectedOption.data('activate'))); }
-			if($selectedOption.data('deactivate')){ DUH.deactivate($($selectedOption.data('deactivate'))); }
-			if($selectedOption.data('toggle')){     DUH.toggle($($selectedOption.data('toggle'))); }
+			if($this.attr('data-activate')){   dataAttr = 'activate'; }
+			if($this.attr('data-toggle')){     dataAttr = 'toggle'; }
+			if($this.attr('data-deactivate')){ dataAttr = 'deactivate'; }
+			if($this.attr('data-hover')){      dataAttr = 'hover'; }
+
+			var $selected = $($this.data(dataAttr));
+
+			if(dataAttr === 'activate' || dataAttr === 'toggle' || dataAttr === 'hover'){
+				$selected.on(DUH.events.activate, function(){
+					DUH.activate($this, false);
+				});
+			}
+
+			$selected.on(DUH.events.deactivate, function(){
+				DUH.deactivate($this, false);
+			});
+
+			if($this.is('option')){
+				var $select = $this.parent('select');
+				$select.change(function(){
+					if($select.find('option:selected').is($this)){
+						DUH[dataAttr]($selected);
+					}
+				});
+			}else{
+				if(dataAttr === 'hover'){
+					$this.mouseenter(function(){ DUH.activate($selected); });
+					$this.mouseleave(function(){ DUH.deactivate($selected); });
+				}else{
+					$this.click(function(){
+						DUH[dataAttr]($selected);
+					});
+				}
+			}
 		});
 
 		//breakpoints

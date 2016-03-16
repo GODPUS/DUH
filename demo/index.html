@@ -12,6 +12,13 @@
 	</head>
 	<body>
 		<div id="duh-breakpoint-info"></div>
+		<div id="modal100" class="demo-modal">
+			<div class="demo-modal-inner">
+				<button data-deactivate="#modal100">Modal 2 Hide Button</button>
+				<h2>MODAL 2</h2>
+			</div>
+		</div>
+
 		<div class="container center-horiz-sm">
 			<h1>DUH</h1>
 			<h5>like obviously.</h5>
@@ -487,12 +494,13 @@ $body.onlyOn(DUH.events.activate, '.demo-tab-pane', function(event){
 			<section class="row">
 				<div class="col-full-sm">
 					<h3>Modals</h3>
-					<button data-activate="#modal1">Modal 1 Show Button</button>
+					<button data-activate="#modal100">Modal 2 Show Button</button>
+					<button data-deactivate="#modal100">Modal 2 Hide Button</button>
 
 <pre>
 <code class="language-markup">
 <button data-activate="#modal1">Modal 1 Show Button</button>
-<div id="modal1" class="demo-modal" data-deactivate="#modal1">
+<div id="modal1" class="demo-modal">
 	<div class="demo-modal-inner">
 		<button data-deactivate="#modal1">Modal 1 Hide Button</button>
 		<h2>MODAL 1</h2>
@@ -578,12 +586,7 @@ $.fn.animateZeroHeight = function(animationOptions, callback) {
 			</pre>
 		</div>
 
-		<div id="modal1" class="demo-modal" data-deactivate="#modal1">
-			<div class="demo-modal-inner">
-				<button data-deactivate="#modal1">Modal 1 Hide Button</button>
-				<h2>MODAL 1</h2>
-			</div>
-		</div>
+		
 
 
 		<script>
